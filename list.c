@@ -13,12 +13,12 @@ static inline bool isListEmpty(List *);
 static void ListFreeItems(Item **, u_int32_t, bool);
 static void listResize(List *);
 
-extern List *DefaultListInit(void)
+extern List *ListInitDefault(void)
 {
-    return ListInit(DEFAULT_LIST_SIZE);
+    return ListInit(DEFAULT_LIST_SIZE, DEFAULT_LIST_RESIZE_MULTIPLE);
 }
 
-extern List *ListInit(u_int32_t initial_capacity)
+extern List *ListInit(u_int32_t initial_capacity, u_int8_t resize_multiple)
 {
     List *list = malloc(sizeof(List));
     if (list == NULL)
@@ -28,7 +28,8 @@ extern List *ListInit(u_int32_t initial_capacity)
     }
     list->size = 0;
     list->capacity = initial_capacity;
-    list->items = malloc(sizeof(void *) * initial_capacity);
+    list->resize_multiple = resize_multiple;
+    list->items = malloc(sizeof(Item *) * initial_capacity);
     if (list->items == NULL)
     {
         ListFree(list);
@@ -40,59 +41,58 @@ extern List *ListInit(u_int32_t initial_capacity)
 
 extern void ListAddFirst(List *list, Item *item)
 {
-    ListAdd(list, item, 0);
+    if (list != NULL && item != NULL)
+    {
+        ListAdd(list, item, 0);
+    }
 }
 
 extern void ListAddLast(List *list, Item *item)
 {
-    if (list == NULL || item == NULL)
+    if (list != NULL && item != NULL)
     {
-        return;
+        ListAdd(list, item, list->size);
     }
-    ListAdd(list, item, list->size);
 }
 
 extern void ListAdd(List *list, Item *item, u_int32_t index)
 {
-    if (list == NULL || item == NULL)
+    if (list != NULL && item != NULL)
     {
-        return;
-    }
-    if (isListFull(list))
-    {
-        listResize(list);
-    }
-    for (u_int32_t i = list->size; i > index; i--)
-    {
-        list->items[i] = list->items[i - 1];
-    }
+        if (isListFull(list))
+        {
+            listResize(list);
+        }
+        for (u_int32_t i = list->size; i > index; i--)
+        {
+            list->items[i] = list->items[i - 1];
+        }
 
-    list->items[index] = item;
-    list->size++;
+        list->items[index] = item;
+        list->size++;
+    }
 }
 
 static void listResize(List *list)
 {
-    if (list == NULL)
+    if (list != NULL)
     {
-        return;
-    }
+        Item **newList = malloc(sizeof(Item *) * list->capacity * list->resize_multiple);
+        if (newList == NULL)
+        {
+            // printf("Couldn't resize list, not enough memory!\n");
+            errno = ENOMEM;
+            return;
+        }
 
-    Item **newList = malloc(sizeof(Item *) * list->capacity * DEFAULT_LIST_RESIZE_MULTIPLE);
-    if (newList == NULL)
-    {
-        // printf("Couldn't resize list, not enough memory!\n");
-        errno = ENOMEM;
-        return;
+        for (u_int32_t i = 0; i < list->size; i++)
+        {
+            newList[i] = list->items[i];
+        }
+        ListFreeItems(list->items, list->size, false);
+        list->items = newList;
+        list->capacity *= list->resize_multiple;
     }
-
-    for (u_int32_t i = 0; i < list->size; i++)
-    {
-        newList[i] = list->items[i];
-    }
-    ListFreeItems(list->items, list->size, false);
-    list->items = newList;
-    list->capacity *= DEFAULT_LIST_RESIZE_MULTIPLE;
 }
 
 static inline bool isListFull(List *list)
@@ -107,83 +107,77 @@ static inline bool isListEmpty(List *list)
 
 static void ListFreeItems(Item **list, u_int32_t size, bool deep)
 {
-    if (list == NULL)
+    if (list != NULL)
     {
-        return;
-    }
-    if (deep)
-    {
-        for (u_int32_t i = 0; i < size; i++)
+        if (deep)
         {
-            ItemFree(list[i]);
+            for (u_int32_t i = 0; i < size; i++)
+            {
+                ItemFree(list[i]);
+            }
         }
+        free(list);
     }
-    free(list);
 }
 
 extern void ListFree(List *list)
 {
-    if (list == NULL)
+    if (list != NULL)
     {
-        return;
+        if (list->items != NULL)
+        {
+            ListFreeItems(list->items, list->size, true);
+        }
+        free(list);
     }
-    if (list->items != NULL)
-    {
-        ListFreeItems(list->items, list->size, true);
-    }
-    free(list);
 }
 
 extern void ListPrint(List *list)
 {
-    if (list == NULL)
+    if (list != NULL)
     {
-        return;
-    }
-    printf("[");
-    for (u_int32_t i = 0; i < list->size; i++)
-    {
-        ItemPrint(list->items[i]);
-        if (i != list->size - 1)
+        printf("[");
+        for (u_int32_t i = 0; i < list->size; i++)
         {
-            printf(", ");
+            ItemPrint(list->items[i]);
+            if (i != list->size - 1)
+            {
+                printf(", ");
+            }
         }
+        printf("]\n");
     }
-    printf("]\n");
 }
 
 extern void ListRemove(List *list, u_int32_t index)
 {
-    if (list == NULL || index >= list->size || isListEmpty(list))
+    if (list != NULL && index < list->size && !isListEmpty(list))
     {
-        return;
-    }
-    ItemFree(list->items[index]);
+        ItemFree(list->items[index]);
 
-    for (u_int32_t i = index + 1; i < list->size; i++)
-    {
-        list->items[i - 1] = list->items[i];
-    }
+        for (u_int32_t i = index + 1; i < list->size; i++)
+        {
+            list->items[i - 1] = list->items[i];
+        }
 
-    list->size--;
+        list->size--;
+    }
 }
 
 extern void ListRemoveFirst(List *list)
 {
-    if (list == NULL)
+    if (list != NULL)
     {
-        return;
+        ListRemove(list, 0);
     }
-    ListRemove(list, 0);
 }
 
 extern void ListRemoveLastitem(List *list)
 {
-    if (list == NULL)
+    if (list != NULL)
     {
-        return;
+        ListRemove(list, list->size - 1);
     }
-    ListRemove(list, list->size - 1);
 }
 
 // need to have another function pointer for this
