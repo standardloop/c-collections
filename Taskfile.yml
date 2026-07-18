@@ -8,6 +8,7 @@ vars:
   SOURCE_FILES:
     - item.c
     - list.c
+    - hashmap.c
   DYN_LIBS_USED_PATH: -L/usr/local/lib/standardloop
   DYN_LIBS_USED: "-lstandardloop-util"
   DYLIB_NAME: libstandardloop-collections.dylib
@@ -35,6 +36,11 @@ tasks:
     cmds:
       - task: test
       - task: test:sanitize
+  
+  clean:
+    cmds:
+      - rm -f {{.TEST_EXECUTABLE_NAME}}
+      - rm -f {{.TEST_EXECUTABLE_NAME}}-sanitize
 
   check-version:
     silent: true

@@ -61,39 +61,52 @@ extern void ListPrintInfo(List *);
 extern void ListFree(List *);
 // ————————— LIST END —————————
 
-// // ————————— HASHMAP START —————————
-// #define DEFAULT_MAP_SIZE 16
-// #define DEFAULT_MAP_RESIZE_MULTIPLE 2
+// ————————— HASHMAP START —————————
+#define DEFAULT_MAP_SIZE 16
+#define DEFAULT_MAP_RESIZE_MULTIPLE 2
 
-// typedef u_int32_t(HashFunction)(char *, u_int32_t);
+typedef u_int32_t(HashFunction)(char *, u_int32_t);
 
-// typedef struct
-// {
-//     u_int32_t size;
-//     u_int32_t capacity;
-//     u_int32_t collision_count;
-//     Item **entries;
-//     HashFunction *hashFunction;
-//     bool force_lowercase;
-// } HashMap;
+typedef enum
+{
+    HASHMAP_COLLISION_OPTION_LINKEDLIST = 0,
+    HASHMAP_COLLISION_OPTION_LIST = 1
+} HashMapCollisionOptions;
 
-// typedef struct hashMapItem
-// {
-//     char *key;
-//     Item *value;
-//     struct hashMapItem *next; // we have a linked list for collisions
-// } HashMapItem;
+typedef struct hashMapItem
+{
+    char *key;
+    Item *value;
+    struct hashMapItem *next; // TODO
+    // union
+    // {
+    //     struct hashMapItem *collisions_linked_list; // we have a linked list for collisions
+    //     List *collisions_list;                      // or we can store as list
+    // };
+} HashMapItem;
 
-// extern Item *HashMapGet(HashMap *, char *);
-// extern void *HashMapGetValueDirect(HashMap *, char *);
+typedef struct
+{
+    u_int32_t size;
+    u_int32_t capacity;
+    u_int8_t resize_multiple;
+    u_int32_t collision_count;
+    HashMapItem **entries;
+    HashFunction *hashFunction;
+    bool force_lowercase;
+    HashMapCollisionOptions collision_strategy;
+} HashMap;
 
-// extern HashMap *HashMapInit(u_int32_t, HashFunction *, bool);
-// extern HashMap *HashMapInitDefault(void);
-// extern HashMap *HashMapReplicate(HashMap *);
-// extern void HashMapFree(HashMap *);
-// extern void HashMapInsert(HashMap *, Item *);
-// extern void HashMapRemove(HashMap *, char *);
-// extern void HashMapPrint(HashMap *);
-// // ————————— HASHMAP END —————————
+extern Item *HashMapGet(HashMap *, char *);
+extern void *HashMapGetValueDirect(HashMap *, char *);
+
+extern HashMap *HashMapInit(u_int32_t, u_int8_t, HashFunction *, bool);
+extern HashMap *HashMapInitDefault(void);
+extern HashMap *HashMapReplicate(HashMap *);
+extern void HashMapFree(HashMap *);
+extern void HashMapInsert(HashMap *, Item *);
+extern void HashMapRemove(HashMap *, char *);
+extern void HashMapPrint(HashMap *);
+// ————————— HASHMAP END —————————
 
 #endif
