@@ -76,7 +76,7 @@ typedef enum
 typedef struct hashMapItem
 {
     char *key;
-    Item *value;
+    Item *item;
     struct hashMapItem *next; // TODO
     // union
     // {
@@ -84,6 +84,10 @@ typedef struct hashMapItem
     //     List *collisions_list;                      // or we can store as list
     // };
 } HashMapItem;
+
+extern HashMapItem *HashMapItemInit(char *, Item *);
+extern void HashMapItemFree(HashMapItem *, bool);
+extern void HashMapItemPrint(HashMapItem *);
 
 typedef struct
 {
@@ -97,14 +101,15 @@ typedef struct
     HashMapCollisionOptions collision_strategy;
 } HashMap;
 
-extern Item *HashMapGet(HashMap *, char *);
-extern void *HashMapGetValueDirect(HashMap *, char *);
+extern HashMapItem *HashMapGet(HashMap *, char *);
+;
+extern void HashMapItemPrint(HashMapItem *);
 
 extern HashMap *HashMapInit(u_int32_t, u_int8_t, HashFunction *, bool);
 extern HashMap *HashMapInitDefault(void);
 extern HashMap *HashMapReplicate(HashMap *);
 extern void HashMapFree(HashMap *);
-extern void HashMapInsert(HashMap *, Item *);
+extern void HashMapInsert(HashMap *, HashMapItem *);
 extern void HashMapRemove(HashMap *, char *);
 extern void HashMapPrint(HashMap *);
 // ————————— HASHMAP END —————————

@@ -14,7 +14,16 @@ void printInt(void *value)
     }
 }
 
-int main()
+static void testItem()
+{
+    char *test_string_1 = QuickAllocatedString("teststring1");
+    assert(test_string_1 != NULL);
+    Item *list_item_1 = ItemInit(test_string_1, free, ItemPrintString);
+    assert(list_item_1 != NULL);
+    ItemFree(list_item_1);
+}
+
+static void testList()
 {
     List *list = ListInit(1, 2);
     assert(list != NULL);
@@ -26,6 +35,8 @@ int main()
     assert(list_item_1 != NULL);
 
     ListAddFirst(list, list_item_1);
+    char *assert_value_str_1 = list->items[0]->value;
+    assert(strcmp(assert_value_str_1, "teststring1") == 0);
     assert(list->size == 1);
 
     char *test_string_2 = QuickAllocatedString("teststring2");
@@ -33,9 +44,11 @@ int main()
     Item *list_item_2 = ItemInit(test_string_2, free, ItemPrintString);
     assert(list_item_2 != NULL);
     ListAddFirst(list, list_item_2);
+    char *assert_value_str_2 = list->items[0]->value;
+    assert(strcmp(assert_value_str_2, "teststring2") == 0);
 
-    ListPrint(list);
-    ListPrintInfo(list);
+    // ListPrint(list);
+    // ListPrintInfo(list);
 
     int *test_int_1 = malloc(sizeof(int));
     assert(test_int_1 != NULL);
@@ -43,12 +56,103 @@ int main()
     Item *list_item_3 = ItemInit(test_int_1, free, printInt);
     assert(list_item_3 != NULL);
     ListAddFirst(list, list_item_3);
+    int *assert_value = list->items[0]->value;
+    assert(*(int *)assert_value == 100);
 
-    ListPrint(list);
-    ListPrintInfo(list);
+    // ListPrint(list);
+    // ListPrintInfo(list);
 
     ListFree(list);
+}
 
+static void testHashMapItem()
+{
+    char *test_key_1 = QuickAllocatedString("test_key_1");
+    assert(test_key_1 != NULL);
+
+    int *test_int_1 = malloc(sizeof(int));
+    assert(test_int_1 != NULL);
+    *test_int_1 = 100;
+    assert(*test_int_1 == 100);
+    Item *test_item_1 = ItemInit(test_int_1, free, printInt);
+    assert(test_item_1 != NULL);
+    assert(*(int *)test_item_1->value == 100);
+
+    HashMapItem *test_hashmap_item_1 = HashMapItemInit(test_key_1, test_item_1);
+    assert(test_hashmap_item_1 != NULL);
+    assert(strcmp(test_hashmap_item_1->key, "test_key_1") == 0);
+    assert(*(int *)test_hashmap_item_1->item->value == 100);
+
+    HashMapItemFree(test_hashmap_item_1, true);
+}
+
+static void testHashMap()
+{
+    // setup first key
+    char *test_key_1 = QuickAllocatedString("test_key_1");
+    assert(test_key_1 != NULL);
+
+    // setup item
+    int *test_int_1 = malloc(sizeof(int));
+    assert(test_int_1 != NULL);
+    *test_int_1 = 100;
+    assert(*test_int_1 == 100);
+    Item *test_item_1 = ItemInit(test_int_1, free, printInt);
+    assert(test_item_1 != NULL);
+    assert(*(int *)test_item_1->value == 100);
+
+    HashMapItem *test_hashmap_item_1 = HashMapItemInit(test_key_1, test_item_1);
+    assert(test_hashmap_item_1 != NULL);
+    assert(strcmp(test_hashmap_item_1->key, "test_key_1") == 0);
+    assert(*(int *)test_hashmap_item_1->item->value == 100);
+
+    // setup hashmap
+    HashMap *test_hashmap_1 = HashMapInit(1, 2, NULL, false);
+    assert(test_hashmap_1 != NULL);
+
+    // test insertion and retrieval
+    HashMapInsert(test_hashmap_1, test_hashmap_item_1);
+    HashMapItem *retrieved = HashMapGet(test_hashmap_1, "test_key_1");
+    assert(retrieved != NULL);
+    assert(*(int *)retrieved->item->value == 100);
+
+    // setup 2
+    //// key 2
+    char *test_key_2 = QuickAllocatedString("test_key_2");
+    assert(test_key_2 != NULL);
+
+    //// int 2
+    int *test_int_2 = malloc(sizeof(int));
+    assert(test_int_2 != NULL);
+    *test_int_2 = 200;
+    assert(*test_int_2 == 200);
+
+    //// item 2
+    Item *test_item_2 = ItemInit(test_int_2, free, printInt);
+    assert(test_item_2 != NULL);
+    assert(*(int *)test_item_2->value == 200);
+
+    //// hashmap item 2
+    HashMapItem *test_hashmap_item_2 = HashMapItemInit(test_key_2, test_item_2);
+    assert(test_hashmap_item_2 != NULL);
+    assert(strcmp(test_hashmap_item_2->key, "test_key_2") == 0);
+    assert(*(int *)test_hashmap_item_2->item->value == 200);
+
+    //// insert and retrieval
+    HashMapInsert(test_hashmap_1, test_hashmap_item_2);
+    HashMapItem *retrieved_2 = HashMapGet(test_hashmap_1, "test_key_2");
+    assert(retrieved_2 != NULL);
+    assert(*(int *)retrieved_2->item->value == 200);
+
+    HashMapFree(test_hashmap_1);
+}
+
+int main()
+{
+    testItem();
+    testList();
+    testHashMapItem();
+    testHashMap();
     sleep(1);
 
     return EXIT_SUCCESS;
