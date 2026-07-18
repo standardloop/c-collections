@@ -112,6 +112,7 @@ static void testHashMap()
 
     // test insertion and retrieval
     HashMapInsert(test_hashmap_1, test_hashmap_item_1);
+    assert(test_hashmap_1->size == 1);
     HashMapItem *retrieved = HashMapGet(test_hashmap_1, "test_key_1");
     assert(retrieved != NULL);
     assert(*(int *)retrieved->item->value == 100);

@@ -44,9 +44,9 @@ extern void HashMapItemFree(HashMapItem *hashmap_item, bool deep)
 {
     if (hashmap_item != NULL)
     {
-        free(hashmap_item->key);
         if (deep)
         {
+            free(hashmap_item->key);
             ItemFree(hashmap_item->item);
         }
         free(hashmap_item);
@@ -159,6 +159,7 @@ extern void HashMapInsert(HashMap *map, HashMapItem *entry)
         StringToLower(entry->key);
     }
     u_int32_t index = map->hashFunction(entry->key, map->capacity);
+    // printf("[JOSH]: %lu\n", (unsigned long)index);
     assert(index < map->capacity); // TODO
     bool collision = hashMapEntriesInsert(map->entries, index, entry);
     if (collision)
