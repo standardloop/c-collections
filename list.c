@@ -28,6 +28,12 @@ extern List *ListInit(u_int32_t initial_capacity, u_int8_t resize_multiple)
     }
     list->size = 0;
     list->capacity = initial_capacity;
+    if (resize_multiple == 0 || resize_multiple == 1)
+    {
+        errno = EINVAL;
+        ListFree(list);
+        return NULL;
+    }
     list->resize_multiple = resize_multiple;
     list->items = malloc(sizeof(Item *) * initial_capacity);
     if (list->items == NULL)

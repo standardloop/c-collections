@@ -41,7 +41,7 @@ typedef struct
     Item **items;
 } List;
 
-extern List *ListInit(u_int32_t);
+extern List *ListInit(u_int32_t, u_int8_t);
 extern List *ListInitDefault(void);
 extern List *ListReplicate(List *);
 

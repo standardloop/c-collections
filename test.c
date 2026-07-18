@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <unistd.h>
 #include <standardloop/util.h>
 
 #include "./collections.h"
@@ -15,7 +16,7 @@ void printInt(void *value)
 
 int main()
 {
-    List *list = ListInit(1);
+    List *list = ListInit(1, 2);
     assert(list != NULL);
     assert(list->capacity == 1);
 
@@ -47,6 +48,8 @@ int main()
     ListPrintInfo(list);
 
     ListFree(list);
+
+    sleep(1);
 
     return EXIT_SUCCESS;
 }
