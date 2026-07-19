@@ -48,7 +48,7 @@ tasks:
       - cat collections.h | grep -q {{.RELEASE_VERSION}}
       - cat collections.h | grep -q "MAJOR_VERSION 0"
       - cat collections.h | grep -q "MINOR_VERSION 0"
-      - cat collections.h | grep -q "PATCH_VERSION 6"
+      - cat collections.h | grep -q "PATCH_VERSION 0"
 
   dependencies:
     deps:
