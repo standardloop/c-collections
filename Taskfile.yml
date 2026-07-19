@@ -79,7 +79,7 @@ tasks:
       - dependencies
     cmds:
       - |
-        {{.CC}} {{.CC_FLAGS}} \
+        clang {{.CC_FLAGS}} \
         {{range .SOURCE_FILES}} {{.}} {{end}} \
         {{.DYN_LIBS_USED_PATH}} \
         {{.DYN_LIBS_USED}} \
