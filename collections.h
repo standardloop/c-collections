@@ -77,12 +77,7 @@ typedef struct hashMapItem
 {
     char *key;
     Item *item;
-    struct hashMapItem *next; // TODO
-    // union
-    // {
-    //     struct hashMapItem *collisions_linked_list; // we have a linked list for collisions
-    //     List *collisions_list;                      // or we can store as list
-    // };
+    struct hashMapItem *next;
 } HashMapItem;
 
 extern HashMapItem *HashMapItemInit(char *, Item *);

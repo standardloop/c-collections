@@ -445,7 +445,6 @@ static void HashMapPrintEntry(HashMapItem *entry)
     }
 }
 
-// JOSH
 static void hashMapResize(HashMap *map)
 {
     // printf("hashMapResize\n");
