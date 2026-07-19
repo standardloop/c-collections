@@ -107,6 +107,8 @@ extern void HashMapFree(HashMap *);
 extern void HashMapInsert(HashMap *, HashMapItem *);
 extern void HashMapRemove(HashMap *, char *);
 extern void HashMapPrint(HashMap *);
+
+extern void DEBUGTestDefaultHashFunction();
 // ————————— HASHMAP END —————————
 
 #endif

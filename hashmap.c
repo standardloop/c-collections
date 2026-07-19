@@ -79,6 +79,17 @@ static u_int32_t defaultHashFunction(char *key, u_int32_t capacity)
     return hash % capacity;
 }
 
+extern void DEBUGTestDefaultHashFunction()
+{
+    printf("%lu\n", (unsigned long)defaultHashFunction("one", 2));
+    printf("%lu\n", (unsigned long)defaultHashFunction("two", 2));
+    printf("%lu\n", (unsigned long)defaultHashFunction("three", 2));
+    printf("%lu\n", (unsigned long)defaultHashFunction("four", 2));
+    printf("%lu\n", (unsigned long)defaultHashFunction("five", 2));
+    printf("%lu\n", (unsigned long)defaultHashFunction("six", 2));
+    printf("%lu\n", (unsigned long)defaultHashFunction("seven", 2));
+}
+
 extern HashMap *HashMapInitDefault(void)
 {
     return HashMapInit(DEFAULT_MAP_SIZE, DEFAULT_MAP_RESIZE_MULTIPLE, NULL, false);

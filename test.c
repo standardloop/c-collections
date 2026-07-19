@@ -146,6 +146,24 @@ static void testHashMap()
     assert(*(int *)retrieved_2->item->value == 200);
 
     HashMapFree(test_hashmap_1);
+
+    // test collisions
+    HashMap *collision_test = HashMapInit(2, 2, NULL, false);
+    assert(collision_test != NULL);
+
+    // defaultHashFunction("one", 2) and defaultHashFunction("two", 2) both return index 0
+    HashMapInsert(collision_test, HashMapItemInit(QuickAllocatedString("one"), ItemInit(QuickAllocatedString("one-value"), free, ItemPrintString)));
+    HashMapInsert(collision_test, HashMapItemInit(QuickAllocatedString("two"), ItemInit(QuickAllocatedString("two-value"), free, ItemPrintString)));
+    assert(collision_test->collision_count == 1);
+    HashMapItem *retrieved_collision_1 = HashMapGet(collision_test, "one");
+    assert(retrieved_collision_1 != NULL);
+    assert(strcmp(retrieved_collision_1->item->value, "one-value") == 0);
+
+    HashMapItem *retrieved_collision_2 = HashMapGet(collision_test, "two");
+    assert(retrieved_collision_2 != NULL);
+    assert(strcmp(retrieved_collision_2->item->value, "two-value") == 0);
+
+    HashMapFree(collision_test);
 }
 
 int main()
