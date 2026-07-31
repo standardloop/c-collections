@@ -54,7 +54,7 @@ extern void ListAddFirst(List *list, Item *item)
 {
     if (list != NULL && item != NULL)
     {
-        ListAdd(list, item, 0);
+        ListAddAtIndex(list, item, 0);
     }
 }
 
@@ -62,11 +62,11 @@ extern void ListAddLast(List *list, Item *item)
 {
     if (list != NULL && item != NULL)
     {
-        ListAdd(list, item, list->size);
+        ListAddAtIndex(list, item, list->size);
     }
 }
 
-extern void ListAdd(List *list, Item *item, u_int32_t index)
+extern void ListAddAtIndex(List *list, Item *item, u_int32_t index)
 {
     if (list != NULL && item != NULL)
     {
@@ -160,11 +160,14 @@ extern void ListPrint(List *list)
     }
 }
 
-extern void ListRemove(List *list, u_int32_t index)
+extern void ListRemoveAtIndex(List *list, u_int32_t index, bool free)
 {
     if (list != NULL && index < list->size && !isListEmpty(list))
     {
-        ItemFree(list->items[index]);
+        if (free)
+        {
+            ItemFree(list->items[index]);
+        }
 
         for (u_int32_t i = index + 1; i < list->size; i++)
         {
@@ -179,7 +182,7 @@ extern void ListRemoveFirst(List *list)
 {
     if (list != NULL)
     {
-        ListRemove(list, 0);
+        ListRemoveAtIndex(list, 0, true);
     }
 }
 
@@ -187,7 +190,7 @@ extern void ListRemoveLastitem(List *list)
 {
     if (list != NULL)
     {
-        ListRemove(list, list->size - 1);
+        ListRemoveAtIndex(list, list->size - 1, true);
     }
 }
 
@@ -208,6 +211,11 @@ extern void ListRemoveLastitem(List *list)
 //     return deep_clone;
 // }
 
+extern Item *ListGetFirst(List *list)
+{
+    return ListGetAtIndex(list, 0);
+}
+
 extern Item *ListGetAtIndex(List *list, u_int32_t index)
 {
     if (list == NULL || list->size < index)
@@ -215,6 +223,28 @@ extern Item *ListGetAtIndex(List *list, u_int32_t index)
         return NULL;
     }
     return list->items[index];
+}
+
+extern Item *ListPopAtIndex(List *list, u_int32_t index)
+{
+    if (list == NULL || list->size < index)
+    {
+        return NULL;
+    }
+
+    Item *return_val = list->items[index];
+    ListRemoveAtIndex(list, index, false);
+    return return_val;
+}
+
+extern Item *ListPopFirst(List *list)
+{
+    if (list == NULL)
+    {
+        return NULL;
+    }
+
+    return ListPopAtIndex(list, 0);
 }
 
 extern void ListPrintInfo(List *list)

@@ -3,8 +3,8 @@
 
 #define STANDARDLOOP_COLLECTIONS_H_MAJOR_VERSION 0
 #define STANDARDLOOP_COLLECTIONS_H_MINOR_VERSION 0
-#define STANDARDLOOP_COLLECTIONS_H_PATCH_VERSION 0
-#define STANDARDLOOP_COLLECTIONS_H_VERSION "0.0.0"
+#define STANDARDLOOP_COLLECTIONS_H_PATCH_VERSION 1
+#define STANDARDLOOP_COLLECTIONS_H_VERSION "0.0.1"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -48,13 +48,17 @@ extern List *ListReplicate(List *);
 extern char *ListToString(List *);
 extern void ListAddFirst(List *, Item *);
 extern void ListAddLast(List *, Item *);
-extern void ListAdd(List *, Item *, u_int32_t);
+extern void ListAddAtIndex(List *, Item *, u_int32_t);
 
-extern void ListRemove(List *, u_int32_t);
+extern void ListRemoveAtIndex(List *, u_int32_t, bool);
 extern void ListRemoveFirst(List *);
 extern void ListRemoveLast(List *);
 
 extern Item *ListGetAtIndex(List *, u_int32_t);
+extern Item *ListGetFirst(List *);
+
+extern Item *ListPopAtIndex(List *, u_int32_t);
+extern Item *ListPopFirst(List *);
 
 extern void ListPrint(List *);
 extern void ListPrintInfo(List *);

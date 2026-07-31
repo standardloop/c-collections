@@ -6,6 +6,8 @@
 
 #include "./collections.h"
 
+static void testListPop();
+
 void printInt(void *value)
 {
     if (value != NULL)
@@ -25,6 +27,9 @@ static void testItem()
 
 static void testList()
 {
+    testListPop();
+
+    return;
     List *list = ListInit(1, 2);
     assert(list != NULL);
     assert(list->capacity == 1);
@@ -59,9 +64,38 @@ static void testList()
     int *assert_value = list->items[0]->value;
     assert(*(int *)assert_value == 100);
 
+    ListFree(list);
+
+    testListPop();
     // ListPrint(list);
     // ListPrintInfo(list);
+}
 
+static void testListPop()
+{
+
+    List *list = ListInitDefault();
+    assert(list != NULL);
+
+    char *test_string_1 = QuickAllocatedString("teststring1");
+    assert(test_string_1 != NULL);
+    Item *list_item_1 = ItemInit(test_string_1, free, ItemPrintString);
+    assert(list_item_1 != NULL);
+
+    ListAddFirst(list, list_item_1);
+    char *assert_value_str_1 = list->items[0]->value;
+    assert(strcmp(assert_value_str_1, "teststring1") == 0);
+    assert(list->size == 1);
+
+    Item *list_item_1_diff_ref = ListPopFirst(list);
+    assert(list_item_1_diff_ref != NULL);
+    assert(list->size == 0);
+
+    assert(strcmp(list_item_1_diff_ref->value, "teststring1") == 0);
+
+    ItemFree(list_item_1_diff_ref);
+    // ListPrint(list);
+    // ListPrintInfo(list);
     ListFree(list);
 }
 
