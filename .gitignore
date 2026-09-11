@@ -58,3 +58,4 @@ dkms.conf
 .task
 test
 test-sanitize
+doxygen/

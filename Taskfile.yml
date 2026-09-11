@@ -1,6 +1,8 @@
 ---
 version: "3"
 
+silent: true
+
 vars:
   CC: /opt/homebrew/opt/llvm/bin/clang -I/usr/local/include # for apple clang
   CC_FLAGS: "-Werror -Wextra -Wall -Wfree-nonheap-object -std=c17"
@@ -15,20 +17,6 @@ vars:
   DYLIB_PATH: /usr/local/lib/standardloop/
   DYLIB_INCLUDE_PATH: /usr/local/include/standardloop/
   RELEASE_VERSION: 0.0.1
-
-# Inputs
-# - REPO_NAME
-# - DYLIB_VERSION
-# - DYLIB_NAME
-download-dependency: &download-dependency |
-  mkdir -p dependencies/tmp-{{.DYLIB_NAME}}
-  cd dependencies/tmp-{{.DYLIB_NAME}}
-  curl -O -J -L https://github.com/standardloop/{{.REPO_NAME}}/releases/download/v{{.DYLIB_VERSION}}/libstandardloop-{{.DYLIB_NAME}}.zip
-  unzip libstandardloop-{{.DYLIB_NAME}}.zip
-  sudo mkdir -p /usr/local/lib/standardloop/
-  sudo mkdir -p /usr/local/include/standardloop/
-  sudo mv libstandardloop-{{.DYLIB_NAME}}.dylib /usr/local/lib/standardloop/
-  sudo mv {{.DYLIB_NAME}}.h /usr/local/include/standardloop/ && rm libstandardloop-{{.DYLIB_NAME}}.zip
 
 tasks:
   default:
@@ -54,6 +42,18 @@ tasks:
     deps:
       - dependencies:util
 
+  dependencies:helper-task:
+    internal: true
+    cmds:
+      - mkdir -p dependencies/tmp-{{.DYLIB_NAME}}
+      - cd dependencies/tmp-{{.DYLIB_NAME}}
+      - curl -O -J -L https://github.com/standardloop/{{.REPO_NAME}}/releases/download/v{{.DYLIB_VERSION}}/libstandardloop-{{.DYLIB_NAME}}.zip
+      - unzip libstandardloop-{{.DYLIB_NAME}}.zip
+      - sudo mkdir -p /usr/local/lib/standardloop/
+      - sudo mkdir -p /usr/local/include/standardloop/
+      - sudo mv libstandardloop-{{.DYLIB_NAME}}.dylib /usr/local/lib/standardloop/
+      - sudo mv {{.DYLIB_NAME}}.h /usr/local/include/standardloop/ && rm libstandardloop-{{.DYLIB_NAME}}.zip
+
   dependencies:util:
     vars:
       REPO_NAME: c-util
@@ -61,7 +61,7 @@ tasks:
       DYLIB_NAME: util
     cmds:
       - sudo -v
-      - *download-dependency
+      - task: dependencies:helper-task
     status:
       - otool -L /usr/local/lib/standardloop/libstandardloop-{{.DYLIB_NAME}}.dylib | head -n 2 | tail -n 1 | grep "current version {{.DYLIB_VERSION}}"
       - cat /usr/local/include/standardloop/{{.DYLIB_NAME}}.h | grep "STANDARDLOOP_{{.DYLIB_NAME | upper}}_H_VERSION \"{{.DYLIB_VERSION}}\""
@@ -102,7 +102,7 @@ tasks:
       - sudo cp collections.h {{.DYLIB_INCLUDE_PATH}}
 
   release:clean:
-    allow_failure: true
+    ignore_error: true
     cmds:
       - sudo -v
       - sudo rm -f {{.DYLIB_PATH}}/{{.DYLIB_NAME}}
@@ -207,3 +207,5 @@ tasks:
       - docs:doxygen
     cmds:
       - moxygen doxygen/xml/ --output docs/index.md --quiet
+      - sed -i '' '/^Defined in /d' docs/index.md
+      - sed -i '' 's/#include <\(.*\)>/#include <standardloop\/\1>/g' docs/index.md
