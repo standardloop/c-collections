@@ -1,8 +1,8 @@
+#include <errno.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 #include <string.h>
-#include <errno.h>
 
 #include <standardloop/util.h>
 
@@ -88,7 +88,8 @@ static void listResize(List *list)
 {
     if (list != NULL)
     {
-        Item **newList = malloc(sizeof(Item *) * list->capacity * list->resize_multiple);
+        Item **newList =
+            malloc(sizeof(Item *) * list->capacity * list->resize_multiple);
         if (newList == NULL)
         {
             // printf("Couldn't resize list, not enough memory!\n");
@@ -253,6 +254,7 @@ extern void ListPrintInfo(List *list)
     {
         printf("list->size     = %d\n", list->size);
         printf("list->capacity = %d\n", list->capacity);
-        printf("percent full   = %.2f%%\n", (float)list->size * 100 / list->capacity);
+        printf("percent full   = %.2f%%\n",
+               (float)list->size * 100 / list->capacity);
     }
 }

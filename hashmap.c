@@ -1,9 +1,9 @@
+#include <assert.h>
+#include <errno.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdbool.h>
-#include <assert.h>
-#include <errno.h>
 
 #include <standardloop/util.h>
 
@@ -92,7 +92,8 @@ extern void DEBUGTestDefaultHashFunction()
 
 extern HashMap *HashMapInitDefault(void)
 {
-    return HashMapInit(DEFAULT_MAP_SIZE, DEFAULT_MAP_RESIZE_MULTIPLE, NULL, false);
+    return HashMapInit(DEFAULT_MAP_SIZE, DEFAULT_MAP_RESIZE_MULTIPLE, NULL,
+                       false);
 }
 
 static HashMapItem **hashMapEntriesInit(u_int32_t capacity)
@@ -111,7 +112,8 @@ static HashMapItem **hashMapEntriesInit(u_int32_t capacity)
     return entries;
 }
 
-extern HashMap *HashMapInit(u_int32_t initial_capacity, uint8_t resize_multiple, HashFunction *hashFunction, bool force_lowercase)
+extern HashMap *HashMapInit(u_int32_t initial_capacity, uint8_t resize_multiple,
+                            HashFunction *hashFunction, bool force_lowercase)
 {
     if (initial_capacity == 0)
     {
@@ -183,7 +185,8 @@ extern void HashMapInsert(HashMap *map, HashMapItem *entry)
     }
 }
 
-static bool hashMapEntriesInsert(HashMapItem **entries, u_int32_t index, HashMapItem *entry)
+static bool hashMapEntriesInsert(HashMapItem **entries, u_int32_t index,
+                                 HashMapItem *entry)
 {
     // FIXME: may have to use enum for return values
     // collision, no collision, or error
@@ -202,7 +205,8 @@ static bool hashMapEntriesInsert(HashMapItem **entries, u_int32_t index, HashMap
         return false;
     }
     // printf("%s -> %s\n", collision->key, entry->key);
-    // If duplicate key, update (in future could maybe make this a feature flag for the init function)
+    // If duplicate key, update (in future could maybe make this a feature flag
+    // for the init function)
     if (collision->key != NULL)
     {
         size_t collision_key_len = strlen(collision->key);
@@ -328,7 +332,8 @@ static void HashMapFreeEntrySingle(HashMapItem *entry, bool deep)
     HashMapItemFree(entry, deep);
 }
 
-static void HashMapFreeEntries(HashMapItem **entries, u_int32_t size, bool deep, bool entry_values)
+static void HashMapFreeEntries(HashMapItem **entries, u_int32_t size, bool deep,
+                               bool entry_values)
 {
     if (entries != NULL)
     {
@@ -484,9 +489,12 @@ static void hashMapResize(HashMap *map)
 
         while (iterator != NULL)
         {
-            HashMapItem *new_entry = HashMapItemInit(iterator->key, iterator->item);
-            u_int32_t new_index = map->hashFunction(iterator->key, new_capacity);
-            bool collision = hashMapEntriesInsert(new_entries, new_index, new_entry);
+            HashMapItem *new_entry =
+                HashMapItemInit(iterator->key, iterator->item);
+            u_int32_t new_index =
+                map->hashFunction(iterator->key, new_capacity);
+            bool collision =
+                hashMapEntriesInsert(new_entries, new_index, new_entry);
             if (!collision)
             {
                 new_size++;
@@ -516,10 +524,10 @@ static void hashMapResize(HashMap *map)
 //         errno = EINVAL;
 //         return NULL;
 //     }
-//     HashMap *deep_clone = HashMapInit(map->capacity, map->hashFunction, map->force_lowercase);
-//     deep_clone->collision_count = map->collision_count;
-//     deep_clone->size = map->collision_count;
-//     for (u_int32_t i = 0; i < map->capacity; i++)
+//     HashMap *deep_clone = HashMapInit(map->capacity, map->hashFunction,
+//     map->force_lowercase); deep_clone->collision_count =
+//     map->collision_count; deep_clone->size = map->collision_count; for
+//     (u_int32_t i = 0; i < map->capacity; i++)
 //     {
 //         deep_clone->entries[i] = HashMapItemReplicate(map->entries[i]);
 //     }

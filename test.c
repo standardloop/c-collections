@@ -1,8 +1,8 @@
+#include <assert.h>
+#include <standardloop/util.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <assert.h>
 #include <unistd.h>
-#include <standardloop/util.h>
 
 #include "./collections.h"
 
@@ -185,9 +185,17 @@ static void testHashMap()
     HashMap *collision_test = HashMapInit(2, 2, NULL, false);
     assert(collision_test != NULL);
 
-    // defaultHashFunction("one", 2) and defaultHashFunction("two", 2) both return index 0
-    HashMapInsert(collision_test, HashMapItemInit(QuickAllocatedString("one"), ItemInit(QuickAllocatedString("one-value"), free, ItemPrintString)));
-    HashMapInsert(collision_test, HashMapItemInit(QuickAllocatedString("two"), ItemInit(QuickAllocatedString("two-value"), free, ItemPrintString)));
+    // defaultHashFunction("one", 2) and defaultHashFunction("two", 2) both
+    // return index 0
+    HashMapInsert(collision_test,
+                  HashMapItemInit(QuickAllocatedString("one"),
+                                  ItemInit(QuickAllocatedString("one-value"),
+                                           free, ItemPrintString)));
+    HashMapInsert(collision_test,
+                  HashMapItemInit(QuickAllocatedString("two"),
+                                  ItemInit(QuickAllocatedString("two-value"),
+                                           free, ItemPrintString)));
+
     assert(collision_test->collision_count == 1);
     HashMapItem *retrieved_collision_1 = HashMapGet(collision_test, "one");
     assert(retrieved_collision_1 != NULL);

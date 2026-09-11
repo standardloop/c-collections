@@ -1,5 +1,5 @@
 ---
-version: '3'
+version: "3"
 
 vars:
   CC: /opt/homebrew/opt/llvm/bin/clang -I/usr/local/include # for apple clang
@@ -36,7 +36,7 @@ tasks:
     cmds:
       - task: test
       - task: test:sanitize
-  
+
   clean:
     cmds:
       - rm -f {{.TEST_EXECUTABLE_NAME}}
@@ -92,7 +92,7 @@ tasks:
       - "*.c"
     generates:
       - "{{.DYLIB_NAME}}"
-  
+
   release:move-files:
     deps:
       - release:build
@@ -107,7 +107,7 @@ tasks:
       - sudo -v
       - sudo rm -f {{.DYLIB_PATH}}/{{.DYLIB_NAME}}
       - sudo rm -f {{.DYLIB_INCLUDE_PATH}}/collections.h
-    
+
   # local test
   remote:download:
     run: once
@@ -150,7 +150,7 @@ tasks:
       - "*.c"
     generates:
       - "{{.TEST_EXECUTABLE_NAME}}"
-  
+
   test:sanitize:
     deps:
       - test:build-sanitize
@@ -176,7 +176,7 @@ tasks:
 
   leaks:
     cmds:
-    - task: test:leaks
+      - task: test:leaks
 
   test:leaks:
     deps:
@@ -185,3 +185,25 @@ tasks:
       - cp /usr/local/lib/standardloop/libstandardloop-util.dylib ./ # to get around sips we need to move dylibs to local dir :(
       - leaks --atExit -- ./{{.TEST_EXECUTABLE_NAME}}
       - rm libstandardloop-util.dylib
+
+  fmt:
+    silent: true
+    cmds:
+      - find . \( -name "*.c" -o -name "*.h" \) -exec clang-format -style=file -i {} +
+
+  docs:
+    deps:
+      - docs:moxygen
+
+  docs:doxygen:
+    desc: "https://www.doxygen.nl/"
+    cmds:
+      - mkdir -p doxygen
+      - doxygen Doxyfile
+
+  docs:moxygen:
+    desc: "https://0state.com/moxygen"
+    deps:
+      - docs:doxygen
+    cmds:
+      - moxygen doxygen/xml/ --output docs/index.md --quiet
