@@ -7,6 +7,9 @@
 
 #include <standardloop/util.h>
 
+#define DEFAULT_MAP_SIZE 16
+#define DEFAULT_MAP_RESIZE_MULTIPLE 2
+
 #include "./collections.h"
 
 static void HashMapFreeEntrySingle(HashMapItem *, bool);

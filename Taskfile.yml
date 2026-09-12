@@ -18,6 +18,9 @@ vars:
   DYLIB_INCLUDE_PATH: /usr/local/include/standardloop/
   RELEASE_VERSION: 0.0.1
 
+includes:
+  c: https://raw.githubusercontent.com/standardloop/taskfiles/refs/heads/main/c.yml # can pin in future
+
 tasks:
   default:
     silent: true
@@ -187,25 +190,9 @@ tasks:
       - rm libstandardloop-util.dylib
 
   fmt:
-    silent: true
-    cmds:
-      - find . \( -name "*.c" -o -name "*.h" \) -exec clang-format -style=file -i {} +
+    deps:
+      - c:fmt
 
   docs:
     deps:
-      - docs:moxygen
-
-  docs:doxygen:
-    desc: "https://www.doxygen.nl/"
-    cmds:
-      - mkdir -p doxygen
-      - doxygen Doxyfile
-
-  docs:moxygen:
-    desc: "https://0state.com/moxygen"
-    deps:
-      - docs:doxygen
-    cmds:
-      - moxygen doxygen/xml/ --output docs/index.md --quiet
-      - sed -i '' '/^Defined in /d' docs/index.md
-      - sed -i '' 's/#include <\(.*\)>/#include <standardloop\/\1>/g' docs/index.md
+      - c:docs:moxygen

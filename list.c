@@ -8,6 +8,9 @@
 
 #include "./collections.h"
 
+#define DEFAULT_LIST_SIZE 16
+#define DEFAULT_LIST_RESIZE_MULTIPLE 2
+
 static inline bool isListFull(List *);
 static inline bool isListEmpty(List *);
 static void ListFreeItems(Item **, u_int32_t, bool);

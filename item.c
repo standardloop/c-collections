@@ -37,20 +37,20 @@ extern Item *ItemInit(void *value, ItemFreeFunction *freeFunction,
     return this;
 }
 
-extern void ItemFree(Item *this)
+extern void ItemFree(Item *item)
 {
-    if (this != NULL && this->value != NULL && this->freeFunction != NULL)
+    if (item != NULL && item->value != NULL && item->freeFunction != NULL)
     {
-        this->freeFunction(this->value);
-        free(this);
+        item->freeFunction(item->value);
+        free(item);
     }
 }
 
-extern void ItemPrint(Item *this)
+extern void ItemPrint(Item *item)
 {
-    if (this != NULL && this->value != NULL && this->printFunction != NULL)
+    if (item != NULL && item->value != NULL && item->printFunction != NULL)
     {
-        this->printFunction(this->value);
+        item->printFunction(item->value);
     }
 }
 
