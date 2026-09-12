@@ -233,7 +233,8 @@ typedef u_int32_t(HashFunction)(char *, u_int32_t);
 // } HashMapCollisionOptions;
 
 /**
- * @brief The HashMap Item struct
+ * @brief The HashMap Item struct. Contains the key, the value, and a next field
+ * for collisions
  */
 typedef struct hashMapItem
 {
@@ -268,7 +269,8 @@ extern void HashMapItemFree(HashMapItem *hashmap_item, bool deep);
 extern void HashMapItemPrint(HashMapItem *hashmap_item);
 
 /**
- * @brief The HashMap struct
+ * @brief The HashMap struct, contains a header for size, capacity, and resizing
+ * multiple. Has a list of entries and a pointer to a hashing function.
  */
 typedef struct
 {

@@ -2,12 +2,12 @@
 
 ## Classes
 
-| Name                          | Description                                                                                                              |
-| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| [`Item`](#item)               | The [Item](#item) struct, contains a value of any kind, and a function to free the value and print the value.            |
-| [`List`](#list)               | The [List](#list) struct, contains a header for size, capacity, and resizing multiple and then a [List](#list) of Items. |
-| [`HashMap`](#hashmap)         | The [HashMap](#hashmap) struct.                                                                                          |
-| [`HashMapItem`](#hashmapitem) | The [HashMap](#hashmap)[Item](#item) struct.                                                                             |
+| Name                          | Description                                                                                                                                             |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`Item`](#item)               | The [Item](#item) struct, contains a value of any kind, and a function to free the value and print the value.                                           |
+| [`List`](#list)               | The [List](#list) struct, contains a header for size, capacity, and resizing multiple and then a [List](#list) of Items.                                |
+| [`HashMap`](#hashmap)         | The [HashMap](#hashmap) struct, contains a header for size, capacity, and resizing multiple. Has a list of entries and a pointer to a hashing function. |
+| [`HashMapItem`](#hashmapitem) | The [HashMap](#hashmap)[Item](#item) struct. Contains the key, the value, and a next field for collisions.                                              |
 
 ## Macros
 
@@ -727,7 +727,7 @@ The list of Items.
 struct HashMap
 ```
 
-The [HashMap](#hashmap) struct.
+The [HashMap](#hashmap) struct, contains a header for size, capacity, and resizing multiple. Has a list of entries and a pointer to a hashing function.
 
 ### Public Attributes
 
@@ -825,7 +825,7 @@ Should only lowercase be considered, for example "THIS" and "this" are both hash
 struct HashMapItem
 ```
 
-The [HashMap](#hashmap)[Item](#item) struct.
+The [HashMap](#hashmap)[Item](#item) struct. Contains the key, the value, and a next field for collisions.
 
 ### Public Attributes
 
