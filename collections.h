@@ -220,6 +220,10 @@ extern void ListFree(List *list);
 // ————————— LIST END —————————
 
 // ————————— HASHMAP START —————————
+/**
+ * @brief A Function that takes key and a capacity and hashes the key to return
+ * an index.
+ */
 typedef u_int32_t(HashFunction)(char *, u_int32_t);
 
 // typedef enum
@@ -291,18 +295,65 @@ typedef struct
     // HashMapCollisionOptions collision_strategy;
 } HashMap;
 
-extern HashMapItem *HashMapGet(HashMap *, char *);
-extern void HashMapItemPrint(HashMapItem *);
+/**
+ * @brief Get a HashMapItem based on a key.
+ * @param map The HashMap to look into.
+ * @param key the key to use to look up the item.
+ * @return The HashMapItem from the HashMap (if found).
+ */
+extern HashMapItem *HashMapGet(HashMap *map, char *key);
 
-extern HashMap *HashMapInit(u_int32_t, u_int8_t, HashFunction *, bool);
+/**
+ * @brief Initialize a fresh HashMap
+ * @param initial_capacity The starting capacity of the HashMap.
+ * @param resize_multiple What resizing multiple to use when the HashMap is at
+ * capacity.
+ * @param hashFunction A pointer to a function for hashing string to an index.
+ * @param force_lowercase Do we want to force lowercase conversion for all keys.
+ * @return The initialized HashMap.
+ */
+extern HashMap *HashMapInit(u_int32_t initial_capacity,
+                            u_int8_t resize_multiple,
+                            HashFunction *hashFunction, bool force_lowercase);
+
+/**
+ * @brief Initialize a fresh HashMap with sane defaults, see HashMapInit for
+ * more customization.
+ * @return The initialized HashMap.
+ */
 extern HashMap *HashMapInitDefault(void);
-extern HashMap *HashMapReplicate(HashMap *);
-extern void HashMapFree(HashMap *);
-extern void HashMapInsert(HashMap *, HashMapItem *);
-extern void HashMapRemove(HashMap *, char *);
-extern void HashMapPrint(HashMap *);
 
+// extern HashMap *HashMapReplicate(HashMap *);
+
+/**
+ * @brief Frees a HashMap
+ * @param map The HashMap that should be freed.
+ */
+extern void HashMapFree(HashMap *map);
+
+/**
+ * @brief Insert a HashMapItem into a HashMap
+ * @param map The HashMap that should be inserted into.
+ * @param entry The HashMapItem entry to be inserted into the HashMap.
+ */
+extern void HashMapInsert(HashMap *map, HashMapItem *entry);
+
+/**
+ * @brief Remove a HashMapItem from a HashMap
+ * @param map The HashMap that will have a HashMapItem removed from.
+ * @param key The key of the HashMapItem to be removed.
+ */
+extern void HashMapRemove(HashMap *map, char *key);
+
+/**
+ * @brief Print a HashMap
+ * @param map The HashMap to print.
+ */
+extern void HashMapPrint(HashMap *map);
+
+/// @cond INTERNAL
 extern void DEBUGTestDefaultHashFunction();
+/// @endcond
 // ————————— HASHMAP END —————————
 
 #endif

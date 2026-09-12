@@ -81,6 +81,8 @@ A function that will be a part of the [Item](#item) struct, it determines how th
 using HashFunction = u_int32_t
 ```
 
+A Function that takes key and a capacity and hashes the key to return an index.
+
 ## Functions
 
 ---
@@ -479,16 +481,44 @@ Prints a [HashMapItem](#hashmapitem).
 ### HashMapGet
 
 ```cpp
-HashMapItem * HashMapGet(HashMap *, char *)
+HashMapItem * HashMapGet(HashMap * map, char * key)
 ```
+
+Get a [HashMapItem](#hashmapitem) based on a key.
+
+#### Returns
+
+The [HashMapItem](#hashmapitem) from the [HashMap](#hashmap) (if found).
+
+#### Parameters
+
+| Parameter | Type                    | Description                           |
+| --------- | ----------------------- | ------------------------------------- |
+| `map`     | [`HashMap`](#hashmap) * | The [HashMap](#hashmap) to look into. |
+| `key`     | `char *`                | the key to use to look up the item.   |
 
 ---
 
 ### HashMapInit
 
 ```cpp
-HashMap * HashMapInit(u_int32_t, u_int8_t, HashFunction *, bool)
+HashMap * HashMapInit(u_int32_t initial_capacity, u_int8_t resize_multiple, HashFunction * hashFunction, bool force_lowercase)
 ```
+
+Initialize a fresh [HashMap](#hashmap).
+
+#### Returns
+
+The initialized [HashMap](#hashmap).
+
+#### Parameters
+
+| Parameter          | Type                              | Description                                                                |
+| ------------------ | --------------------------------- | -------------------------------------------------------------------------- |
+| `initial_capacity` | `u_int32_t`                       | The starting capacity of the [HashMap](#hashmap).                          |
+| `resize_multiple`  | `u_int8_t`                        | What resizing multiple to use when the [HashMap](#hashmap) is at capacity. |
+| `hashFunction`     | [`HashFunction`](#hashfunction) * | A pointer to a function for hashing string to an index.                    |
+| `force_lowercase`  | `bool`                            | Do we want to force lowercase conversion for all keys.                     |
 
 ---
 
@@ -498,53 +528,77 @@ HashMap * HashMapInit(u_int32_t, u_int8_t, HashFunction *, bool)
 HashMap * HashMapInitDefault(void)
 ```
 
----
+Initialize a fresh [HashMap](#hashmap) with sane defaults, see HashMapInit for more customization.
 
-### HashMapReplicate
+#### Returns
 
-```cpp
-HashMap * HashMapReplicate(HashMap *)
-```
+The initialized [HashMap](#hashmap).
 
 ---
 
 ### HashMapFree
 
 ```cpp
-void HashMapFree(HashMap *)
+void HashMapFree(HashMap * map)
 ```
+
+Frees a [HashMap](#hashmap).
+
+#### Parameters
+
+| Parameter | Type                    | Description                                   |
+| --------- | ----------------------- | --------------------------------------------- |
+| `map`     | [`HashMap`](#hashmap) * | The [HashMap](#hashmap) that should be freed. |
 
 ---
 
 ### HashMapInsert
 
 ```cpp
-void HashMapInsert(HashMap *, HashMapItem *)
+void HashMapInsert(HashMap * map, HashMapItem * entry)
 ```
+
+Insert a [HashMapItem](#hashmapitem) into a [HashMap](#hashmap).
+
+#### Parameters
+
+| Parameter | Type                            | Description                                                                        |
+| --------- | ------------------------------- | ---------------------------------------------------------------------------------- |
+| `map`     | [`HashMap`](#hashmap) *         | The [HashMap](#hashmap) that should be inserted into.                              |
+| `entry`   | [`HashMapItem`](#hashmapitem) * | The [HashMapItem](#hashmapitem) entry to be inserted into the [HashMap](#hashmap). |
 
 ---
 
 ### HashMapRemove
 
 ```cpp
-void HashMapRemove(HashMap *, char *)
+void HashMapRemove(HashMap * map, char * key)
 ```
+
+Remove a [HashMapItem](#hashmapitem) from a [HashMap](#hashmap).
+
+#### Parameters
+
+| Parameter | Type                    | Description                                                                        |
+| --------- | ----------------------- | ---------------------------------------------------------------------------------- |
+| `map`     | [`HashMap`](#hashmap) * | The [HashMap](#hashmap) that will have a [HashMapItem](#hashmapitem) removed from. |
+| `key`     | `char *`                | The key of the [HashMapItem](#hashmapitem) to be removed.                          |
 
 ---
 
 ### HashMapPrint
 
 ```cpp
-void HashMapPrint(HashMap *)
+void HashMapPrint(HashMap * map)
 ```
 
----
+Print a [HashMap](#hashmap).
 
-### DEBUGTestDefaultHashFunction
+#### Parameters
 
-```cpp
-void DEBUGTestDefaultHashFunction()
-```
+| Parameter | Type                    | Description                       |
+| --------- | ----------------------- | --------------------------------- |
+| `map`     | [`HashMap`](#hashmap) * | The [HashMap](#hashmap) to print. |
 
 ## Item
 
@@ -677,15 +731,15 @@ The [HashMap](#hashmap) struct.
 
 ### Public Attributes
 
-| Return                           | Name                                    | Description                                                                                           |
-| -------------------------------- | --------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| `u_int32_t`                      | [`size`](#size-1)                       | The current size (number of entries) of the [HashMap](#hashmap).                                      |
-| `u_int32_t`                      | [`capacity`](#capacity-1)               | How large the [HashMap](#hashmap) can get before it needs to be resized.                              |
-| `u_int8_t`                       | [`resize_multiple`](#resize_multiple-1) | If the [HashMap](#hashmap) needs to be resized, what should the resizing multiple be                  |
-| `u_int32_t`                      | [`collision_count`](#collision_count)   | How many collisions have occured.                                                                     |
-| [`HashMapItem`](#hashmapitem) ** | [`entries`](#entries)                   | The [List](#list) entries in the [HashMap](#hashmap).                                                 |
-| `HashFunction *`                 | [`hashFunction`](#hashfunction-1)       | The function this [HashMap](#hashmap) uses to Hash strings.                                           |
-| `bool`                           | [`force_lowercase`](#force_lowercase)   | Should only lowercase be considered, for example "THIS" and "this" are both hashed to the same value. |
+| Return                            | Name                                    | Description                                                                                           |
+| --------------------------------- | --------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `u_int32_t`                       | [`size`](#size-1)                       | The current size (number of entries) of the [HashMap](#hashmap).                                      |
+| `u_int32_t`                       | [`capacity`](#capacity-1)               | How large the [HashMap](#hashmap) can get before it needs to be resized.                              |
+| `u_int8_t`                        | [`resize_multiple`](#resize_multiple-1) | If the [HashMap](#hashmap) needs to be resized, what should the resizing multiple be                  |
+| `u_int32_t`                       | [`collision_count`](#collision_count)   | How many collisions have occured.                                                                     |
+| [`HashMapItem`](#hashmapitem) **  | [`entries`](#entries)                   | The [List](#list) entries in the [HashMap](#hashmap).                                                 |
+| [`HashFunction`](#hashfunction) * | [`hashFunction`](#hashfunction-1)       | The function this [HashMap](#hashmap) uses to Hash strings.                                           |
+| `bool`                            | [`force_lowercase`](#force_lowercase)   | Should only lowercase be considered, for example "THIS" and "this" are both hashed to the same value. |
 
 ---
 
@@ -746,6 +800,8 @@ The [List](#list) entries in the [HashMap](#hashmap).
 ```cpp
 HashFunction * hashFunction
 ```
+
+Type: [`HashFunction`](#hashfunction) *
 
 The function this [HashMap](#hashmap) uses to Hash strings.
 
