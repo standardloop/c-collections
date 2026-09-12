@@ -222,23 +222,36 @@ extern void ListFree(List *list);
 // ————————— HASHMAP START —————————
 typedef u_int32_t(HashFunction)(char *, u_int32_t);
 
-typedef enum
-{
-    HASHMAP_COLLISION_OPTION_LINKEDLIST = 0,
-    HASHMAP_COLLISION_OPTION_LIST = 1
-} HashMapCollisionOptions;
+// typedef enum
+// {
+//     HASHMAP_COLLISION_OPTION_LINKEDLIST = 0,
+//     HASHMAP_COLLISION_OPTION_LIST = 1
+// } HashMapCollisionOptions;
 
+/**
+ * @brief The HashMap Item struct
+ */
 typedef struct hashMapItem
 {
+    /** The key for a hashed value. */
     char *key;
-    Item *item;
+    /** the value hashed to the key. */
+    Item *value;
+    /** If a collision occurs, the next field - linked list for collisions. */
     struct hashMapItem *next;
 } HashMapItem;
 
-extern HashMapItem *HashMapItemInit(char *, Item *);
+/**
+ * @brief Print the List.
+ * @param list The List to print.
+ */
+extern HashMapItem *HashMapItemInit(char *key, Item *value);
 extern void HashMapItemFree(HashMapItem *, bool);
 extern void HashMapItemPrint(HashMapItem *);
 
+/**
+ * @brief The HashMap struct
+ */
 typedef struct
 {
     u_int32_t size;
@@ -248,11 +261,10 @@ typedef struct
     HashMapItem **entries;
     HashFunction *hashFunction;
     bool force_lowercase;
-    HashMapCollisionOptions collision_strategy;
+    // HashMapCollisionOptions collision_strategy;
 } HashMap;
 
 extern HashMapItem *HashMapGet(HashMap *, char *);
-;
 extern void HashMapItemPrint(HashMapItem *);
 
 extern HashMap *HashMapInit(u_int32_t, u_int8_t, HashFunction *, bool);
