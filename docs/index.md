@@ -6,8 +6,8 @@
 | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
 | [`Item`](#item)               | The [Item](#item) struct, contains a value of any kind, and a function to free the value and print the value.            |
 | [`List`](#list)               | The [List](#list) struct, contains a header for size, capacity, and resizing multiple and then a [List](#list) of Items. |
-| [`HashMap`](#hashmap)         |                                                                                                                          |
-| [`HashMapItem`](#hashmapitem) |                                                                                                                          |
+| [`HashMap`](#hashmap)         | The [HashMap](#hashmap) struct.                                                                                          |
+| [`HashMapItem`](#hashmapitem) | The [HashMap](#hashmap)[Item](#item) struct.                                                                             |
 
 ## Macros
 
@@ -50,21 +50,6 @@ Patch version of this library.
 ```
 
 Version of this library as a string.
-
-## Enumerations
-
----
-
-### HashMapCollisionOptions
-
-```cpp
-enum HashMapCollisionOptions
-```
-
-| Value                                 | Description |
-| ------------------------------------- | ----------- |
-| `HASHMAP_COLLISION_OPTION_LINKEDLIST` |             |
-| `HASHMAP_COLLISION_OPTION_LIST`       |             |
 
 ## Typedefs
 
@@ -440,24 +425,54 @@ Frees the [List](#list) and all the Items in the [List](#list).
 ### HashMapItemInit
 
 ```cpp
-HashMapItem * HashMapItemInit(char *, Item *)
+HashMapItem * HashMapItemInit(char * key, Item * value)
 ```
+
+Initializes as [HashMapItem](#hashmapitem).
+
+#### Returns
+
+The Initialized [HashMapItem](#hashmapitem).
+
+#### Parameters
+
+| Parameter | Type              | Description                                    |
+| --------- | ----------------- | ---------------------------------------------- |
+| `key`     | `char *`          | The string key of [HashMapItem](#hashmapitem). |
+| `value`   | [`Item`](#item) * | The corresponding value to the hashed key.     |
 
 ---
 
 ### HashMapItemFree
 
 ```cpp
-void HashMapItemFree(HashMapItem *, bool)
+void HashMapItemFree(HashMapItem * hashmap_item, bool deep)
 ```
+
+Frees a [HashMapItem](#hashmapitem), can optional deep free by freeing the [Item](#item) as well.
+
+#### Parameters
+
+| Parameter      | Type                            | Description                                                              |
+| -------------- | ------------------------------- | ------------------------------------------------------------------------ |
+| `hashmap_item` | [`HashMapItem`](#hashmapitem) * | The [HashMapItem](#hashmapitem) to free.                                 |
+| `deep`         | `bool`                          | If true, will free the [Item](#item) in the [HashMapItem](#hashmapitem). |
 
 ---
 
 ### HashMapItemPrint
 
 ```cpp
-void HashMapItemPrint(HashMapItem *)
+void HashMapItemPrint(HashMapItem * hashmap_item)
 ```
+
+Prints a [HashMapItem](#hashmapitem).
+
+#### Parameters
+
+| Parameter      | Type                            | Description                               |
+| -------------- | ------------------------------- | ----------------------------------------- |
+| `hashmap_item` | [`HashMapItem`](#hashmapitem) * | The [HashMapItem](#hashmapitem) to print. |
 
 ---
 
@@ -651,21 +666,26 @@ The list of Items.
 ## HashMap
 
 ```cpp
+#include <standardloop/collections.h>
+```
+
+```cpp
 struct HashMap
 ```
 
+The [HashMap](#hashmap) struct.
+
 ### Public Attributes
 
-| Return                    | Name                                        | Description |
-| ------------------------- | ------------------------------------------- | ----------- |
-| `u_int32_t`               | [`size`](#size-1)                           |             |
-| `u_int32_t`               | [`capacity`](#capacity-1)                   |             |
-| `u_int8_t`                | [`resize_multiple`](#resize_multiple-1)     |             |
-| `u_int32_t`               | [`collision_count`](#collision_count)       |             |
-| `HashMapItem **`          | [`entries`](#entries)                       |             |
-| `HashFunction *`          | [`hashFunction`](#hashfunction-1)           |             |
-| `bool`                    | [`force_lowercase`](#force_lowercase)       |             |
-| `HashMapCollisionOptions` | [`collision_strategy`](#collision_strategy) |             |
+| Return                           | Name                                    | Description                                                                                           |
+| -------------------------------- | --------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `u_int32_t`                      | [`size`](#size-1)                       | The current size (number of entries) of the [HashMap](#hashmap).                                      |
+| `u_int32_t`                      | [`capacity`](#capacity-1)               | How large the [HashMap](#hashmap) can get before it needs to be resized.                              |
+| `u_int8_t`                       | [`resize_multiple`](#resize_multiple-1) | If the [HashMap](#hashmap) needs to be resized, what should the resizing multiple be                  |
+| `u_int32_t`                      | [`collision_count`](#collision_count)   | How many collisions have occured.                                                                     |
+| [`HashMapItem`](#hashmapitem) ** | [`entries`](#entries)                   | The [List](#list) entries in the [HashMap](#hashmap).                                                 |
+| `HashFunction *`                 | [`hashFunction`](#hashfunction-1)       | The function this [HashMap](#hashmap) uses to Hash strings.                                           |
+| `bool`                           | [`force_lowercase`](#force_lowercase)   | Should only lowercase be considered, for example "THIS" and "this" are both hashed to the same value. |
 
 ---
 
@@ -675,6 +695,8 @@ struct HashMap
 u_int32_t size
 ```
 
+The current size (number of entries) of the [HashMap](#hashmap).
+
 ---
 
 #### capacity
@@ -682,6 +704,8 @@ u_int32_t size
 ```cpp
 u_int32_t capacity
 ```
+
+How large the [HashMap](#hashmap) can get before it needs to be resized.
 
 ---
 
@@ -691,6 +715,8 @@ u_int32_t capacity
 u_int8_t resize_multiple
 ```
 
+If the [HashMap](#hashmap) needs to be resized, what should the resizing multiple be
+
 ---
 
 #### collision_count
@@ -698,6 +724,8 @@ u_int8_t resize_multiple
 ```cpp
 u_int32_t collision_count
 ```
+
+How many collisions have occured.
 
 ---
 
@@ -707,6 +735,10 @@ u_int32_t collision_count
 HashMapItem ** entries
 ```
 
+Type: [`HashMapItem`](#hashmapitem) **
+
+The [List](#list) entries in the [HashMap](#hashmap).
+
 ---
 
 #### hashFunction
@@ -714,6 +746,8 @@ HashMapItem ** entries
 ```cpp
 HashFunction * hashFunction
 ```
+
+The function this [HashMap](#hashmap) uses to Hash strings.
 
 ---
 
@@ -723,27 +757,27 @@ HashFunction * hashFunction
 bool force_lowercase
 ```
 
----
-
-#### collision_strategy
-
-```cpp
-HashMapCollisionOptions collision_strategy
-```
+Should only lowercase be considered, for example "THIS" and "this" are both hashed to the same value.
 
 ## HashMapItem
+
+```cpp
+#include <standardloop/collections.h>
+```
 
 ```cpp
 struct HashMapItem
 ```
 
+The [HashMap](#hashmap)[Item](#item) struct.
+
 ### Public Attributes
 
-| Return                 | Name              | Description |
-| ---------------------- | ----------------- | ----------- |
-| `char *`               | [`key`](#key)     |             |
-| [`Item`](#item) *      | [`item`](#item-1) |             |
-| `struct hashMapItem *` | [`next`](#next)   |             |
+| Return                 | Name                | Description                                                         |
+| ---------------------- | ------------------- | ------------------------------------------------------------------- |
+| `char *`               | [`key`](#key)       | The key for a hashed value.                                         |
+| [`Item`](#item) *      | [`value`](#value-1) | the value hashed to the key.                                        |
+| `struct hashMapItem *` | [`next`](#next)     | If a collision occurs, the next field - linked list for collisions. |
 
 ---
 
@@ -753,15 +787,19 @@ struct HashMapItem
 char * key
 ```
 
+The key for a hashed value.
+
 ---
 
-#### item
+#### value
 
 ```cpp
-Item * item
+Item * value
 ```
 
 Type: [`Item`](#item) *
+
+the value hashed to the key.
 
 ---
 
@@ -770,3 +808,5 @@ Type: [`Item`](#item) *
 ```cpp
 struct hashMapItem * next
 ```
+
+If a collision occurs, the next field - linked list for collisions.

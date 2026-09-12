@@ -242,24 +242,51 @@ typedef struct hashMapItem
 } HashMapItem;
 
 /**
- * @brief Print the List.
- * @param list The List to print.
+ * @brief Initializes as HashMapItem.
+ * @param key The string key of HashMapItem.
+ * @param value The corresponding value to the hashed key.
+ * @return The Initialized HashMapItem.
  */
 extern HashMapItem *HashMapItemInit(char *key, Item *value);
-extern void HashMapItemFree(HashMapItem *, bool);
-extern void HashMapItemPrint(HashMapItem *);
+
+/**
+ * @brief Frees a HashMapItem, can optional deep free by freeing the Item as
+ * well.
+ * @param hashmap_item The HashMapItem to free.
+ * @param deep If true, will free the Item in the HashMapItem.
+ */
+extern void HashMapItemFree(HashMapItem *hashmap_item, bool deep);
+
+/**
+ * @brief Prints a HashMapItem
+ * @param hashmap_item The HashMapItem to print.
+ */
+extern void HashMapItemPrint(HashMapItem *hashmap_item);
 
 /**
  * @brief The HashMap struct
  */
 typedef struct
 {
+    /** The current size (number of entries) of the HashMap. */
     u_int32_t size;
+    /** How large the HashMap can get before it needs to be resized. */
     u_int32_t capacity;
+    /** If the HashMap needs to be resized, what should the resizing multiple be
+     */
     u_int8_t resize_multiple;
+    /** How many collisions have occured.
+     */
     u_int32_t collision_count;
+    /** The List entries in the HashMap.
+     */
     HashMapItem **entries;
+    /** The function this HashMap uses to Hash strings.
+     */
     HashFunction *hashFunction;
+    /** Should only lowercase be considered, for example "THIS" and "this" are
+     * both hashed to the same value.
+     */
     bool force_lowercase;
     // HashMapCollisionOptions collision_strategy;
 } HashMap;
