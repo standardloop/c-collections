@@ -25,7 +25,9 @@ tasks:
   # GH_RELEASE_VERSION is set by CI
   release:
     deps:
-      - c:release
+      - dependencies
+    cmds:
+      - task: c:release
 
   dependencies:
     deps:
