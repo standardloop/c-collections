@@ -6,22 +6,6 @@
 
 #ifndef STANDARDLOOP_COLLECTIONS_H
 #define STANDARDLOOP_COLLECTIONS_H
-/**
- * @brief Major version of this library.
- */
-#define STANDARDLOOP_COLLECTIONS_H_MAJOR_VERSION 0
-/**
- * @brief Minor version of this library.
- */
-#define STANDARDLOOP_COLLECTIONS_H_MINOR_VERSION 0
-/**
- * @brief Patch version of this library.
- */
-#define STANDARDLOOP_COLLECTIONS_H_PATCH_VERSION 1
-/**
- * @brief Version of this library as a string.
- */
-#define STANDARDLOOP_COLLECTIONS_H_VERSION "0.0.1"
 
 #include <stdbool.h>
 #include <stdio.h>
@@ -240,8 +224,8 @@ typedef struct hashMapItem
 {
     /** The key for a hashed value. */
     char *key;
-    /** the value hashed to the key. */
-    Item *value;
+    /** the item hashed to the key. */
+    Item *item;
     /** If a collision occurs, the next field - linked list for collisions. */
     struct hashMapItem *next;
 } HashMapItem;
@@ -249,10 +233,10 @@ typedef struct hashMapItem
 /**
  * @brief Initializes as HashMapItem.
  * @param key The string key of HashMapItem.
- * @param value The corresponding value to the hashed key.
+ * @param item The corresponding value to the hashed key.
  * @return The Initialized HashMapItem.
  */
-extern HashMapItem *HashMapItemInit(char *key, Item *value);
+extern HashMapItem *HashMapItemInit(char *key, Item *item);
 
 /**
  * @brief Frees a HashMapItem, can optional deep free by freeing the Item as
@@ -352,6 +336,15 @@ extern void HashMapRemove(HashMap *map, char *key);
  * @param map The HashMap to print.
  */
 extern void HashMapPrint(HashMap *map);
+
+/**
+ * @brief Get a value directly from a lookup instead of receiving HashMapItem
+ * then unwrapping to Item, then unwarapping to value
+ * @param map The HashMap to look into.
+ * @param key The lookup key.
+ * @return The direct void * value.
+ */
+extern void *HashMapGetValueDirect(HashMap *map, char *key);
 
 /// @cond INTERNAL
 extern void DEBUGTestDefaultHashFunction();

@@ -9,48 +9,6 @@
 | [`HashMap`](#hashmap)         | The [HashMap](#hashmap) struct, contains a header for size, capacity, and resizing multiple. Has a list of entries and a pointer to a hashing function. |
 | [`HashMapItem`](#hashmapitem) | The [HashMap](#hashmap)[Item](#item) struct. Contains the key, the value, and a next field for collisions.                                              |
 
-## Macros
-
----
-
-### STANDARDLOOP_COLLECTIONS_H_MAJOR_VERSION
-
-```cpp
-#define STANDARDLOOP_COLLECTIONS_H_MAJOR_VERSION 0
-```
-
-Major version of this library.
-
----
-
-### STANDARDLOOP_COLLECTIONS_H_MINOR_VERSION
-
-```cpp
-#define STANDARDLOOP_COLLECTIONS_H_MINOR_VERSION 0
-```
-
-Minor version of this library.
-
----
-
-### STANDARDLOOP_COLLECTIONS_H_PATCH_VERSION
-
-```cpp
-#define STANDARDLOOP_COLLECTIONS_H_PATCH_VERSION 1
-```
-
-Patch version of this library.
-
----
-
-### STANDARDLOOP_COLLECTIONS_H_VERSION
-
-```cpp
-#define STANDARDLOOP_COLLECTIONS_H_VERSION "0.0.1"
-```
-
-Version of this library as a string.
-
 ## Typedefs
 
 ---
@@ -427,7 +385,7 @@ Frees the [List](#list) and all the Items in the [List](#list).
 ### HashMapItemInit
 
 ```cpp
-HashMapItem * HashMapItemInit(char * key, Item * value)
+HashMapItem * HashMapItemInit(char * key, Item * item)
 ```
 
 Initializes as [HashMapItem](#hashmapitem).
@@ -441,7 +399,7 @@ The Initialized [HashMapItem](#hashmapitem).
 | Parameter | Type              | Description                                    |
 | --------- | ----------------- | ---------------------------------------------- |
 | `key`     | `char *`          | The string key of [HashMapItem](#hashmapitem). |
-| `value`   | [`Item`](#item) * | The corresponding value to the hashed key.     |
+| `item`    | [`Item`](#item) * | The corresponding value to the hashed key.     |
 
 ---
 
@@ -599,6 +557,27 @@ Print a [HashMap](#hashmap).
 | Parameter | Type                    | Description                       |
 | --------- | ----------------------- | --------------------------------- |
 | `map`     | [`HashMap`](#hashmap) * | The [HashMap](#hashmap) to print. |
+
+---
+
+### HashMapGetValueDirect
+
+```cpp
+void * HashMapGetValueDirect(HashMap * map, char * key)
+```
+
+Get a value directly from a lookup instead of receiving [HashMapItem](#hashmapitem) then unwrapping to [Item](#item), then unwarapping to value.
+
+#### Returns
+
+The direct void * value.
+
+#### Parameters
+
+| Parameter | Type                    | Description                           |
+| --------- | ----------------------- | ------------------------------------- |
+| `map`     | [`HashMap`](#hashmap) * | The [HashMap](#hashmap) to look into. |
+| `key`     | `char *`                | The lookup key.                       |
 
 ## Item
 
@@ -829,11 +808,11 @@ The [HashMap](#hashmap)[Item](#item) struct. Contains the key, the value, and a 
 
 ### Public Attributes
 
-| Return                 | Name                | Description                                                         |
-| ---------------------- | ------------------- | ------------------------------------------------------------------- |
-| `char *`               | [`key`](#key)       | The key for a hashed value.                                         |
-| [`Item`](#item) *      | [`value`](#value-1) | the value hashed to the key.                                        |
-| `struct hashMapItem *` | [`next`](#next)     | If a collision occurs, the next field - linked list for collisions. |
+| Return                 | Name              | Description                                                         |
+| ---------------------- | ----------------- | ------------------------------------------------------------------- |
+| `char *`               | [`key`](#key)     | The key for a hashed value.                                         |
+| [`Item`](#item) *      | [`item`](#item-1) | the item hashed to the key.                                         |
+| `struct hashMapItem *` | [`next`](#next)   | If a collision occurs, the next field - linked list for collisions. |
 
 ---
 
@@ -847,15 +826,15 @@ The key for a hashed value.
 
 ---
 
-#### value
+#### item
 
 ```cpp
-Item * value
+Item * item
 ```
 
 Type: [`Item`](#item) *
 
-the value hashed to the key.
+the item hashed to the key.
 
 ---
 

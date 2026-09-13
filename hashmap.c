@@ -25,9 +25,9 @@ static HashMapItem **hashMapEntriesInit(u_int32_t);
 static inline bool isMapFull(HashMap *);
 static void hashMapResize(HashMap *map);
 
-extern HashMapItem *HashMapItemInit(char *key, Item *value)
+extern HashMapItem *HashMapItemInit(char *key, Item *item)
 {
-    if (key == NULL || value == NULL)
+    if (key == NULL || item == NULL)
     {
         return NULL;
     }
@@ -38,7 +38,7 @@ extern HashMapItem *HashMapItemInit(char *key, Item *value)
         return NULL;
     }
     hashmap_item->key = key;
-    hashmap_item->value = value;
+    hashmap_item->item = item;
     hashmap_item->next = NULL;
     return hashmap_item;
 }
@@ -50,7 +50,7 @@ extern void HashMapItemFree(HashMapItem *hashmap_item, bool deep)
         if (deep)
         {
             free(hashmap_item->key);
-            ItemFree(hashmap_item->value);
+            ItemFree(hashmap_item->item);
         }
         free(hashmap_item);
     }
@@ -58,9 +58,9 @@ extern void HashMapItemFree(HashMapItem *hashmap_item, bool deep)
 
 extern void HashMapItemPrint(HashMapItem *hashmap_item)
 {
-    if (hashmap_item != NULL && hashmap_item->value != NULL)
+    if (hashmap_item != NULL && hashmap_item->item != NULL)
     {
-        ItemPrint(hashmap_item->value);
+        ItemPrint(hashmap_item->item);
     }
 }
 
@@ -161,7 +161,7 @@ static inline bool isMapFull(HashMap *map)
 
 extern void HashMapInsert(HashMap *map, HashMapItem *entry)
 {
-    if (map == NULL || entry->key == NULL || entry->value == NULL)
+    if (map == NULL || entry->key == NULL || entry->item == NULL)
     {
         errno = EINVAL;
         return;
@@ -289,11 +289,11 @@ extern void *HashMapGetValueDirect(HashMap *map, char *key)
         return NULL;
     }
     HashMapItem *value_obj = HashMapGet(map, key);
-    if (value_obj == NULL || value_obj->value == NULL)
+    if (value_obj == NULL || value_obj->item == NULL)
     {
         return NULL;
     }
-    return value_obj->value;
+    return value_obj->item->value;
 }
 
 static void HashMapFreeEntryList(HashMapItem *entry, bool deep)
@@ -443,7 +443,7 @@ extern void HashMapPrint(HashMap *map)
 
 static void HashMapPrintEntry(HashMapItem *entry)
 {
-    if (entry == NULL || entry->value == NULL || entry->key == NULL)
+    if (entry == NULL || entry->item == NULL || entry->key == NULL)
     {
         errno = EINVAL;
         return;
@@ -451,7 +451,7 @@ static void HashMapPrintEntry(HashMapItem *entry)
     HashMapItem *iterator = entry;
     while (iterator != NULL)
     {
-        if (iterator->key != NULL && iterator->value != NULL)
+        if (iterator->key != NULL && iterator->item != NULL)
         {
             printf("\"%s\": ", iterator->key);
             HashMapItemPrint(iterator);
@@ -493,7 +493,7 @@ static void hashMapResize(HashMap *map)
         while (iterator != NULL)
         {
             HashMapItem *new_entry =
-                HashMapItemInit(iterator->key, iterator->value);
+                HashMapItemInit(iterator->key, iterator->item);
             u_int32_t new_index =
                 map->hashFunction(iterator->key, new_capacity);
             bool collision =
