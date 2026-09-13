@@ -32,3 +32,9 @@ WIP
 ### Hashmap
 
 WIP
+
+## Precommit
+
+This repo uses [prek](https://github.com/j178/prek).
+
+Please run `prek install`.
