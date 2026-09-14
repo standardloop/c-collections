@@ -8,30 +8,11 @@
 
 This repo contains my reusable datastructures all written in C released as a `dylib`
 
-### Item
+## Docs
 
-An `Item` is a wrapper around a `void` pointer.
+Docs are generated a first generated with `doxygen` as `xml` and then `moxygen` reads the xml to output markdown in the `docs/` folder.
 
-It looks like this
-
-```C
-typedef struct
-{
-    void *value;
-    ItemFreeFunction *freeFunction;
-    ItemPrintFunction *printFunction;
-} Item;
-```
-
-This `Item` is the foundation of these collections present.
-
-### List
-
-WIP
-
-### Hashmap
-
-WIP
+This repo uses reusable tasks from https://github.com/standardloop/taskfiles/
 
 ## Precommit
 
