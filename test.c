@@ -127,6 +127,8 @@ int main()
 {
     // TestItem();
     TestList();
+    sleep(1);
+    return EXIT_SUCCESS;
     testHashMapItem();
     testHashMap();
     sleep(1);

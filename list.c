@@ -257,12 +257,11 @@ extern void ListPrintInfo(List *list)
     {
         printf("list->size     = %d\n", list->size);
         printf("list->capacity = %d\n", list->capacity);
-        printf("percent full   = %.2f%%\n",
+        printf("percent full   = %.2f%%\n\n",
                (float)list->size * 100 / list->capacity);
     }
 }
 
-// this does not free the list itself
 extern char *ListToString(void *list)
 {
     if (list == NULL)
@@ -297,10 +296,12 @@ extern char *ListToString(void *list)
             chars_written++;
         }
         needs_comma = false;
-        // free(list_element);
+        free(list_element);
     }
 
     list_as_string[list_as_string_size - 2] = BRACKET_CLOSE_CHAR;
     list_as_string[list_as_string_size - 1] = NULL_CHAR;
+    // printf("[JOSH]: %s\n", list_as_string);
+    // printf("[JOSH]: %d\n", (int)strlen(list_as_string));
     return list_as_string;
 }

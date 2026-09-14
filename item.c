@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <errno.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -49,9 +50,12 @@ extern Item *ItemInit(void *value, ItemFreeFunction *freeFunction,
 
 extern void ItemFree(Item *item)
 {
-    if (item != NULL && item->value != NULL && item->freeFunction != NULL)
+    if (item != NULL)
     {
-        item->freeFunction(item->value);
+        if (item->value != NULL)
+        {
+            item->freeFunction(item->value);
+        }
         free(item);
     }
 }
@@ -65,9 +69,10 @@ extern char *DefaultToString(void *v)
 }
 
 // XD
+// actually, maybe we can use PutQuotesAroundString() here
 extern char *StringToString(void *s)
 {
-    return (char *)(s);
+    return (char *)QuickAllocatedString(s);
 }
 
 extern char *IntToString(void *num)
@@ -80,7 +85,8 @@ extern char *IntToString(void *num)
 
 extern char *ItemToString(Item *item)
 {
-    if (item == NULL || item->toStringFunction == NULL)
+    assert(item->toStringFunction != NULL);
+    if (item == NULL)
     {
         return NULL;
     }

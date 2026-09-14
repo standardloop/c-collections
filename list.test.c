@@ -6,6 +6,18 @@
 
 #include "./collections.h"
 
+static void testListInList()
+{
+
+    List *list_inner = ListInitDefault();
+    assert(list_inner != NULL);
+    List *list_outer = ListInitDefault();
+    assert(list_outer != NULL);
+    ListAddFirst(list_outer,
+                 ItemInit(list_inner, ListFree, ListPrint, ListToString));
+    ListFree(list_outer);
+}
+
 static void testListPop()
 {
     List *list = ListInitDefault();
@@ -32,20 +44,26 @@ static void testListPop()
     // ListPrintInfo(list);
     ListFree(list);
 }
+
 static void testListToStringListWithinListSimple()
 {
-    List *list_1 = ListInitDefault();
-    assert(list_1 != NULL);
-    List *list_holder = ListInitDefault();
-    assert(list_holder != NULL);
-    ListAddFirst(list_holder,
-                 ItemInit(list_1, ListFree, ListPrint, ListToString));
+    List *list_inner = ListInitDefault();
+    assert(list_inner != NULL);
+    List *list_outer = ListInitDefault();
+    assert(list_outer != NULL);
+    ListAddFirst(list_outer,
+                 ItemInit(list_inner, ListFree, ListPrint, ListToString));
+    assert(list_outer->size == 1);
+    // ListPrint(list_holder);
+    char *list_outer_as_string = ListToString(list_outer);
+    // printf("%s\n", list_outer_as_string);
 
-    char *nested = ListToString(list_holder);
-    printf("%s\n", nested);
+    assert(list_outer->size == 1);
+    assert(list_inner->size == 0);
+    assert(strcmp(list_outer_as_string, "[[]]") == 0);
 
-    ListFree(list_holder);
-    free(nested);
+    ListFree(list_outer);
+    free(list_outer_as_string);
 }
 
 static void testListToStringListWithinList()
@@ -64,7 +82,6 @@ static void testListToStringListWithinList()
                  ItemInit(list_1, ListFree, ListPrint, ListToString));
 
     char *nested = ListToString(list_holder);
-    printf("%s\n", nested);
 
     ListFree(list_holder);
     free(nested);
@@ -92,48 +109,7 @@ static void testListToString()
 
 extern void TestList()
 {
-    testListToStringListWithinListSimple();
-    return;
-
     testListToString();
-
-    List *list = ListInit(1, 2);
-    assert(list != NULL);
-    assert(list->capacity == 1);
-
-    char *test_string_1 = QuickAllocatedString("teststring1");
-    assert(test_string_1 != NULL);
-    Item *list_item_1 = ItemInit(test_string_1, free, ItemPrintString, NULL);
-    assert(list_item_1 != NULL);
-
-    ListAddFirst(list, list_item_1);
-    char *assert_value_str_1 = list->items[0]->value;
-    assert(strcmp(assert_value_str_1, "teststring1") == 0);
-    assert(list->size == 1);
-
-    char *test_string_2 = QuickAllocatedString("teststring2");
-    assert(test_string_2 != NULL);
-    Item *list_item_2 = ItemInit(test_string_2, free, ItemPrintString, NULL);
-    assert(list_item_2 != NULL);
-    ListAddFirst(list, list_item_2);
-    char *assert_value_str_2 = list->items[0]->value;
-    assert(strcmp(assert_value_str_2, "teststring2") == 0);
-
-    // ListPrint(list);
-    // ListPrintInfo(list);
-
-    int *test_int_1 = malloc(sizeof(int));
-    assert(test_int_1 != NULL);
-    *test_int_1 = 100;
-    Item *list_item_3 = ItemInit(test_int_1, free, ItemPrintInt, NULL);
-    assert(list_item_3 != NULL);
-    ListAddFirst(list, list_item_3);
-    int *assert_value = list->items[0]->value;
-    assert(*(int *)assert_value == 100);
-
-    ListFree(list);
-
+    testListInList();
     testListPop();
-    // ListPrint(list);
-    // ListPrintInfo(list);
 }
