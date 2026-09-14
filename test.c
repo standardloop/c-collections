@@ -6,10 +6,29 @@
 
 #include "./collections.h"
 
+static void testToString()
+{
+    HashMap *map = HashMapInitDefault();
+    HashMapInsert(map,
+                  HashMapItemInit(QuickAllocatedString("key"),
+                                  ItemInit(QuickAllocatedString("value"), free,
+                                           ItemPrintString, StringToString)));
+
+    List *list = ListInitDefault();
+    ListAddFirst(list,
+                 ItemInit(map, HashMapFree, HashMapPrint, HashMapToString));
+
+    char *test_string = ListToString(list);
+    assert(strcmp(test_string, "[{\"key\":\"value\"}]") == 0);
+    ListFree(list);
+    free(test_string);
+}
+
 int main()
 {
-    // TestItem();
-    // TestList();
+    testToString();
+    TestItem();
+    TestList();
     TestHashMap();
     sleep(1);
     return EXIT_SUCCESS;

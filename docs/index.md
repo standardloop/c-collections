@@ -567,16 +567,16 @@ The initialized [HashMap](#hashmap).
 ### HashMapFree
 
 ```cpp
-void HashMapFree(HashMap * map)
+void HashMapFree(void * map)
 ```
 
 Frees a [HashMap](#hashmap).
 
 #### Parameters
 
-| Parameter | Type                    | Description                                   |
-| --------- | ----------------------- | --------------------------------------------- |
-| `map`     | [`HashMap`](#hashmap) * | The [HashMap](#hashmap) that should be freed. |
+| Parameter | Type     | Description                                   |
+| --------- | -------- | --------------------------------------------- |
+| `map`     | `void *` | The [HashMap](#hashmap) that should be freed. |
 
 ---
 
@@ -617,16 +617,16 @@ Remove a [HashMapItem](#hashmapitem) from a [HashMap](#hashmap).
 ### HashMapPrint
 
 ```cpp
-void HashMapPrint(HashMap * map)
+void HashMapPrint(void * map)
 ```
 
 Print a [HashMap](#hashmap).
 
 #### Parameters
 
-| Parameter | Type                    | Description                       |
-| --------- | ----------------------- | --------------------------------- |
-| `map`     | [`HashMap`](#hashmap) * | The [HashMap](#hashmap) to print. |
+| Parameter | Type     | Description                       |
+| --------- | -------- | --------------------------------- |
+| `map`     | `void *` | The [HashMap](#hashmap) to print. |
 
 ---
 

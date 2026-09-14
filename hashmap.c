@@ -355,14 +355,15 @@ static void HashMapFreeEntries(HashMapItem **entries, u_int32_t size, bool deep,
     }
 }
 
-extern void HashMapFree(HashMap *map)
+extern void HashMapFree(void *map)
 {
     if (map != NULL)
     {
-        if (map->entries != NULL)
+        if (((HashMap *)map)->entries != NULL)
         {
-            HashMapFreeEntries(map->entries, map->capacity, true, true);
-            map->entries = NULL;
+            HashMapFreeEntries(((HashMap *)map)->entries,
+                               ((HashMap *)map)->capacity, true, true);
+            ((HashMap *)map)->entries = NULL;
         }
         free(map);
     }
@@ -416,7 +417,7 @@ extern void HashMapRemove(HashMap *map, char *key)
     }
 }
 
-extern void HashMapPrint(HashMap *map)
+extern void HashMapPrint(void *map)
 {
     if (map == NULL)
     {
@@ -425,13 +426,13 @@ extern void HashMapPrint(HashMap *map)
     }
     printf("{");
     u_int32_t entry_count = 0;
-    for (u_int32_t i = 0; i < map->capacity; i++)
+    for (u_int32_t i = 0; i < ((HashMap *)map)->capacity; i++)
     {
-        HashMapItem *entry = map->entries[i];
+        HashMapItem *entry = ((HashMap *)map)->entries[i];
         if (entry != NULL)
         {
             HashMapPrintEntry(entry);
-            if (entry_count < map->size - 1)
+            if (entry_count < ((HashMap *)map)->size - 1)
             {
                 printf(", ");
             }

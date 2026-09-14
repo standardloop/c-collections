@@ -351,7 +351,7 @@ extern HashMap *HashMapInitDefault(void);
  * @brief Frees a HashMap
  * @param map The HashMap that should be freed.
  */
-extern void HashMapFree(HashMap *map);
+extern void HashMapFree(void *map);
 
 /**
  * @brief Insert a HashMapItem into a HashMap
@@ -371,7 +371,7 @@ extern void HashMapRemove(HashMap *map, char *key);
  * @brief Print a HashMap
  * @param map The HashMap to print.
  */
-extern void HashMapPrint(HashMap *map);
+extern void HashMapPrint(void *map);
 
 /**
  * @brief Get a value directly from a lookup instead of receiving HashMapItem
