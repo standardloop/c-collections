@@ -44,6 +44,14 @@ A function that will be a part of the [Item](#item) struct, it determines how th
 
 ---
 
+### ItemValueReplicateFunction
+
+```cpp
+using ItemValueReplicateFunction = void *
+```
+
+---
+
 ### HashFunction
 
 ```cpp
@@ -59,23 +67,17 @@ A Function that takes key and a capacity and hashes the key to return an index.
 ### ItemPrintString
 
 ```cpp
-void ItemPrintString(void * item)
+void ItemPrintString(void * value)
 ```
 
 Prints a string value.
-
-#### Parameters
-
-| Parameter | Type     | Description              |
-| --------- | -------- | ------------------------ |
-| `item`    | `void *` | The item value to print. |
 
 ---
 
 ### ItemPrintInt
 
 ```cpp
-void ItemPrintInt(void * item)
+void ItemPrintInt(void * value)
 ```
 
 ---
@@ -173,6 +175,14 @@ char * StringToString(void * s)
 
 ```cpp
 char * IntToString(void * num)
+```
+
+---
+
+### DefaultReplicate
+
+```cpp
+void * DefaultReplicate(void * v)
 ```
 
 ---
@@ -949,11 +959,12 @@ struct ItemValueOperations
 
 ### Public Attributes
 
-| Return                                                      | Name                                    | Description                    |
-| ----------------------------------------------------------- | --------------------------------------- | ------------------------------ |
-| [`ItemValueFreeFunction`](#itemvaluefreefunction) *         | [`freeFunction`](#freefunction)         | A function to free the value.  |
-| [`ItemValuePrintFunction`](#itemvalueprintfunction) *       | [`printFunction`](#printfunction)       | A function to print the value. |
-| [`ItemValueToStringFunction`](#itemvaluetostringfunction) * | [`toStringFunction`](#tostringfunction) | A function to turn the value.  |
+| Return                                                      | Name                                      | Description                                   |
+| ----------------------------------------------------------- | ----------------------------------------- | --------------------------------------------- |
+| [`ItemValueFreeFunction`](#itemvaluefreefunction) *         | [`freeFunction`](#freefunction)           | A function to free the value.                 |
+| [`ItemValuePrintFunction`](#itemvalueprintfunction) *       | [`printFunction`](#printfunction)         | A function to print the value.                |
+| [`ItemValueToStringFunction`](#itemvaluetostringfunction) * | [`toStringFunction`](#tostringfunction)   | A function to turn the value.                 |
+| `ItemValueReplicateFunction *`                              | [`replicateFunction`](#replicatefunction) | A function deep replicate a value of an item. |
 
 ---
 
@@ -990,3 +1001,13 @@ ItemValueToStringFunction * toStringFunction
 Type: [`ItemValueToStringFunction`](#itemvaluetostringfunction) *
 
 A function to turn the value.
+
+---
+
+#### replicateFunction
+
+```cpp
+ItemValueReplicateFunction * replicateFunction
+```
+
+A function deep replicate a value of an item.

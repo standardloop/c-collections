@@ -27,10 +27,16 @@ extern Item *ItemInit(void *value, ItemValueOperations *value_ops)
         value_ops->printFunction = NULL;
         // I guess this isn't mandatory?
     }
+
     if (value_ops->toStringFunction == NULL)
     {
         value_ops->toStringFunction = DefaultToString;
     }
+    if (value_ops->replicateFunction == NULL)
+    {
+        value_ops->replicateFunction = DefaultReplicate;
+    }
+
     this->value_ops = value_ops;
     return this;
 }
@@ -45,6 +51,12 @@ extern void ItemFree(Item *item)
         }
         free(item);
     }
+}
+
+extern void *DefaultReplicate(void *v)
+{
+    (void)v; // should be NULL
+    return NULL;
 }
 
 extern char *DefaultToString(void *v)
@@ -89,18 +101,18 @@ extern void ItemPrint(Item *item)
     }
 }
 
-extern void ItemPrintString(void *item)
+extern void ItemPrintString(void *value)
 {
-    if (item != NULL)
+    if (value != NULL)
     {
-        printf("\"%s\"", (char *)item);
+        printf("\"%s\"", (char *)value);
     }
 }
 
-extern void ItemPrintInt(void *item)
+extern void ItemPrintInt(void *value)
 {
-    if (item != NULL)
+    if (value != NULL)
     {
-        printf("%s\n", (char *)item);
+        printf("%d\n", *((int *)value));
     }
 }

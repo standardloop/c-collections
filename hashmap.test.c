@@ -35,7 +35,7 @@ static void testHashMapToString()
                                                 &ItemValueStringOperations)));
 
     char *as_string = HashMapToString(map);
-    printf("%s\n", as_string);
+    // printf("%s\n", as_string);
     free(as_string);
     HashMapFree(map);
 }
@@ -43,7 +43,7 @@ static void testHashMapToString()
 extern void TestHashMap()
 {
     testHashMapToString();
-    return;
+
     testHashMapItem();
 
     // setup first key

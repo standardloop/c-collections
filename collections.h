@@ -31,6 +31,8 @@ typedef void(ItemValuePrintFunction)(void *);
  */
 typedef char *(ItemValueToStringFunction)(void *);
 
+typedef void *(ItemValueReplicateFunction)(void *);
+
 typedef struct
 {
     /** A function to free the value. */
@@ -39,6 +41,8 @@ typedef struct
     ItemValuePrintFunction *printFunction;
     /** A function to turn the value. */
     ItemValueToStringFunction *toStringFunction;
+    /** A function deep replicate a value of an item. */
+    ItemValueReplicateFunction *replicateFunction;
 } ItemValueOperations;
 
 extern ItemValueOperations ItemValueStringOperations;
@@ -61,9 +65,9 @@ typedef struct
  * @brief Prints a string value.
  * @param item The item value to print.
  */
-extern void ItemPrintString(void *item);
+extern void ItemPrintString(void *value);
 
-extern void ItemPrintInt(void *item);
+extern void ItemPrintInt(void *value);
 
 /**
  * @brief Initializes the Item.
@@ -97,6 +101,7 @@ extern char *ItemToString(Item *item);
 extern char *DefaultToString(void *v);
 extern char *StringToString(void *s);
 extern char *IntToString(void *num);
+extern void *DefaultReplicate(void *v);
 
 /// @cond INTERNAL
 extern void TestItem();
