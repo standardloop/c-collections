@@ -33,6 +33,16 @@ A function that will be a part of the [Item](#item) struct, it determines how th
 
 ---
 
+### ItemToStringFunction
+
+```cpp
+using ItemToStringFunction = char *
+```
+
+A function that will be a part of the [Item](#item) struct, it determines how the [Item](#item) can be converted to a string.
+
+---
+
 ### HashFunction
 
 ```cpp
@@ -61,10 +71,18 @@ Prints a string value.
 
 ---
 
+### ItemPrintInt
+
+```cpp
+void ItemPrintInt(void * item)
+```
+
+---
+
 ### ItemInit
 
 ```cpp
-Item * ItemInit(void * value, ItemFreeFunction * freeFunction, ItemPrintFunction * printFunction)
+Item * ItemInit(void * value, ItemFreeFunction * freeFunction, ItemPrintFunction * printFunction, ItemToStringFunction * toStringFunction)
 ```
 
 Initializes the [Item](#item).
@@ -112,6 +130,50 @@ Prints an [Item](#item).
 | Parameter | Type              | Description                 |
 | --------- | ----------------- | --------------------------- |
 | `item`    | [`Item`](#item) * | The [Item](#item) to print. |
+
+---
+
+### ItemToString
+
+```cpp
+char * ItemToString(Item * item)
+```
+
+Converts and [Item](#item) to a String, uses the [ItemToStringFunction](#itemtostringfunction).
+
+#### Returns
+
+a string representation of the item.
+
+#### Parameters
+
+| Parameter | Type              | Description                             |
+| --------- | ----------------- | --------------------------------------- |
+| `item`    | [`Item`](#item) * | The [Item](#item) to convert to string. |
+
+---
+
+### DefaultToString
+
+```cpp
+char * DefaultToString(void * v)
+```
+
+---
+
+### StringToString
+
+```cpp
+char * StringToString(void * s)
+```
+
+---
+
+### IntToString
+
+```cpp
+char * IntToString(void * num)
+```
 
 ---
 
@@ -366,6 +428,14 @@ Print info of the [List](#list) (current size, etc...).
 
 ---
 
+### ListToString
+
+```cpp
+char * ListToString(List * list)
+```
+
+---
+
 ### ListFree
 
 ```cpp
@@ -593,11 +663,12 @@ The [Item](#item) struct, contains a value of any kind, and a function to free t
 
 ### Public Attributes
 
-| Return                                      | Name                              | Description                    |
-| ------------------------------------------- | --------------------------------- | ------------------------------ |
-| `void *`                                    | [`value`](#value)                 | The value itself.              |
-| [`ItemFreeFunction`](#itemfreefunction) *   | [`freeFunction`](#freefunction)   | A function to free the value.  |
-| [`ItemPrintFunction`](#itemprintfunction) * | [`printFunction`](#printfunction) | A function to print the value. |
+| Return                                            | Name                                    | Description                    |
+| ------------------------------------------------- | --------------------------------------- | ------------------------------ |
+| `void *`                                          | [`value`](#value)                       | The value itself.              |
+| [`ItemFreeFunction`](#itemfreefunction) *         | [`freeFunction`](#freefunction)         | A function to free the value.  |
+| [`ItemPrintFunction`](#itemprintfunction) *       | [`printFunction`](#printfunction)       | A function to print the value. |
+| [`ItemToStringFunction`](#itemtostringfunction) * | [`toStringFunction`](#tostringfunction) | A function to turn the value.  |
 
 ---
 
@@ -632,6 +703,18 @@ ItemPrintFunction * printFunction
 Type: [`ItemPrintFunction`](#itemprintfunction) *
 
 A function to print the value.
+
+---
+
+#### toStringFunction
+
+```cpp
+ItemToStringFunction * toStringFunction
+```
+
+Type: [`ItemToStringFunction`](#itemtostringfunction) *
+
+A function to turn the value.
 
 ## List
 

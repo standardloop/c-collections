@@ -261,3 +261,46 @@ extern void ListPrintInfo(List *list)
                (float)list->size * 100 / list->capacity);
     }
 }
+
+// this does not free the list itself
+extern char *ListToString(List *list)
+{
+    if (list == NULL)
+    {
+        return NULL;
+    }
+    size_t list_as_string_size = 3; // "[]\0"
+    char *list_as_string = malloc(sizeof(char) * list_as_string_size);
+    list_as_string[0] = BRACKET_OPEN_CHAR;
+    list_as_string[1] = NULL_CHAR;
+
+    size_t chars_written = 2 - 1;
+
+    bool needs_comma = false;
+    for (u_int64_t i = 0; i < list->size; i++)
+    {
+        char *list_element = ItemToString(list->items[i]);
+        size_t list_element_len = strlen(list_element);
+        if (i < list->size - 1)
+        {
+            needs_comma = true;
+        }
+        list_as_string_size += list_element_len;
+        list_as_string_size += needs_comma;
+        list_as_string = realloc(list_as_string, list_as_string_size);
+
+        CopyStringCanary(list_as_string, list_element, chars_written);
+        chars_written += list_element_len;
+        if (needs_comma)
+        {
+            CopyStringCanary(list_as_string, ",", chars_written);
+            chars_written++;
+        }
+        needs_comma = false;
+        // free(list_element);
+    }
+
+    list_as_string[list_as_string_size - 2] = BRACKET_CLOSE_CHAR;
+    list_as_string[list_as_string_size - 1] = NULL_CHAR;
+    return list_as_string;
+}

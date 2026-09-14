@@ -26,6 +26,12 @@ typedef void(ItemFreeFunction)(void *);
 typedef void(ItemPrintFunction)(void *);
 
 /**
+ * @brief A function that will be a part of the Item struct, it determines how
+ * the Item can be converted to a string.
+ */
+typedef char *(ItemToStringFunction)(void *);
+
+/**
  * @brief The Item struct, contains a value of any kind, and a function to free
  * the value and print the value.
  */
@@ -37,6 +43,8 @@ typedef struct
     ItemFreeFunction *freeFunction;
     /** A function to print the value. */
     ItemPrintFunction *printFunction;
+    /** A function to turn the value. */
+    ItemToStringFunction *toStringFunction;
 } Item;
 
 /**
@@ -44,6 +52,8 @@ typedef struct
  * @param item The item value to print.
  */
 extern void ItemPrintString(void *item);
+
+extern void ItemPrintInt(void *item);
 
 /**
  * @brief Initializes the Item.
@@ -55,7 +65,8 @@ extern void ItemPrintString(void *item);
  * @return The initialized Item
  */
 extern Item *ItemInit(void *value, ItemFreeFunction *freeFunction,
-                      ItemPrintFunction *printFunction);
+                      ItemPrintFunction *printFunction,
+                      ItemToStringFunction *toStringFunction);
 
 /**
  * @brief Frees an Item
@@ -68,6 +79,23 @@ extern void ItemFree(Item *item);
  * @param item The Item to print.
  */
 extern void ItemPrint(Item *item);
+
+/**
+ * @brief Converts and Item to a String, uses the ItemToStringFunction.
+ * @param item The Item to convert to string.
+ * @return a string representation of the item.
+ */
+extern char *ItemToString(Item *item);
+
+// WIP
+extern char *DefaultToString(void *v);
+extern char *StringToString(void *s);
+extern char *IntToString(void *num);
+
+/// @cond INTERNAL
+extern void TestItem();
+/// @endcond
+
 // ————————— ITEM END —————————
 
 // ————————— LIST START —————————
@@ -196,11 +224,18 @@ extern void ListPrint(List *list);
  */
 extern void ListPrintInfo(List *list);
 
+// WIP
+extern char *ListToString(List *list);
+
 /**
  * @brief Frees the List and all the Items in the List
  * @param list The List to free.
  */
 extern void ListFree(List *list);
+
+/// @cond INTERNAL
+extern void TestList();
+/// @endcond
 // ————————— LIST END —————————
 
 // ————————— HASHMAP START —————————

@@ -6,97 +6,12 @@
 
 #include "./collections.h"
 
-static void testListPop();
-
 void printInt(void *value)
 {
     if (value != NULL)
     {
         printf("%d", *(int *)value);
     }
-}
-
-static void testItem()
-{
-    char *test_string_1 = QuickAllocatedString("teststring1");
-    assert(test_string_1 != NULL);
-    Item *list_item_1 = ItemInit(test_string_1, free, ItemPrintString);
-    assert(list_item_1 != NULL);
-    ItemFree(list_item_1);
-}
-
-static void testList()
-{
-    testListPop();
-
-    return;
-    List *list = ListInit(1, 2);
-    assert(list != NULL);
-    assert(list->capacity == 1);
-
-    char *test_string_1 = QuickAllocatedString("teststring1");
-    assert(test_string_1 != NULL);
-    Item *list_item_1 = ItemInit(test_string_1, free, ItemPrintString);
-    assert(list_item_1 != NULL);
-
-    ListAddFirst(list, list_item_1);
-    char *assert_value_str_1 = list->items[0]->value;
-    assert(strcmp(assert_value_str_1, "teststring1") == 0);
-    assert(list->size == 1);
-
-    char *test_string_2 = QuickAllocatedString("teststring2");
-    assert(test_string_2 != NULL);
-    Item *list_item_2 = ItemInit(test_string_2, free, ItemPrintString);
-    assert(list_item_2 != NULL);
-    ListAddFirst(list, list_item_2);
-    char *assert_value_str_2 = list->items[0]->value;
-    assert(strcmp(assert_value_str_2, "teststring2") == 0);
-
-    // ListPrint(list);
-    // ListPrintInfo(list);
-
-    int *test_int_1 = malloc(sizeof(int));
-    assert(test_int_1 != NULL);
-    *test_int_1 = 100;
-    Item *list_item_3 = ItemInit(test_int_1, free, printInt);
-    assert(list_item_3 != NULL);
-    ListAddFirst(list, list_item_3);
-    int *assert_value = list->items[0]->value;
-    assert(*(int *)assert_value == 100);
-
-    ListFree(list);
-
-    testListPop();
-    // ListPrint(list);
-    // ListPrintInfo(list);
-}
-
-static void testListPop()
-{
-
-    List *list = ListInitDefault();
-    assert(list != NULL);
-
-    char *test_string_1 = QuickAllocatedString("teststring1");
-    assert(test_string_1 != NULL);
-    Item *list_item_1 = ItemInit(test_string_1, free, ItemPrintString);
-    assert(list_item_1 != NULL);
-
-    ListAddFirst(list, list_item_1);
-    char *assert_value_str_1 = list->items[0]->value;
-    assert(strcmp(assert_value_str_1, "teststring1") == 0);
-    assert(list->size == 1);
-
-    Item *list_item_1_diff_ref = ListPopFirst(list);
-    assert(list_item_1_diff_ref != NULL);
-    assert(list->size == 0);
-
-    assert(strcmp(list_item_1_diff_ref->value, "teststring1") == 0);
-
-    ItemFree(list_item_1_diff_ref);
-    // ListPrint(list);
-    // ListPrintInfo(list);
-    ListFree(list);
 }
 
 static void testHashMapItem()
@@ -108,7 +23,7 @@ static void testHashMapItem()
     assert(test_int_1 != NULL);
     *test_int_1 = 100;
     assert(*test_int_1 == 100);
-    Item *test_item_1 = ItemInit(test_int_1, free, printInt);
+    Item *test_item_1 = ItemInit(test_int_1, free, printInt, NULL);
     assert(test_item_1 != NULL);
     assert(*(int *)test_item_1->value == 100);
 
@@ -131,7 +46,7 @@ static void testHashMap()
     assert(test_int_1 != NULL);
     *test_int_1 = 100;
     assert(*test_int_1 == 100);
-    Item *test_item_1 = ItemInit(test_int_1, free, printInt);
+    Item *test_item_1 = ItemInit(test_int_1, free, printInt, NULL);
     assert(test_item_1 != NULL);
     assert(*(int *)test_item_1->value == 100);
 
@@ -163,7 +78,7 @@ static void testHashMap()
     assert(*test_int_2 == 200);
 
     //// item 2
-    Item *test_item_2 = ItemInit(test_int_2, free, printInt);
+    Item *test_item_2 = ItemInit(test_int_2, free, printInt, NULL);
     assert(test_item_2 != NULL);
     assert(*(int *)test_item_2->value == 200);
 
@@ -190,11 +105,11 @@ static void testHashMap()
     HashMapInsert(collision_test,
                   HashMapItemInit(QuickAllocatedString("one"),
                                   ItemInit(QuickAllocatedString("one-value"),
-                                           free, ItemPrintString)));
+                                           free, ItemPrintString, NULL)));
     HashMapInsert(collision_test,
                   HashMapItemInit(QuickAllocatedString("two"),
                                   ItemInit(QuickAllocatedString("two-value"),
-                                           free, ItemPrintString)));
+                                           free, ItemPrintString, NULL)));
 
     assert(collision_test->collision_count == 1);
     HashMapItem *retrieved_collision_1 = HashMapGet(collision_test, "one");
@@ -210,8 +125,8 @@ static void testHashMap()
 
 int main()
 {
-    testItem();
-    testList();
+    // TestItem();
+    TestList();
     testHashMapItem();
     testHashMap();
     sleep(1);

@@ -9,7 +9,8 @@
 #include "./collections.h"
 
 extern Item *ItemInit(void *value, ItemFreeFunction *freeFunction,
-                      ItemPrintFunction *printFunction)
+                      ItemPrintFunction *printFunction,
+                      ItemToStringFunction *toStringFunction)
 {
     if (value == NULL)
     {
@@ -34,6 +35,15 @@ extern Item *ItemInit(void *value, ItemFreeFunction *freeFunction,
     {
         this->printFunction = printFunction;
     }
+    if (toStringFunction == NULL)
+    {
+        this->toStringFunction = DefaultToString;
+    }
+    else
+    {
+        this->toStringFunction = toStringFunction;
+    }
+
     return this;
 }
 
@@ -44,6 +54,37 @@ extern void ItemFree(Item *item)
         item->freeFunction(item->value);
         free(item);
     }
+}
+
+extern char *DefaultToString(void *v)
+{
+    // v
+    (void)v; // should be NULL
+    char *null_str = QuickAllocatedString("null");
+    return null_str;
+}
+
+// XD
+extern char *StringToString(void *s)
+{
+    return (char *)(s);
+}
+
+extern char *IntToString(void *num)
+{
+    int length = snprintf(NULL, 0, "%d", *(int *)num);
+    char *str = malloc(length + 1);
+    snprintf(str, length + 1, "%d", *(int *)num);
+    return str;
+}
+
+extern char *ItemToString(Item *item)
+{
+    if (item == NULL || item->toStringFunction == NULL)
+    {
+        return NULL;
+    }
+    return item->toStringFunction(item->value);
 }
 
 extern void ItemPrint(Item *item)
@@ -62,10 +103,10 @@ extern void ItemPrintString(void *item)
     }
 }
 
-// extern void ItemPrintInt(void *item)
-// {
-//     if (item != NULL)
-//     {
-//         printf("%s\n", (char *)item);
-//     }
-// }
+extern void ItemPrintInt(void *item)
+{
+    if (item != NULL)
+    {
+        printf("%s\n", (char *)item);
+    }
+}
