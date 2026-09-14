@@ -399,16 +399,16 @@ The [Item](#item) from the [List](#list).
 ### ListPrint
 
 ```cpp
-void ListPrint(List * list)
+void ListPrint(void * list)
 ```
 
 Print the [List](#list).
 
 #### Parameters
 
-| Parameter | Type              | Description                 |
-| --------- | ----------------- | --------------------------- |
-| `list`    | [`List`](#list) * | The [List](#list) to print. |
+| Parameter | Type     | Description                 |
+| --------- | -------- | --------------------------- |
+| `list`    | `void *` | The [List](#list) to print. |
 
 ---
 
@@ -431,7 +431,7 @@ Print info of the [List](#list) (current size, etc...).
 ### ListToString
 
 ```cpp
-char * ListToString(List * list)
+char * ListToString(void * list)
 ```
 
 ---
@@ -439,16 +439,16 @@ char * ListToString(List * list)
 ### ListFree
 
 ```cpp
-void ListFree(List * list)
+void ListFree(void * list)
 ```
 
 Frees the [List](#list) and all the Items in the [List](#list).
 
 #### Parameters
 
-| Parameter | Type              | Description                |
-| --------- | ----------------- | -------------------------- |
-| `list`    | [`List`](#list) * | The [List](#list) to free. |
+| Parameter | Type     | Description                |
+| --------- | -------- | -------------------------- |
+| `list`    | `void *` | The [List](#list) to free. |
 
 ---
 

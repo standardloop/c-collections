@@ -216,7 +216,7 @@ extern Item *ListPopFirst(List *list);
  * @brief Print the List.
  * @param list The List to print.
  */
-extern void ListPrint(List *list);
+extern void ListPrint(void *list); // void * to fit ItemPrintFunction definition
 
 /**
  * @brief Print info of the List (current size, etc...).
@@ -225,13 +225,14 @@ extern void ListPrint(List *list);
 extern void ListPrintInfo(List *list);
 
 // WIP
-extern char *ListToString(List *list);
+extern char *
+ListToString(void *list); // void * to fit ItemToStringFunction definition
 
 /**
  * @brief Frees the List and all the Items in the List
  * @param list The List to free.
  */
-extern void ListFree(List *list);
+extern void ListFree(void *list); // void * to fit ItemFreeFunction definition
 
 /// @cond INTERNAL
 extern void TestList();

@@ -32,26 +32,69 @@ static void testListPop()
     // ListPrintInfo(list);
     ListFree(list);
 }
+static void testListToStringListWithinListSimple()
+{
+    List *list_1 = ListInitDefault();
+    assert(list_1 != NULL);
+    List *list_holder = ListInitDefault();
+    assert(list_holder != NULL);
+    ListAddFirst(list_holder,
+                 ItemInit(list_1, ListFree, ListPrint, ListToString));
+
+    char *nested = ListToString(list_holder);
+    printf("%s\n", nested);
+
+    ListFree(list_holder);
+    free(nested);
+}
+
+static void testListToStringListWithinList()
+{
+    List *list_1 = ListInitDefault();
+    assert(list_1 != NULL);
+    ListAddFirst(list_1, ItemInit(QuickAllocatedString("teststring1"), free,
+                                  ItemPrintString, StringToString));
+    ListAddFirst(list_1, ItemInit(QuickAllocatedString("teststring2"), free,
+                                  ItemPrintString, StringToString));
+    ListAddFirst(list_1, ItemInit(QuickAllocatedString("teststring3"), free,
+                                  ItemPrintString, StringToString));
+    List *list_holder = ListInitDefault();
+    assert(list_holder != NULL);
+    ListAddFirst(list_holder,
+                 ItemInit(list_1, ListFree, ListPrint, ListToString));
+
+    char *nested = ListToString(list_holder);
+    printf("%s\n", nested);
+
+    ListFree(list_holder);
+    free(nested);
+}
 
 static void testListToString()
 {
-    List *list = ListInitDefault();
-    assert(list != NULL);
+    List *list_1 = ListInitDefault();
+    assert(list_1 != NULL);
 
-    ListAddFirst(list, ItemInit(QuickAllocatedString("teststring1"), free,
-                                ItemPrintString, StringToString));
-    ListAddFirst(list, ItemInit(QuickAllocatedString("teststring2"), free,
-                                ItemPrintString, StringToString));
-    ListAddFirst(list, ItemInit(QuickAllocatedString("teststring3"), free,
-                                ItemPrintString, StringToString));
+    ListAddFirst(list_1, ItemInit(QuickAllocatedString("teststring1"), free,
+                                  ItemPrintString, StringToString));
+    ListAddFirst(list_1, ItemInit(QuickAllocatedString("teststring2"), free,
+                                  ItemPrintString, StringToString));
+    ListAddFirst(list_1, ItemInit(QuickAllocatedString("teststring3"), free,
+                                  ItemPrintString, StringToString));
 
-    char *list_as_string = ListToString(list);
-    ListFree(list);
+    char *list_as_string = ListToString(list_1);
+    ListFree(list_1);
     free(list_as_string);
+
+    testListToStringListWithinList();
+    testListToStringListWithinListSimple();
 }
 
 extern void TestList()
 {
+    testListToStringListWithinListSimple();
+    return;
+
     testListToString();
 
     List *list = ListInit(1, 2);

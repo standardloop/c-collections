@@ -135,27 +135,27 @@ static void ListFreeItems(Item **list, u_int32_t size, bool deep)
     }
 }
 
-extern void ListFree(List *list)
+extern void ListFree(void *list)
 {
     if (list != NULL)
     {
-        if (list->items != NULL)
+        if (((List *)list)->items != NULL)
         {
-            ListFreeItems(list->items, list->size, true);
+            ListFreeItems(((List *)list)->items, ((List *)list)->size, true);
         }
         free(list);
     }
 }
 
-extern void ListPrint(List *list)
+extern void ListPrint(void *list)
 {
     if (list != NULL)
     {
         printf("[");
-        for (u_int32_t i = 0; i < list->size; i++)
+        for (u_int32_t i = 0; i < ((List *)list)->size; i++)
         {
-            ItemPrint(list->items[i]);
-            if (i != list->size - 1)
+            ItemPrint(((List *)list)->items[i]);
+            if (i != ((List *)list)->size - 1)
             {
                 printf(", ");
             }
@@ -263,7 +263,7 @@ extern void ListPrintInfo(List *list)
 }
 
 // this does not free the list itself
-extern char *ListToString(List *list)
+extern char *ListToString(void *list)
 {
     if (list == NULL)
     {
@@ -277,11 +277,11 @@ extern char *ListToString(List *list)
     size_t chars_written = 2 - 1;
 
     bool needs_comma = false;
-    for (u_int64_t i = 0; i < list->size; i++)
+    for (u_int64_t i = 0; i < ((List *)list)->size; i++)
     {
-        char *list_element = ItemToString(list->items[i]);
+        char *list_element = ItemToString(((List *)list)->items[i]);
         size_t list_element_len = strlen(list_element);
-        if (i < list->size - 1)
+        if (i < ((List *)list)->size - 1)
         {
             needs_comma = true;
         }
