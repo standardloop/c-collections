@@ -15,7 +15,7 @@ static void testHashMapItem()
     assert(test_int_1 != NULL);
     *test_int_1 = 100;
     assert(*test_int_1 == 100);
-    Item *test_item_1 = ItemInit(test_int_1, free, ItemPrintInt, NULL);
+    Item *test_item_1 = ItemInit(test_int_1, &ItemValueIntOperations);
     assert(test_item_1 != NULL);
     assert(*(int *)test_item_1->value == 100);
 
@@ -30,10 +30,9 @@ static void testHashMapItem()
 static void testHashMapToString()
 {
     HashMap *map = HashMapInitDefault();
-    HashMapInsert(map,
-                  HashMapItemInit(QuickAllocatedString("key"),
-                                  ItemInit(QuickAllocatedString("value"), free,
-                                           ItemPrintString, StringToString)));
+    HashMapInsert(map, HashMapItemInit(QuickAllocatedString("key"),
+                                       ItemInit(QuickAllocatedString("value"),
+                                                &ItemValueStringOperations)));
 
     char *as_string = HashMapToString(map);
     printf("%s\n", as_string);
@@ -56,7 +55,7 @@ extern void TestHashMap()
     assert(test_int_1 != NULL);
     *test_int_1 = 100;
     assert(*test_int_1 == 100);
-    Item *test_item_1 = ItemInit(test_int_1, free, ItemPrintInt, NULL);
+    Item *test_item_1 = ItemInit(test_int_1, &ItemValueIntOperations);
     assert(test_item_1 != NULL);
     assert(*(int *)test_item_1->value == 100);
 
@@ -88,7 +87,7 @@ extern void TestHashMap()
     assert(*test_int_2 == 200);
 
     //// item 2
-    Item *test_item_2 = ItemInit(test_int_2, free, ItemPrintInt, NULL);
+    Item *test_item_2 = ItemInit(test_int_2, &ItemValueIntOperations);
     assert(test_item_2 != NULL);
     assert(*(int *)test_item_2->value == 200);
 
@@ -115,11 +114,11 @@ extern void TestHashMap()
     HashMapInsert(collision_test,
                   HashMapItemInit(QuickAllocatedString("one"),
                                   ItemInit(QuickAllocatedString("one-value"),
-                                           free, ItemPrintString, NULL)));
+                                           &ItemValueStringOperations)));
     HashMapInsert(collision_test,
                   HashMapItemInit(QuickAllocatedString("two"),
                                   ItemInit(QuickAllocatedString("two-value"),
-                                           free, ItemPrintString, NULL)));
+                                           &ItemValueStringOperations)));
 
     assert(collision_test->collision_count == 1);
     HashMapItem *retrieved_collision_1 = HashMapGet(collision_test, "one");

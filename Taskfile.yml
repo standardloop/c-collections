@@ -12,10 +12,11 @@ vars:
     - item.c
     - list.c
     - hashmap.c
+    - operations.c
   TEST_SOURCE_FILES:
     - item.test.c
     - list.test.c
-    - hashmap.test.c 
+    - hashmap.test.c
   DYLIB_NAME: libstandardloop-collections.dylib
   DYLIB_HEADER: collections.h
   DYN_LIBS_USED: "-lstandardloop-util"

@@ -17,19 +17,34 @@
  * @brief A function that will be a part of the Item struct, it determines how
  * the Item will be freed.
  */
-typedef void(ItemFreeFunction)(void *);
+typedef void(ItemValueFreeFunction)(void *);
 
 /**
  * @brief A function that will be a part of the Item struct, it determines how
  * the Item will be printed, mainly for debugging.
  */
-typedef void(ItemPrintFunction)(void *);
+typedef void(ItemValuePrintFunction)(void *);
 
 /**
  * @brief A function that will be a part of the Item struct, it determines how
  * the Item can be converted to a string.
  */
-typedef char *(ItemToStringFunction)(void *);
+typedef char *(ItemValueToStringFunction)(void *);
+
+typedef struct
+{
+    /** A function to free the value. */
+    ItemValueFreeFunction *freeFunction;
+    /** A function to print the value. */
+    ItemValuePrintFunction *printFunction;
+    /** A function to turn the value. */
+    ItemValueToStringFunction *toStringFunction;
+} ItemValueOperations;
+
+extern ItemValueOperations ItemValueStringOperations;
+extern ItemValueOperations ItemValueIntOperations;
+extern ItemValueOperations ItemValueListOperations;
+extern ItemValueOperations ItemValueHashMapOperations;
 
 /**
  * @brief The Item struct, contains a value of any kind, and a function to free
@@ -39,12 +54,7 @@ typedef struct
 {
     /** The value itself. */
     void *value;
-    /** A function to free the value. */
-    ItemFreeFunction *freeFunction;
-    /** A function to print the value. */
-    ItemPrintFunction *printFunction;
-    /** A function to turn the value. */
-    ItemToStringFunction *toStringFunction;
+    ItemValueOperations *value_ops;
 } Item;
 
 /**
@@ -58,15 +68,11 @@ extern void ItemPrintInt(void *item);
 /**
  * @brief Initializes the Item.
  * @param value The value to put into the Item.
- * @param freeFunction Pointer to a function that can free the value of the
- * Item.
- * @param printFunction Pointer to a function that can print the value of the
- * Item.
+ * @param value_ops A struct containing operations that can be performed on the
+ * value of the Item.
  * @return The initialized Item
  */
-extern Item *ItemInit(void *value, ItemFreeFunction *freeFunction,
-                      ItemPrintFunction *printFunction,
-                      ItemToStringFunction *toStringFunction);
+extern Item *ItemInit(void *value, ItemValueOperations *value_ops);
 
 /**
  * @brief Frees an Item

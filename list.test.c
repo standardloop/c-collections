@@ -13,8 +13,7 @@ static void testListInList()
     assert(list_inner != NULL);
     List *list_outer = ListInitDefault();
     assert(list_outer != NULL);
-    ListAddFirst(list_outer,
-                 ItemInit(list_inner, ListFree, ListPrint, ListToString));
+    ListAddFirst(list_outer, ItemInit(list_inner, &ItemValueListOperations));
     ListFree(list_outer);
 }
 
@@ -25,7 +24,7 @@ static void testListPop()
 
     char *test_string_1 = QuickAllocatedString("teststring1");
     assert(test_string_1 != NULL);
-    Item *list_item_1 = ItemInit(test_string_1, free, ItemPrintString, NULL);
+    Item *list_item_1 = ItemInit(test_string_1, &ItemValueStringOperations);
     assert(list_item_1 != NULL);
 
     ListAddFirst(list, list_item_1);
@@ -51,8 +50,7 @@ static void testListToStringListWithinListSimple()
     assert(list_inner != NULL);
     List *list_outer = ListInitDefault();
     assert(list_outer != NULL);
-    ListAddFirst(list_outer,
-                 ItemInit(list_inner, ListFree, ListPrint, ListToString));
+    ListAddFirst(list_outer, ItemInit(list_inner, &ItemValueListOperations));
     assert(list_outer->size == 1);
     // ListPrint(list_holder);
     char *list_outer_as_string = ListToString(list_outer);
@@ -70,16 +68,15 @@ static void testListToStringListWithinList()
 {
     List *list_1 = ListInitDefault();
     assert(list_1 != NULL);
-    ListAddFirst(list_1, ItemInit(QuickAllocatedString("teststring1"), free,
-                                  ItemPrintString, StringToString));
-    ListAddFirst(list_1, ItemInit(QuickAllocatedString("teststring2"), free,
-                                  ItemPrintString, StringToString));
-    ListAddFirst(list_1, ItemInit(QuickAllocatedString("teststring3"), free,
-                                  ItemPrintString, StringToString));
+    ListAddFirst(list_1, ItemInit(QuickAllocatedString("teststring1"),
+                                  &ItemValueStringOperations));
+    ListAddFirst(list_1, ItemInit(QuickAllocatedString("teststring2"),
+                                  &ItemValueStringOperations));
+    ListAddFirst(list_1, ItemInit(QuickAllocatedString("teststring3"),
+                                  &ItemValueStringOperations));
     List *list_holder = ListInitDefault();
     assert(list_holder != NULL);
-    ListAddFirst(list_holder,
-                 ItemInit(list_1, ListFree, ListPrint, ListToString));
+    ListAddFirst(list_holder, ItemInit(list_1, &ItemValueListOperations));
 
     char *nested = ListToString(list_holder);
 
@@ -92,12 +89,12 @@ static void testListToString()
     List *list_1 = ListInitDefault();
     assert(list_1 != NULL);
 
-    ListAddFirst(list_1, ItemInit(QuickAllocatedString("teststring1"), free,
-                                  ItemPrintString, StringToString));
-    ListAddFirst(list_1, ItemInit(QuickAllocatedString("teststring2"), free,
-                                  ItemPrintString, StringToString));
-    ListAddFirst(list_1, ItemInit(QuickAllocatedString("teststring3"), free,
-                                  ItemPrintString, StringToString));
+    ListAddFirst(list_1, ItemInit(QuickAllocatedString("teststring1"),
+                                  &ItemValueStringOperations));
+    ListAddFirst(list_1, ItemInit(QuickAllocatedString("teststring2"),
+                                  &ItemValueStringOperations));
+    ListAddFirst(list_1, ItemInit(QuickAllocatedString("teststring3"),
+                                  &ItemValueStringOperations));
 
     char *list_as_string = ListToString(list_1);
     ListFree(list_1);

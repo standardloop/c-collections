@@ -2,41 +2,42 @@
 
 ## Classes
 
-| Name                          | Description                                                                                                                                             |
-| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`Item`](#item)               | The [Item](#item) struct, contains a value of any kind, and a function to free the value and print the value.                                           |
-| [`List`](#list)               | The [List](#list) struct, contains a header for size, capacity, and resizing multiple and then a [List](#list) of Items.                                |
-| [`HashMap`](#hashmap)         | The [HashMap](#hashmap) struct, contains a header for size, capacity, and resizing multiple. Has a list of entries and a pointer to a hashing function. |
-| [`HashMapItem`](#hashmapitem) | The [HashMap](#hashmap)[Item](#item) struct. Contains the key, the value, and a next field for collisions.                                              |
+| Name                                          | Description                                                                                                                                             |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`Item`](#item)                               | The [Item](#item) struct, contains a value of any kind, and a function to free the value and print the value.                                           |
+| [`List`](#list)                               | The [List](#list) struct, contains a header for size, capacity, and resizing multiple and then a [List](#list) of Items.                                |
+| [`HashMap`](#hashmap)                         | The [HashMap](#hashmap) struct, contains a header for size, capacity, and resizing multiple. Has a list of entries and a pointer to a hashing function. |
+| [`HashMapItem`](#hashmapitem)                 | The [HashMap](#hashmap)[Item](#item) struct. Contains the key, the value, and a next field for collisions.                                              |
+| [`ItemValueOperations`](#itemvalueoperations) |                                                                                                                                                         |
 
 ## Typedefs
 
 ---
 
-### ItemFreeFunction
+### ItemValueFreeFunction
 
 ```cpp
-using ItemFreeFunction = void
+using ItemValueFreeFunction = void
 ```
 
 A function that will be a part of the [Item](#item) struct, it determines how the [Item](#item) will be freed.
 
 ---
 
-### ItemPrintFunction
+### ItemValuePrintFunction
 
 ```cpp
-using ItemPrintFunction = void
+using ItemValuePrintFunction = void
 ```
 
 A function that will be a part of the [Item](#item) struct, it determines how the [Item](#item) will be printed, mainly for debugging.
 
 ---
 
-### ItemToStringFunction
+### ItemValueToStringFunction
 
 ```cpp
-using ItemToStringFunction = char *
+using ItemValueToStringFunction = char *
 ```
 
 A function that will be a part of the [Item](#item) struct, it determines how the [Item](#item) can be converted to a string.
@@ -82,7 +83,7 @@ void ItemPrintInt(void * item)
 ### ItemInit
 
 ```cpp
-Item * ItemInit(void * value, ItemFreeFunction * freeFunction, ItemPrintFunction * printFunction, ItemToStringFunction * toStringFunction)
+Item * ItemInit(void * value, ItemValueOperations * value_ops)
 ```
 
 Initializes the [Item](#item).
@@ -93,11 +94,10 @@ The initialized [Item](#item)
 
 #### Parameters
 
-| Parameter       | Type                                        | Description                                                          |
-| --------------- | ------------------------------------------- | -------------------------------------------------------------------- |
-| `value`         | `void *`                                    | The value to put into the [Item](#item).                             |
-| `freeFunction`  | [`ItemFreeFunction`](#itemfreefunction) *   | Pointer to a function that can free the value of the [Item](#item).  |
-| `printFunction` | [`ItemPrintFunction`](#itemprintfunction) * | Pointer to a function that can print the value of the [Item](#item). |
+| Parameter   | Type                    | Description                                                                             |
+| ----------- | ----------------------- | --------------------------------------------------------------------------------------- |
+| `value`     | `void *`                | The value to put into the [Item](#item).                                                |
+| `value_ops` | `ItemValueOperations *` | A struct containing operations that can be performed on the value of the [Item](#item). |
 
 ---
 
@@ -139,7 +139,7 @@ Prints an [Item](#item).
 char * ItemToString(Item * item)
 ```
 
-Converts and [Item](#item) to a String, uses the [ItemToStringFunction](#itemtostringfunction).
+Converts and [Item](#item) to a String, uses the ItemToStringFunction.
 
 #### Returns
 
@@ -657,6 +657,40 @@ The direct void * value.
 char * HashMapToString(void * map)
 ```
 
+## Variables
+
+---
+
+### ItemValueStringOperations
+
+```cpp
+ItemValueOperations ItemValueStringOperations
+```
+
+---
+
+### ItemValueIntOperations
+
+```cpp
+ItemValueOperations ItemValueIntOperations
+```
+
+---
+
+### ItemValueListOperations
+
+```cpp
+ItemValueOperations ItemValueListOperations
+```
+
+---
+
+### ItemValueHashMapOperations
+
+```cpp
+ItemValueOperations ItemValueHashMapOperations
+```
+
 ## Item
 
 ```cpp
@@ -671,12 +705,10 @@ The [Item](#item) struct, contains a value of any kind, and a function to free t
 
 ### Public Attributes
 
-| Return                                            | Name                                    | Description                    |
-| ------------------------------------------------- | --------------------------------------- | ------------------------------ |
-| `void *`                                          | [`value`](#value)                       | The value itself.              |
-| [`ItemFreeFunction`](#itemfreefunction) *         | [`freeFunction`](#freefunction)         | A function to free the value.  |
-| [`ItemPrintFunction`](#itemprintfunction) *       | [`printFunction`](#printfunction)       | A function to print the value. |
-| [`ItemToStringFunction`](#itemtostringfunction) * | [`toStringFunction`](#tostringfunction) | A function to turn the value.  |
+| Return                  | Name                      | Description       |
+| ----------------------- | ------------------------- | ----------------- |
+| `void *`                | [`value`](#value)         | The value itself. |
+| `ItemValueOperations *` | [`value_ops`](#value_ops) |                   |
 
 ---
 
@@ -690,39 +722,11 @@ The value itself.
 
 ---
 
-#### freeFunction
+#### value_ops
 
 ```cpp
-ItemFreeFunction * freeFunction
+ItemValueOperations * value_ops
 ```
-
-Type: [`ItemFreeFunction`](#itemfreefunction) *
-
-A function to free the value.
-
----
-
-#### printFunction
-
-```cpp
-ItemPrintFunction * printFunction
-```
-
-Type: [`ItemPrintFunction`](#itemprintfunction) *
-
-A function to print the value.
-
----
-
-#### toStringFunction
-
-```cpp
-ItemToStringFunction * toStringFunction
-```
-
-Type: [`ItemToStringFunction`](#itemtostringfunction) *
-
-A function to turn the value.
 
 ## List
 
@@ -936,3 +940,53 @@ struct hashMapItem * next
 ```
 
 If a collision occurs, the next field - linked list for collisions.
+
+## ItemValueOperations
+
+```cpp
+struct ItemValueOperations
+```
+
+### Public Attributes
+
+| Return                                                      | Name                                    | Description                    |
+| ----------------------------------------------------------- | --------------------------------------- | ------------------------------ |
+| [`ItemValueFreeFunction`](#itemvaluefreefunction) *         | [`freeFunction`](#freefunction)         | A function to free the value.  |
+| [`ItemValuePrintFunction`](#itemvalueprintfunction) *       | [`printFunction`](#printfunction)       | A function to print the value. |
+| [`ItemValueToStringFunction`](#itemvaluetostringfunction) * | [`toStringFunction`](#tostringfunction) | A function to turn the value.  |
+
+---
+
+#### freeFunction
+
+```cpp
+ItemValueFreeFunction * freeFunction
+```
+
+Type: [`ItemValueFreeFunction`](#itemvaluefreefunction) *
+
+A function to free the value.
+
+---
+
+#### printFunction
+
+```cpp
+ItemValuePrintFunction * printFunction
+```
+
+Type: [`ItemValuePrintFunction`](#itemvalueprintfunction) *
+
+A function to print the value.
+
+---
+
+#### toStringFunction
+
+```cpp
+ItemValueToStringFunction * toStringFunction
+```
+
+Type: [`ItemValueToStringFunction`](#itemvaluetostringfunction) *
+
+A function to turn the value.

@@ -9,9 +9,7 @@
 
 #include "./collections.h"
 
-extern Item *ItemInit(void *value, ItemFreeFunction *freeFunction,
-                      ItemPrintFunction *printFunction,
-                      ItemToStringFunction *toStringFunction)
+extern Item *ItemInit(void *value, ItemValueOperations *value_ops)
 {
     if (value == NULL)
     {
@@ -19,32 +17,21 @@ extern Item *ItemInit(void *value, ItemFreeFunction *freeFunction,
     }
     Item *this = malloc(sizeof(Item));
     this->value = value;
-    if (freeFunction == NULL)
+    if (value_ops->freeFunction == NULL)
     {
-        this->freeFunction = free;
-    }
-    else
-    {
-        this->freeFunction = freeFunction;
-    }
-    if (printFunction == NULL)
-    {
-        this->printFunction = NULL;
-        // I guess this isn't mandatory?
-    }
-    else
-    {
-        this->printFunction = printFunction;
-    }
-    if (toStringFunction == NULL)
-    {
-        this->toStringFunction = DefaultToString;
-    }
-    else
-    {
-        this->toStringFunction = toStringFunction;
+        value_ops->freeFunction = free;
     }
 
+    if (value_ops->printFunction == NULL)
+    {
+        value_ops->printFunction = NULL;
+        // I guess this isn't mandatory?
+    }
+    if (value_ops->toStringFunction == NULL)
+    {
+        value_ops->toStringFunction = DefaultToString;
+    }
+    this->value_ops = value_ops;
     return this;
 }
 
@@ -54,7 +41,7 @@ extern void ItemFree(Item *item)
     {
         if (item->value != NULL)
         {
-            item->freeFunction(item->value);
+            item->value_ops->freeFunction(item->value);
         }
         free(item);
     }
@@ -85,19 +72,20 @@ extern char *IntToString(void *num)
 
 extern char *ItemToString(Item *item)
 {
-    assert(item->toStringFunction != NULL);
+    assert(item->value_ops->toStringFunction != NULL);
     if (item == NULL)
     {
         return NULL;
     }
-    return item->toStringFunction(item->value);
+    return item->value_ops->toStringFunction(item->value);
 }
 
 extern void ItemPrint(Item *item)
 {
-    if (item != NULL && item->value != NULL && item->printFunction != NULL)
+    if (item != NULL && item->value != NULL &&
+        item->value_ops->printFunction != NULL)
     {
-        item->printFunction(item->value);
+        item->value_ops->printFunction(item->value);
     }
 }
 
