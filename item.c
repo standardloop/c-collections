@@ -72,7 +72,7 @@ extern char *DefaultToString(void *v)
 // actually, maybe we can use PutQuotesAroundString() here
 extern char *StringToString(void *s)
 {
-    return (char *)QuickAllocatedString(s);
+    return (char *)PutQuotesAroundString(s, false);
 }
 
 extern char *IntToString(void *num)

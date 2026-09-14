@@ -382,7 +382,10 @@ extern void HashMapPrint(HashMap *map);
  */
 extern void *HashMapGetValueDirect(HashMap *map, char *key);
 
+extern char *HashMapToString(void *map);
+
 /// @cond INTERNAL
+extern void TestHashMap();
 extern void DEBUGTestDefaultHashFunction();
 /// @endcond
 // ————————— HASHMAP END —————————

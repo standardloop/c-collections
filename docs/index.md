@@ -649,6 +649,14 @@ The direct void * value.
 | `map`     | [`HashMap`](#hashmap) * | The [HashMap](#hashmap) to look into. |
 | `key`     | `char *`                | The lookup key.                       |
 
+---
+
+### HashMapToString
+
+```cpp
+char * HashMapToString(void * map)
+```
+
 ## Item
 
 ```cpp
