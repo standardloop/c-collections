@@ -89,7 +89,7 @@ typedef struct
 } List;
 
 /**
- * @brief Intializes a List.
+ * @brief Initializes a List.
  * @param initial_capacity How large for the List to start as.
  * @param resize_multiple What multiple to resize the list after it reaches
  * capacity.
@@ -98,7 +98,7 @@ typedef struct
 extern List *ListInit(u_int32_t initial_capacity, u_int8_t resize_multiple);
 
 /**
- * @brief Intializes a List with sane defaults, see ListInit for more
+ * @brief Initializes a List with sane defaults, see ListInit for more
  * customization.
  * @return The initialized List.
  */

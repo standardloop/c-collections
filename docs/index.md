@@ -121,7 +121,7 @@ Prints an [Item](#item).
 List * ListInit(u_int32_t initial_capacity, u_int8_t resize_multiple)
 ```
 
-Intializes a [List](#list).
+Initializes a [List](#list).
 
 #### Returns
 
@@ -142,7 +142,7 @@ The initialized [List](#list).
 List * ListInitDefault(void)
 ```
 
-Intializes a [List](#list) with sane defaults, see ListInit for more customization.
+Initializes a [List](#list) with sane defaults, see ListInit for more customization.
 
 #### Returns
 
