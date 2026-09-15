@@ -42,7 +42,7 @@ typedef struct
     /** A function to turn the value. */
     ItemValueToStringFunction *toStringFunction;
     /** A function deep replicate a value of an item. */
-    ItemValueReplicateFunction *replicateFunction;
+    ItemValueReplicateFunction *duplicateFunction;
 } ItemValueOperations;
 
 extern ItemValueOperations ItemValueStringOperations;
@@ -102,6 +102,10 @@ extern char *DefaultToString(void *v);
 extern char *StringToString(void *s);
 extern char *IntToString(void *num);
 extern void *DefaultReplicate(void *v);
+extern void *DuplicateInt(void *original);
+extern void *DuplicateString(void *original);
+extern void *ListDuplicate(void *list);
+extern void *HashMapDuplicate(void *map);
 
 /// @cond INTERNAL
 extern void TestItem();

@@ -187,6 +187,38 @@ void * DefaultReplicate(void * v)
 
 ---
 
+### DuplicateInt
+
+```cpp
+void * DuplicateInt(void * original)
+```
+
+---
+
+### DuplicateString
+
+```cpp
+void * DuplicateString(void * original)
+```
+
+---
+
+### ListDuplicate
+
+```cpp
+void * ListDuplicate(void * list)
+```
+
+---
+
+### HashMapDuplicate
+
+```cpp
+void * HashMapDuplicate(void * map)
+```
+
+---
+
 ### ListInit
 
 ```cpp
@@ -964,7 +996,7 @@ struct ItemValueOperations
 | [`ItemValueFreeFunction`](#itemvaluefreefunction) *         | [`freeFunction`](#freefunction)           | A function to free the value.                 |
 | [`ItemValuePrintFunction`](#itemvalueprintfunction) *       | [`printFunction`](#printfunction)         | A function to print the value.                |
 | [`ItemValueToStringFunction`](#itemvaluetostringfunction) * | [`toStringFunction`](#tostringfunction)   | A function to turn the value.                 |
-| `ItemValueReplicateFunction *`                              | [`replicateFunction`](#replicatefunction) | A function deep replicate a value of an item. |
+| `ItemValueReplicateFunction *`                              | [`duplicateFunction`](#duplicatefunction) | A function deep replicate a value of an item. |
 
 ---
 
@@ -1004,10 +1036,10 @@ A function to turn the value.
 
 ---
 
-#### replicateFunction
+#### duplicateFunction
 
 ```cpp
-ItemValueReplicateFunction * replicateFunction
+ItemValueReplicateFunction * duplicateFunction
 ```
 
 A function deep replicate a value of an item.

@@ -611,3 +611,12 @@ extern char *HashMapToString(void *map)
     obj_as_string[obj_as_string_size - 1] = NULL_CHAR;
     return obj_as_string;
 }
+
+extern void *HashMapDuplicate(void *map)
+{
+    if (map == NULL)
+    {
+        return NULL;
+    }
+    return NULL;
+}

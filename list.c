@@ -305,3 +305,12 @@ extern char *ListToString(void *list)
     // printf("[JOSH]: %d\n", (int)strlen(list_as_string));
     return list_as_string;
 }
+
+extern void *ListDuplicate(void *list)
+{
+    if (list == NULL)
+    {
+        return NULL;
+    }
+    return NULL;
+}

@@ -32,9 +32,9 @@ extern Item *ItemInit(void *value, ItemValueOperations *value_ops)
     {
         value_ops->toStringFunction = DefaultToString;
     }
-    if (value_ops->replicateFunction == NULL)
+    if (value_ops->duplicateFunction == NULL)
     {
-        value_ops->replicateFunction = DefaultReplicate;
+        value_ops->duplicateFunction = DefaultReplicate;
     }
 
     this->value_ops = value_ops;
