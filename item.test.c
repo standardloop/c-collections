@@ -15,8 +15,10 @@ static void testToStringSimple()
     assert(test_string_1 != NULL);
     Item *item_1 = ItemInit(test_string_1, &ItemValueStringOperations);
     assert(item_1 != NULL);
-    assert(strcmp("\"teststring1\"", ItemToString(item_1)) == 0);
+    char *item_value_as_string = ItemToString(item_1);
+    assert(strcmp("\"teststring1\"", item_value_as_string) == 0);
     ItemFree(item_1);
+    free(item_value_as_string);
 }
 
 extern void TestItem()
