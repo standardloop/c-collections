@@ -29,15 +29,64 @@ extern void *DuplicateString(void *original)
     return (void *)strdup((char *)original);
 }
 
+extern void PrintString(void *value)
+{
+    if (value != NULL)
+    {
+        printf("\"%s\"", (char *)value);
+    }
+}
+
+extern void PrintInt(void *value)
+{
+    if (value != NULL)
+    {
+        printf("%d", *((int *)value));
+    }
+}
+
+extern char *StringToString(void *s)
+{
+    return (char *)PutQuotesAroundString(s, false);
+}
+
+extern char *IntToString(void *num)
+{
+    int length = snprintf(NULL, 0, "%d", *(int *)num);
+    char *str = malloc(length + 1);
+    snprintf(str, length + 1, "%d", *(int *)num);
+    return str;
+}
+
+extern void DefaultPrint(void *v)
+{
+    (void)v;
+    printf("null");
+}
+
+extern void *DefaultDuplicate(void *v)
+{
+    (void)v; // should be NULL
+    return NULL;
+}
+
+extern char *DefaultToString(void *v)
+{
+    // v
+    (void)v; // should be NULL
+    char *null_str = QuickAllocatedString("null");
+    return null_str;
+}
+
 ItemValueOperations ItemValueStringOperations = {
     .toStringFunction = StringToString,
     .freeFunction = free,
-    .printFunction = ItemPrintString,
+    .printFunction = PrintString,
     .duplicateFunction = DuplicateString};
 
 ItemValueOperations ItemValueIntOperations = {.toStringFunction = IntToString,
                                               .freeFunction = free,
-                                              .printFunction = ItemPrintInt,
+                                              .printFunction = PrintInt,
                                               .duplicateFunction =
                                                   DuplicateInt};
 

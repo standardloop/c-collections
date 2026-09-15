@@ -64,20 +64,164 @@ A Function that takes key and a capacity and hashes the key to return an index.
 
 ---
 
-### ItemPrintString
+### ListFree
 
 ```cpp
-void ItemPrintString(void * value)
+void ListFree(void * list)
+```
+
+Frees the [List](#list) and all the Items in the [List](#list).
+
+#### Parameters
+
+| Parameter | Type     | Description                |
+| --------- | -------- | -------------------------- |
+| `list`    | `void *` | The [List](#list) to free. |
+
+---
+
+### HashMapFree
+
+```cpp
+void HashMapFree(void * map)
+```
+
+Frees a [HashMap](#hashmap).
+
+#### Parameters
+
+| Parameter | Type     | Description                                   |
+| --------- | -------- | --------------------------------------------- |
+| `map`     | `void *` | The [HashMap](#hashmap) that should be freed. |
+
+---
+
+### DefaultPrint
+
+```cpp
+void DefaultPrint(void * v)
+```
+
+---
+
+### PrintString
+
+```cpp
+void PrintString(void * value)
 ```
 
 Prints a string value.
 
 ---
 
-### ItemPrintInt
+### PrintInt
 
 ```cpp
-void ItemPrintInt(void * value)
+void PrintInt(void * value)
+```
+
+---
+
+### ListPrint
+
+```cpp
+void ListPrint(void * list)
+```
+
+Print the [List](#list).
+
+#### Parameters
+
+| Parameter | Type     | Description                 |
+| --------- | -------- | --------------------------- |
+| `list`    | `void *` | The [List](#list) to print. |
+
+---
+
+### HashMapPrint
+
+```cpp
+void HashMapPrint(void * map)
+```
+
+---
+
+### DefaultToString
+
+```cpp
+char * DefaultToString(void * v)
+```
+
+---
+
+### StringToString
+
+```cpp
+char * StringToString(void * s)
+```
+
+---
+
+### IntToString
+
+```cpp
+char * IntToString(void * num)
+```
+
+---
+
+### ListToString
+
+```cpp
+char * ListToString(void * list)
+```
+
+---
+
+### HashMapToString
+
+```cpp
+char * HashMapToString(void * map)
+```
+
+---
+
+### DefaultDuplicate
+
+```cpp
+void * DefaultDuplicate(void * v)
+```
+
+---
+
+### DuplicateInt
+
+```cpp
+void * DuplicateInt(void * original)
+```
+
+---
+
+### DuplicateString
+
+```cpp
+void * DuplicateString(void * original)
+```
+
+---
+
+### ListDuplicate
+
+```cpp
+void * ListDuplicate(void * list)
+```
+
+---
+
+### HashMapDuplicate
+
+```cpp
+void * HashMapDuplicate(void * map)
 ```
 
 ---
@@ -152,70 +296,6 @@ a string representation of the item.
 | Parameter | Type              | Description                             |
 | --------- | ----------------- | --------------------------------------- |
 | `item`    | [`Item`](#item) * | The [Item](#item) to convert to string. |
-
----
-
-### DefaultToString
-
-```cpp
-char * DefaultToString(void * v)
-```
-
----
-
-### StringToString
-
-```cpp
-char * StringToString(void * s)
-```
-
----
-
-### IntToString
-
-```cpp
-char * IntToString(void * num)
-```
-
----
-
-### DefaultReplicate
-
-```cpp
-void * DefaultReplicate(void * v)
-```
-
----
-
-### DuplicateInt
-
-```cpp
-void * DuplicateInt(void * original)
-```
-
----
-
-### DuplicateString
-
-```cpp
-void * DuplicateString(void * original)
-```
-
----
-
-### ListDuplicate
-
-```cpp
-void * ListDuplicate(void * list)
-```
-
----
-
-### HashMapDuplicate
-
-```cpp
-void * HashMapDuplicate(void * map)
-```
 
 ---
 
@@ -438,22 +518,6 @@ The [Item](#item) from the [List](#list).
 
 ---
 
-### ListPrint
-
-```cpp
-void ListPrint(void * list)
-```
-
-Print the [List](#list).
-
-#### Parameters
-
-| Parameter | Type     | Description                 |
-| --------- | -------- | --------------------------- |
-| `list`    | `void *` | The [List](#list) to print. |
-
----
-
 ### ListPrintInfo
 
 ```cpp
@@ -467,30 +531,6 @@ Print info of the [List](#list) (current size, etc...).
 | Parameter | Type              | Description                         |
 | --------- | ----------------- | ----------------------------------- |
 | `list`    | [`List`](#list) * | The [List](#list) to print info of. |
-
----
-
-### ListToString
-
-```cpp
-char * ListToString(void * list)
-```
-
----
-
-### ListFree
-
-```cpp
-void ListFree(void * list)
-```
-
-Frees the [List](#list) and all the Items in the [List](#list).
-
-#### Parameters
-
-| Parameter | Type     | Description                |
-| --------- | -------- | -------------------------- |
-| `list`    | `void *` | The [List](#list) to free. |
 
 ---
 
@@ -606,22 +646,6 @@ The initialized [HashMap](#hashmap).
 
 ---
 
-### HashMapFree
-
-```cpp
-void HashMapFree(void * map)
-```
-
-Frees a [HashMap](#hashmap).
-
-#### Parameters
-
-| Parameter | Type     | Description                                   |
-| --------- | -------- | --------------------------------------------- |
-| `map`     | `void *` | The [HashMap](#hashmap) that should be freed. |
-
----
-
 ### HashMapInsert
 
 ```cpp
@@ -656,22 +680,6 @@ Remove a [HashMapItem](#hashmapitem) from a [HashMap](#hashmap).
 
 ---
 
-### HashMapPrint
-
-```cpp
-void HashMapPrint(void * map)
-```
-
-Print a [HashMap](#hashmap).
-
-#### Parameters
-
-| Parameter | Type     | Description                       |
-| --------- | -------- | --------------------------------- |
-| `map`     | `void *` | The [HashMap](#hashmap) to print. |
-
----
-
 ### HashMapGetValueDirect
 
 ```cpp
@@ -690,14 +698,6 @@ The direct void * value.
 | --------- | ----------------------- | ------------------------------------- |
 | `map`     | [`HashMap`](#hashmap) * | The [HashMap](#hashmap) to look into. |
 | `key`     | `char *`                | The lookup key.                       |
-
----
-
-### HashMapToString
-
-```cpp
-char * HashMapToString(void * map)
-```
 
 ## Variables
 

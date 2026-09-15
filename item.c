@@ -24,8 +24,8 @@ extern Item *ItemInit(void *value, ItemValueOperations *value_ops)
 
     if (value_ops->printFunction == NULL)
     {
-        value_ops->printFunction = NULL;
         // I guess this isn't mandatory?
+        value_ops->printFunction = DefaultPrint;
     }
 
     if (value_ops->toStringFunction == NULL)
@@ -34,7 +34,7 @@ extern Item *ItemInit(void *value, ItemValueOperations *value_ops)
     }
     if (value_ops->duplicateFunction == NULL)
     {
-        value_ops->duplicateFunction = DefaultReplicate;
+        value_ops->duplicateFunction = DefaultDuplicate;
     }
 
     this->value_ops = value_ops;
@@ -53,35 +53,6 @@ extern void ItemFree(Item *item)
     }
 }
 
-extern void *DefaultReplicate(void *v)
-{
-    (void)v; // should be NULL
-    return NULL;
-}
-
-extern char *DefaultToString(void *v)
-{
-    // v
-    (void)v; // should be NULL
-    char *null_str = QuickAllocatedString("null");
-    return null_str;
-}
-
-// XD
-// actually, maybe we can use PutQuotesAroundString() here
-extern char *StringToString(void *s)
-{
-    return (char *)PutQuotesAroundString(s, false);
-}
-
-extern char *IntToString(void *num)
-{
-    int length = snprintf(NULL, 0, "%d", *(int *)num);
-    char *str = malloc(length + 1);
-    snprintf(str, length + 1, "%d", *(int *)num);
-    return str;
-}
-
 extern char *ItemToString(Item *item)
 {
     assert(item->value_ops->toStringFunction != NULL);
@@ -98,21 +69,5 @@ extern void ItemPrint(Item *item)
         item->value_ops->printFunction != NULL)
     {
         item->value_ops->printFunction(item->value);
-    }
-}
-
-extern void ItemPrintString(void *value)
-{
-    if (value != NULL)
-    {
-        printf("\"%s\"", (char *)value);
-    }
-}
-
-extern void ItemPrintInt(void *value)
-{
-    if (value != NULL)
-    {
-        printf("%d\n", *((int *)value));
     }
 }

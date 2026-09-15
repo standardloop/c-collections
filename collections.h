@@ -18,20 +18,53 @@
  * the Item will be freed.
  */
 typedef void(ItemValueFreeFunction)(void *);
+/**
+ * @brief Frees the List and all the Items in the List
+ * @param list The List to free.
+ */
+extern void ListFree(void *list); // void * to fit ItemFreeFunction definition
+/**
+ * @brief Frees a HashMap
+ * @param map The HashMap that should be freed.
+ */
+extern void HashMapFree(void *map);
 
 /**
  * @brief A function that will be a part of the Item struct, it determines how
  * the Item will be printed, mainly for debugging.
  */
 typedef void(ItemValuePrintFunction)(void *);
+extern void DefaultPrint(void *v);
+/**
+ * @brief Prints a string value.
+ * @param item The item value to print.
+ */
+extern void PrintString(void *value);
+extern void PrintInt(void *value);
+/**
+ * @brief Print the List.
+ * @param list The List to print.
+ */
+extern void ListPrint(void *list); // void * to fit ItemPrintFunction definition
+extern void HashMapPrint(void *map);
 
 /**
  * @brief A function that will be a part of the Item struct, it determines how
  * the Item can be converted to a string.
  */
 typedef char *(ItemValueToStringFunction)(void *);
+extern char *DefaultToString(void *v);
+extern char *StringToString(void *s);
+extern char *IntToString(void *num);
+extern char *ListToString(void *list);
+extern char *HashMapToString(void *map);
 
 typedef void *(ItemValueReplicateFunction)(void *);
+extern void *DefaultDuplicate(void *v);
+extern void *DuplicateInt(void *original);
+extern void *DuplicateString(void *original);
+extern void *ListDuplicate(void *list);
+extern void *HashMapDuplicate(void *map);
 
 typedef struct
 {
@@ -46,6 +79,7 @@ typedef struct
 } ItemValueOperations;
 
 extern ItemValueOperations ItemValueStringOperations;
+
 extern ItemValueOperations ItemValueIntOperations;
 extern ItemValueOperations ItemValueListOperations;
 extern ItemValueOperations ItemValueHashMapOperations;
@@ -60,14 +94,6 @@ typedef struct
     void *value;
     ItemValueOperations *value_ops;
 } Item;
-
-/**
- * @brief Prints a string value.
- * @param item The item value to print.
- */
-extern void ItemPrintString(void *value);
-
-extern void ItemPrintInt(void *value);
 
 /**
  * @brief Initializes the Item.
@@ -96,16 +122,6 @@ extern void ItemPrint(Item *item);
  * @return a string representation of the item.
  */
 extern char *ItemToString(Item *item);
-
-// WIP
-extern char *DefaultToString(void *v);
-extern char *StringToString(void *s);
-extern char *IntToString(void *num);
-extern void *DefaultReplicate(void *v);
-extern void *DuplicateInt(void *original);
-extern void *DuplicateString(void *original);
-extern void *ListDuplicate(void *list);
-extern void *HashMapDuplicate(void *map);
 
 /// @cond INTERNAL
 extern void TestItem();
@@ -228,26 +244,10 @@ extern Item *ListPopAtIndex(List *list, u_int32_t index);
 extern Item *ListPopFirst(List *list);
 
 /**
- * @brief Print the List.
- * @param list The List to print.
- */
-extern void ListPrint(void *list); // void * to fit ItemPrintFunction definition
-
-/**
  * @brief Print info of the List (current size, etc...).
  * @param list The List to print info of.
  */
 extern void ListPrintInfo(List *list);
-
-// WIP
-extern char *
-ListToString(void *list); // void * to fit ItemToStringFunction definition
-
-/**
- * @brief Frees the List and all the Items in the List
- * @param list The List to free.
- */
-extern void ListFree(void *list); // void * to fit ItemFreeFunction definition
 
 /// @cond INTERNAL
 extern void TestList();
@@ -363,12 +363,6 @@ extern HashMap *HashMapInitDefault(void);
 // extern HashMap *HashMapReplicate(HashMap *);
 
 /**
- * @brief Frees a HashMap
- * @param map The HashMap that should be freed.
- */
-extern void HashMapFree(void *map);
-
-/**
  * @brief Insert a HashMapItem into a HashMap
  * @param map The HashMap that should be inserted into.
  * @param entry The HashMapItem entry to be inserted into the HashMap.
@@ -383,12 +377,6 @@ extern void HashMapInsert(HashMap *map, HashMapItem *entry);
 extern void HashMapRemove(HashMap *map, char *key);
 
 /**
- * @brief Print a HashMap
- * @param map The HashMap to print.
- */
-extern void HashMapPrint(void *map);
-
-/**
  * @brief Get a value directly from a lookup instead of receiving HashMapItem
  * then unwrapping to Item, then unwarapping to value
  * @param map The HashMap to look into.
@@ -396,8 +384,6 @@ extern void HashMapPrint(void *map);
  * @return The direct void * value.
  */
 extern void *HashMapGetValueDirect(HashMap *map, char *key);
-
-extern char *HashMapToString(void *map);
 
 /// @cond INTERNAL
 extern void TestHashMap();
