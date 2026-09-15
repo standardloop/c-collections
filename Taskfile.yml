@@ -13,10 +13,16 @@ vars:
     - list.c
     - hashmap.c
     - operations.c
+    - stack.c
+    - queue.c
+    - linkedlist.c
   TEST_SOURCE_FILES:
     - item.test.c
     - list.test.c
     - hashmap.test.c
+    - stack.test.c
+    - queue.test.c
+    - linkedlist.test.c
   DYLIB_NAME: libstandardloop-collections.dylib
   DYLIB_HEADER: collections.h
   DYN_LIBS_USED: "-lstandardloop-util"

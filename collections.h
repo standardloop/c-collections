@@ -228,6 +228,7 @@ extern Item *ListGetAtIndex(List *list, u_int32_t index);
  */
 extern Item *ListGetFirst(List *list);
 
+// TODO, reconsider this if having stack and queue
 /**
  * @brief Get and remove an Item from a List
  * @param list The List to get an Item from.
@@ -391,4 +392,12 @@ extern void DEBUGTestDefaultHashFunction();
 /// @endcond
 // ————————— HASHMAP END —————————
 
+// ————————— QUEUE START —————————
+// ————————— QUEUE END —————————
+
+// ————————— STACK START —————————
+// ————————— STACK END —————————
+
+// ————————— LINKEDLIST START —————————
+// ————————— LINKEDLIST END —————————
 #endif
