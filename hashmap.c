@@ -152,6 +152,11 @@ extern HashMap *HashMapInit(u_int32_t initial_capacity, uint8_t resize_multiple,
     {
         map->hashFunction = defaultHashFunction;
     }
+    else
+    {
+        map->hashFunction = hashFunction;
+    }
+
     return map;
 }
 
@@ -263,13 +268,14 @@ extern HashMapItem *HashMapGet(HashMap *map, char *key)
         errno = EINVAL;
         return NULL;
     }
+    // printf("%s %d\n", key, (int)map->capacity);
     u_int32_t index = map->hashFunction(key, map->capacity);
+    // printf("%d\n", (int)index);
     HashMapItem *entry = map->entries[index];
     if (entry == NULL)
     {
         return NULL;
     }
-
     HashMapItem *iterator = entry;
     while (iterator != NULL)
     {

@@ -6,6 +6,41 @@
 
 #include "./collections.h"
 
+static void testHashMapItemDuplicate()
+{
+    char *test_key_1 = QuickAllocatedString("test_key_1");
+    assert(test_key_1 != NULL);
+
+    int *test_int_1 = malloc(sizeof(int));
+    assert(test_int_1 != NULL);
+    *test_int_1 = 100;
+    assert(*test_int_1 == 100);
+    Item *test_item_1 = ItemInit(test_int_1, &ItemValueIntOperations);
+    assert(test_item_1 != NULL);
+    assert(*(int *)test_item_1->value == 100);
+
+    HashMapItem *test_hashmap_item_1 = HashMapItemInit(test_key_1, test_item_1);
+    assert(test_hashmap_item_1 != NULL);
+    assert(strcmp(test_hashmap_item_1->key, "test_key_1") == 0);
+    assert(*(int *)test_hashmap_item_1->item->value == 100);
+
+    // ---
+
+    HashMapItem *dupe = HashMapItemDuplicate(test_hashmap_item_1);
+    assert(dupe != NULL);
+
+    assert(test_hashmap_item_1->key != dupe->key); // check memory address
+    assert(strcmp(test_hashmap_item_1->key, dupe->key) == 0);
+
+    assert(test_hashmap_item_1->item->value !=
+           dupe->item->value); // check memory address
+    assert(*(int *)test_hashmap_item_1->item->value ==
+           *(int *)dupe->item->value);
+
+    HashMapItemFree(test_hashmap_item_1, true);
+    HashMapItemFree(dupe, true);
+}
+
 static void testHashMapItem()
 {
     char *test_key_1 = QuickAllocatedString("test_key_1");
@@ -25,6 +60,8 @@ static void testHashMapItem()
     assert(*(int *)test_hashmap_item_1->item->value == 100);
 
     HashMapItemFree(test_hashmap_item_1, true);
+
+    testHashMapItemDuplicate();
 }
 
 static void testHashMapToString()
@@ -40,11 +77,47 @@ static void testHashMapToString()
     HashMapFree(map);
 }
 
+static void testHashMapDuplicate()
+{
+    HashMap *map = HashMapInitDefault();
+    assert(map != NULL);
+    HashMapInsert(map, HashMapItemInit(QuickAllocatedString("key"),
+                                       ItemInit(QuickAllocatedString("value"),
+                                                &ItemValueStringOperations)));
+
+    // assert(strcmp(HashMapGet(map, "key")->item->value, "value") == 0);
+
+    HashMap *dupe = HashMapDuplicate(map);
+    assert(dupe != NULL);
+
+    assert(dupe != map);
+
+    // HashMapPrint(dupe);
+    // printf("\n-------------------\n");
+    // HashMapPrint(map);
+
+    assert(strcmp(HashMapGet(dupe, "key")->item->value, "value") == 0);
+
+    assert(strcmp(HashMapGet(map, "key")->item->value,
+                  HashMapGet(dupe, "key")->item->value) == 0);
+
+    assert(map->force_lowercase == dupe->force_lowercase);
+    assert(map->capacity == dupe->capacity);
+    assert(map->resize_multiple == dupe->resize_multiple);
+    assert(map->size == dupe->size);
+    assert(map->hashFunction == dupe->hashFunction);
+
+    HashMapFree(map);
+    HashMapFree(dupe);
+}
+
 extern void TestHashMap()
 {
     testHashMapToString();
 
     testHashMapItem();
+
+    testHashMapDuplicate();
 
     // setup first key
     char *test_key_1 = QuickAllocatedString("test_key_1");
