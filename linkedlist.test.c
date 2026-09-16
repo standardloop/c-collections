@@ -2,9 +2,8 @@
 #include <assert.h>
 #include <standardloop/util.h>
 
-extern void TestLinkedList()
+static void basicTest()
 {
-
     LinkedList *list = LinkedListInit();
     assert(list != NULL);
     assert(IsLinkedListEmpty(list));
@@ -24,6 +23,7 @@ extern void TestLinkedList()
     LinkedListAddToBack(list, ItemInit(QuickAllocatedString("teststring3"),
                                        &ItemValueStringOperations));
 
+    // LinkedListPrint((LinkedList *)list);
     // head shouldn't change
     assert(strcmp(list->head->item->value, "teststring2") == 0);
     assert(strcmp(list->head->next->item->value, "teststring1") == 0);
@@ -33,4 +33,29 @@ extern void TestLinkedList()
     assert(list->head->next->next == NULL);
 
     LinkedListFree(list);
+}
+
+static void toStringTest()
+{
+    LinkedList *list = LinkedListInit();
+    LinkedListAddToFront(list, ItemInit(QuickAllocatedString("teststring1"),
+                                        &ItemValueStringOperations));
+    LinkedListAddToFront(list, ItemInit(QuickAllocatedString("teststring2"),
+                                        &ItemValueStringOperations));
+    LinkedListAddToFront(list, ItemInit(QuickAllocatedString("teststring3"),
+                                        &ItemValueStringOperations));
+
+    char *as_string = LinkedListToString((LinkedList *)list);
+    assert(as_string != NULL);
+
+    printf("%s\n", as_string);
+
+    LinkedListFree(list);
+    free(as_string);
+}
+
+extern void TestLinkedList()
+{
+    basicTest();
+    toStringTest();
 }

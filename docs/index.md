@@ -148,6 +148,14 @@ void HashMapPrint(void * map)
 
 ---
 
+### LinkedListPrint
+
+```cpp
+void LinkedListPrint(void * list)
+```
+
+---
+
 ### DefaultToString
 
 ```cpp
@@ -188,6 +196,14 @@ char * HashMapToString(void * map)
 
 ---
 
+### LinkedListToString
+
+```cpp
+char * LinkedListToString(void * list)
+```
+
+---
+
 ### DefaultDuplicate
 
 ```cpp
@@ -224,6 +240,14 @@ void * ListDuplicate(void * list)
 
 ```cpp
 void * HashMapDuplicate(void * map)
+```
+
+---
+
+### LinkedListDuplicate
+
+```cpp
+void * LinkedListDuplicate(void * list)
 ```
 
 ---
@@ -715,14 +739,6 @@ LinkedList * LinkedListInit()
 
 ```cpp
 bool IsLinkedListEmpty(LinkedList * list)
-```
-
----
-
-### LinkedListPrint
-
-```cpp
-void LinkedListPrint(void * list)
 ```
 
 ---

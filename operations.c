@@ -101,3 +101,9 @@ ItemValueOperations ItemValueHashMapOperations = {
     .freeFunction = HashMapFree,
     .printFunction = HashMapPrint,
     .duplicateFunction = HashMapDuplicate};
+
+ItemValueOperations ItemValueLinkedListOperations = {
+    .toStringFunction = LinkedListToString,
+    .freeFunction = LinkedListFree,
+    .printFunction = LinkedListPrint,
+    .duplicateFunction = LinkedListDuplicate};

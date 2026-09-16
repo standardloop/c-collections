@@ -47,6 +47,7 @@ extern void PrintInt(void *value);
  */
 extern void ListPrint(void *list); // void * to fit ItemPrintFunction definition
 extern void HashMapPrint(void *map);
+extern void LinkedListPrint(void *list);
 
 /**
  * @brief A function that will be a part of the Item struct, it determines how
@@ -58,6 +59,7 @@ extern char *StringToString(void *s);
 extern char *IntToString(void *num);
 extern char *ListToString(void *list);
 extern char *HashMapToString(void *map);
+extern char *LinkedListToString(void *list);
 
 typedef void *(ItemValueReplicateFunction)(void *);
 extern void *DefaultDuplicate(void *v);
@@ -65,6 +67,7 @@ extern void *DuplicateInt(void *original);
 extern void *DuplicateString(void *original);
 extern void *ListDuplicate(void *list);
 extern void *HashMapDuplicate(void *map);
+extern void *LinkedListDuplicate(void *list);
 
 typedef struct
 {

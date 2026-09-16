@@ -1,8 +1,9 @@
-
-#include "./collections.h"
+#include <limits.h>
+#include <standardloop/util.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/_types/_u_int8_t.h>
+
+#include "./collections.h"
 
 static LinkedListNode *linkedListNodeInit(Item *item);
 static void allLinkedListNodesFree(LinkedListNode *);
@@ -45,14 +46,19 @@ extern void LinkedListPrint(void *list)
         return;
     }
 
+    printf("[");
     LinkedListNode *iterator = ((LinkedList *)list)->head;
     while (iterator != NULL)
     {
         ItemPrint(iterator->item);
-        // printf("%d -> ", iterator->value);
+        if (iterator->next != NULL)
+        {
+            printf(", ");
+        }
         iterator = iterator->next;
     }
-    printf("\n");
+    printf("]");
+    // printf("\n");
 }
 
 extern void LinkedListAddToFront(LinkedList *list, Item *item)
@@ -220,4 +226,55 @@ extern void LinkedListAddAtIndex(LinkedList *list, Item *item, u_int64_t index)
         list->size++;
     }
     return;
+}
+
+extern char *LinkedListToString(void *list)
+{
+    if (list == NULL)
+    {
+        return NULL;
+    }
+    size_t list_as_string_size = 3; // "[]\0"
+    char *list_as_string = malloc(sizeof(char) * list_as_string_size);
+    list_as_string[0] = BRACKET_OPEN_CHAR;
+    list_as_string[1] = NULL_CHAR;
+
+    size_t chars_written = 2 - 1;
+
+    bool needs_comma = false;
+    LinkedListNode *iterator = ((LinkedList *)list)->head;
+    while (iterator != NULL)
+    {
+        char *list_element = ItemToString(iterator->item);
+        size_t list_element_len = strlen(list_element);
+
+        needs_comma = iterator->next != NULL;
+
+        list_as_string_size += list_element_len;
+        list_as_string_size += needs_comma;
+        list_as_string = realloc(list_as_string, list_as_string_size);
+
+        CopyStringCanary(list_as_string, list_element, chars_written);
+        chars_written += list_element_len;
+        if (needs_comma)
+        {
+            CopyStringCanary(list_as_string, ",", chars_written);
+            chars_written++;
+        }
+        needs_comma = false;
+        free(list_element);
+        iterator = iterator->next;
+    }
+
+    list_as_string[list_as_string_size - 2] = BRACKET_CLOSE_CHAR;
+    list_as_string[list_as_string_size - 1] = NULL_CHAR;
+    // printf("[JOSH]: %s\n", list_as_string);
+    // printf("[JOSH]: %d\n", (int)strlen(list_as_string));
+    return list_as_string;
+}
+
+extern void *LinkedListDuplicate(void *list)
+{
+    (void)list;
+    return NULL;
 }
