@@ -399,5 +399,26 @@ extern void DEBUGTestDefaultHashFunction();
 // ————————— STACK END —————————
 
 // ————————— LINKEDLIST START —————————
+typedef struct linkedListNode
+{
+    struct linkedListNode *next;
+    Item *item;
+} LinkedListNode;
+
+typedef struct
+{
+    LinkedListNode *head;
+    u_int32_t size;
+} LinkedList;
+
+extern LinkedList *LinkedListInit();
+extern bool IsLinkedListEmpty(LinkedList *list);
+extern void LinkedListPrint(void *list);
+extern void LinkedListAddToFront(LinkedList *list, Item *item);
+extern void LinkedListAddToEnd(LinkedList *list, Item *item);
+extern void LinkedListAddAtIndex(LinkedList *list, Item *item, u_int64_t index);
+extern void LinkedListFree(void *list);
+extern void LinkedListDeleteAtIndex(LinkedList *list, u_int64_t index);
 // ————————— LINKEDLIST END —————————
+
 #endif

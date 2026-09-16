@@ -7,7 +7,9 @@
 | [`Item`](#item)                               | The [Item](#item) struct, contains a value of any kind, and a function to free the value and print the value.                                           |
 | [`List`](#list)                               | The [List](#list) struct, contains a header for size, capacity, and resizing multiple and then a [List](#list) of Items.                                |
 | [`HashMap`](#hashmap)                         | The [HashMap](#hashmap) struct, contains a header for size, capacity, and resizing multiple. Has a list of entries and a pointer to a hashing function. |
+| [`LinkedList`](#linkedlist)                   |                                                                                                                                                         |
 | [`HashMapItem`](#hashmapitem)                 | The [HashMap](#hashmap)[Item](#item) struct. Contains the key, the value, and a next field for collisions.                                              |
+| [`LinkedListNode`](#linkedlistnode)           |                                                                                                                                                         |
 | [`ItemValueOperations`](#itemvalueoperations) |                                                                                                                                                         |
 
 ## Typedefs
@@ -699,6 +701,70 @@ The direct void * value.
 | `map`     | [`HashMap`](#hashmap) * | The [HashMap](#hashmap) to look into. |
 | `key`     | `char *`                | The lookup key.                       |
 
+---
+
+### LinkedListInit
+
+```cpp
+LinkedList * LinkedListInit()
+```
+
+---
+
+### IsLinkedListEmpty
+
+```cpp
+bool IsLinkedListEmpty(LinkedList * list)
+```
+
+---
+
+### LinkedListPrint
+
+```cpp
+void LinkedListPrint(void * list)
+```
+
+---
+
+### LinkedListAddToFront
+
+```cpp
+void LinkedListAddToFront(LinkedList * list, Item * item)
+```
+
+---
+
+### LinkedListAddToEnd
+
+```cpp
+void LinkedListAddToEnd(LinkedList * list, Item * item)
+```
+
+---
+
+### LinkedListAddAtIndex
+
+```cpp
+void LinkedListAddAtIndex(LinkedList * list, Item * item, u_int64_t index)
+```
+
+---
+
+### LinkedListFree
+
+```cpp
+void LinkedListFree(void * list)
+```
+
+---
+
+### LinkedListDeleteAtIndex
+
+```cpp
+void LinkedListDeleteAtIndex(LinkedList * list, u_int64_t index)
+```
+
 ## Variables
 
 ---
@@ -931,6 +997,35 @@ bool force_lowercase
 
 Should only lowercase be considered, for example "THIS" and "this" are both hashed to the same value.
 
+## LinkedList
+
+```cpp
+struct LinkedList
+```
+
+### Public Attributes
+
+| Return             | Name              | Description |
+| ------------------ | ----------------- | ----------- |
+| `LinkedListNode *` | [`head`](#head)   |             |
+| `u_int32_t`        | [`size`](#size-2) |             |
+
+---
+
+#### head
+
+```cpp
+LinkedListNode * head
+```
+
+---
+
+#### size
+
+```cpp
+u_int32_t size
+```
+
 ## HashMapItem
 
 ```cpp
@@ -982,6 +1077,37 @@ struct hashMapItem * next
 ```
 
 If a collision occurs, the next field - linked list for collisions.
+
+## LinkedListNode
+
+```cpp
+struct LinkedListNode
+```
+
+### Public Attributes
+
+| Return                    | Name              | Description |
+| ------------------------- | ----------------- | ----------- |
+| `struct linkedListNode *` | [`next`](#next-1) |             |
+| [`Item`](#item) *         | [`item`](#item-2) |             |
+
+---
+
+#### next
+
+```cpp
+struct linkedListNode * next
+```
+
+---
+
+#### item
+
+```cpp
+Item * item
+```
+
+Type: [`Item`](#item) *
 
 ## ItemValueOperations
 
