@@ -617,9 +617,9 @@ extern HashMapItem *HashMapItemDuplicate(HashMapItem *hashmap_item)
     HashMapItem *item_itr = hashmap_item->next;
     while (item_itr != NULL)
     {
-        HashMapItem *dupe = HashMapItemInit(strdup(item_itr->key),
-                                            ItemDuplicate(item_itr->item));
-        dupe_itr->next = dupe;
+        HashMapItem *collision_dupe = HashMapItemInit(
+            strdup(item_itr->key), ItemDuplicate(item_itr->item));
+        dupe_itr->next = collision_dupe;
 
         dupe_itr = dupe_itr->next;
         item_itr = item_itr->next;
