@@ -140,11 +140,11 @@ static void allLinkedListNodesFree(LinkedListNode *head)
 
 static void linkedListNodeFree(LinkedListNode *list_node)
 {
-    if (list_node == NULL)
+    if (list_node != NULL)
     {
-        return;
+        ItemFree(list_node->item);
+        free(list_node);
     }
-    ItemFree(list_node->item);
 }
 
 extern void LinkedListDelete(LinkedList *list, u_int64_t index)

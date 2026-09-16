@@ -24,10 +24,12 @@ static void testToString()
 
 int main()
 {
-    testToString();
-    TestItem();
-    TestList();
-    TestHashMap();
+    // testToString();
+    // TestItem();
+    // TestList();
+    // TestHashMap();
+    TestLinkedList();
     sleep(1);
     return EXIT_SUCCESS;
+    testToString();
 }

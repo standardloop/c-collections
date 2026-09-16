@@ -419,6 +419,10 @@ extern void LinkedListAddToEnd(LinkedList *list, Item *item);
 extern void LinkedListAddAtIndex(LinkedList *list, Item *item, u_int64_t index);
 extern void LinkedListFree(void *list);
 extern void LinkedListDeleteAtIndex(LinkedList *list, u_int64_t index);
+
+/// @cond INTERNAL
+extern void TestLinkedList();
+/// @endcond
 // ————————— LINKEDLIST END —————————
 
 #endif
