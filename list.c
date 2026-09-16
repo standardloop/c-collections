@@ -5,6 +5,7 @@
 #include <string.h>
 
 #include <standardloop/util.h>
+#include <sys/_types/_u_int8_t.h>
 
 #include "./collections.h"
 
@@ -312,5 +313,18 @@ extern void *ListDuplicate(void *list)
     {
         return NULL;
     }
-    return NULL;
+    List *dupe =
+        ListInit(((List *)list)->capacity, ((List *)list)->resize_multiple);
+    if (dupe == NULL)
+    {
+        return NULL;
+    }
+    u_int8_t list_size = ((List *)list)->size;
+    for (u_int32_t i = 0; i < list_size; i++)
+    {
+        dupe->items[i] = ItemDuplicate(((List *)list)->items[i]);
+        // NULL check here?
+        dupe->size++;
+    }
+    return dupe;
 }

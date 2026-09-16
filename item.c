@@ -71,3 +71,13 @@ extern void ItemPrint(Item *item)
         item->value_ops->printFunction(item->value);
     }
 }
+
+extern Item *ItemDuplicate(Item *item)
+{
+    if (item == NULL)
+    {
+        return NULL;
+    }
+    return ItemInit(item->value_ops->duplicateFunction(item->value),
+                    item->value_ops);
+}

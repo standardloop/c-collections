@@ -325,6 +325,14 @@ a string representation of the item.
 
 ---
 
+### ItemDuplicate
+
+```cpp
+Item * ItemDuplicate(Item * item)
+```
+
+---
+
 ### ListInit
 
 ```cpp

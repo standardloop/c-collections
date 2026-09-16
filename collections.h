@@ -126,6 +126,10 @@ extern void ItemPrint(Item *item);
  */
 extern char *ItemToString(Item *item);
 
+extern Item *ItemDuplicate(Item *item);
+
+// extern void *ItemValueDuplicate(Item *item);
+
 /// @cond INTERNAL
 extern void TestItem();
 /// @endcond

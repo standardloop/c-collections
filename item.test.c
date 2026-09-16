@@ -9,6 +9,21 @@
 
 #include "./collections.h"
 
+static void testDuplicate()
+{
+    char *test_string_1 = QuickAllocatedString("teststring1");
+    assert(test_string_1 != NULL);
+    Item *item = ItemInit(test_string_1, &ItemValueStringOperations);
+    assert(item != NULL);
+
+    Item *dupe = ItemDuplicate(item);
+    assert(dupe != NULL);
+    assert(strcmp(dupe->value, item->value) == 0);
+
+    ItemFree(item);
+    ItemFree(dupe);
+}
+
 static void testToStringSimple()
 {
     char *test_string_1 = QuickAllocatedString("teststring1");
@@ -39,4 +54,5 @@ extern void TestItem()
     ItemFree(item_2);
 
     testToStringSimple();
+    testDuplicate();
 }

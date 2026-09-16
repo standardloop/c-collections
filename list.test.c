@@ -104,9 +104,32 @@ static void testListToString()
     testListToStringListWithinListSimple();
 }
 
+static void testListDuplicate()
+{
+    List *list_1 = ListInitDefault();
+    assert(list_1 != NULL);
+
+    ListAddFirst(list_1, ItemInit(QuickAllocatedString("teststring1"),
+                                  &ItemValueStringOperations));
+    ListAddFirst(list_1, ItemInit(QuickAllocatedString("teststring2"),
+                                  &ItemValueStringOperations));
+    ListAddFirst(list_1, ItemInit(QuickAllocatedString("teststring3"),
+                                  &ItemValueStringOperations));
+
+    List *dupe = ListDuplicate(list_1);
+    assert(dupe != NULL);
+    assert(dupe->size == list_1->size);
+
+    assert(strcmp(ListGetFirst(list_1)->value, ListGetFirst(dupe)->value) == 0);
+
+    ListFree(list_1);
+    ListFree(dupe);
+}
+
 extern void TestList()
 {
     testListToString();
     testListInList();
     testListPop();
+    testListDuplicate();
 }

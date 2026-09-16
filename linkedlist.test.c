@@ -48,7 +48,7 @@ static void toStringTest()
     char *as_string = LinkedListToString((LinkedList *)list);
     assert(as_string != NULL);
 
-    printf("%s\n", as_string);
+    // printf("%s\n", as_string);
 
     LinkedListFree(list);
     free(as_string);
