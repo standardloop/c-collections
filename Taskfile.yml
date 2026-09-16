@@ -47,11 +47,16 @@ tasks:
     deps:
       - test:run
 
+  sanitize:
+    deps:
+      - test:run-sanitize
+
   test:build-sanitize:
     deps:
       - dependencies
     cmds:
       - task: c:test:build-sanitize
+
   test:build:
     deps:
       - dependencies
@@ -63,6 +68,12 @@ tasks:
       - test:build
     cmds:
       - ./{{.TEST_EXECUTABLE_NAME}}
+
+  test:run-sanitize:
+    deps:
+      - test:build-sanitize
+    cmds:
+      - ./{{.TEST_EXECUTABLE_NAME}}-sanitize
 
   clean:
     deps:
@@ -77,6 +88,8 @@ tasks:
       - c:docs:moxygen
 
   test:leaks:
+    aliases:
+      - leaks
     desc: "Run macOS leaks on the test program."
     deps:
       - test:build

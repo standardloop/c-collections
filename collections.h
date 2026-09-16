@@ -415,10 +415,12 @@ extern LinkedList *LinkedListInit();
 extern bool IsLinkedListEmpty(LinkedList *list);
 extern void LinkedListPrint(void *list);
 extern void LinkedListAddToFront(LinkedList *list, Item *item);
-extern void LinkedListAddToEnd(LinkedList *list, Item *item);
+extern void LinkedListAddToBack(LinkedList *list, Item *item);
 extern void LinkedListAddAtIndex(LinkedList *list, Item *item, u_int64_t index);
 extern void LinkedListFree(void *list);
 extern void LinkedListDeleteAtIndex(LinkedList *list, u_int64_t index);
+extern void LinkedListDeleteBack(LinkedList *list);
+extern void LinkedListDeleteFront(LinkedList *list);
 
 /// @cond INTERNAL
 extern void TestLinkedList();

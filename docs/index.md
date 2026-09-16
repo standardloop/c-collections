@@ -735,10 +735,10 @@ void LinkedListAddToFront(LinkedList * list, Item * item)
 
 ---
 
-### LinkedListAddToEnd
+### LinkedListAddToBack
 
 ```cpp
-void LinkedListAddToEnd(LinkedList * list, Item * item)
+void LinkedListAddToBack(LinkedList * list, Item * item)
 ```
 
 ---
@@ -763,6 +763,22 @@ void LinkedListFree(void * list)
 
 ```cpp
 void LinkedListDeleteAtIndex(LinkedList * list, u_int64_t index)
+```
+
+---
+
+### LinkedListDeleteBack
+
+```cpp
+void LinkedListDeleteBack(LinkedList * list)
+```
+
+---
+
+### LinkedListDeleteFront
+
+```cpp
+void LinkedListDeleteFront(LinkedList * list)
 ```
 
 ## Variables

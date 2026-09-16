@@ -81,7 +81,7 @@ extern void LinkedListAddToFront(LinkedList *list, Item *item)
     return;
 }
 
-extern void LinkedListAddToEnd(LinkedList *list, Item *item)
+extern void LinkedListAddToBack(LinkedList *list, Item *item)
 {
     if (list == NULL)
     {
@@ -147,7 +147,17 @@ static void linkedListNodeFree(LinkedListNode *list_node)
     }
 }
 
-extern void LinkedListDelete(LinkedList *list, u_int64_t index)
+extern void LinkedListDeleteFront(LinkedList *list)
+{
+    LinkedListDeleteAtIndex(list, 0);
+}
+
+extern void LinkedListDeleteBack(LinkedList *list)
+{
+    LinkedListDeleteAtIndex(list, list->size - 1);
+}
+
+extern void LinkedListDeleteAtIndex(LinkedList *list, u_int64_t index)
 {
     if (list == NULL || IsLinkedListEmpty(list) || index > list->size - 1)
     {
