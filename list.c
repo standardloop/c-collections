@@ -313,16 +313,16 @@ extern void *ListDuplicate(void *list)
     {
         return NULL;
     }
-    List *dupe =
-        ListInit(((List *)list)->capacity, ((List *)list)->resize_multiple);
+    List *list_ptr = (List *)list;
+    List *dupe = ListInit(list_ptr->capacity, list_ptr->resize_multiple);
     if (dupe == NULL)
     {
         return NULL;
     }
-    u_int8_t list_size = ((List *)list)->size;
+    u_int8_t list_size = list_ptr->size;
     for (u_int32_t i = 0; i < list_size; i++)
     {
-        dupe->items[i] = ItemDuplicate(((List *)list)->items[i]);
+        dupe->items[i] = ItemDuplicate(list_ptr->items[i]);
         // NULL check here?
         dupe->size++;
     }

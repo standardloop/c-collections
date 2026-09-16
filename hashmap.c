@@ -12,10 +12,10 @@
 
 #include "./collections.h"
 
-static void HashMapFreeEntrySingle(HashMapItem *, bool);
-static void HashMapFreeEntryList(HashMapItem *, bool);
-static void HashMapFreeEntries(HashMapItem **, u_int32_t, bool, bool);
-static void HashMapPrintEntry(HashMapItem *);
+static void hashMapFreeEntrySingle(HashMapItem *, bool);
+static void hashMapFreeEntryList(HashMapItem *, bool);
+static void hashMapFreeEntries(HashMapItem **, u_int32_t, bool, bool);
+static void hashMapPrintEntry(HashMapItem *);
 static u_int32_t defaultHashFunction(char *, u_int32_t);
 
 static bool hashMapEntriesInsert(HashMapItem **, u_int32_t, HashMapItem *);
@@ -296,7 +296,7 @@ extern void *HashMapGetValueDirect(HashMap *map, char *key)
     return value_obj->item->value;
 }
 
-static void HashMapFreeEntryList(HashMapItem *entry, bool deep)
+static void hashMapFreeEntryList(HashMapItem *entry, bool deep)
 {
     if (entry == NULL)
     {
@@ -320,7 +320,7 @@ static void HashMapFreeEntryList(HashMapItem *entry, bool deep)
     }
 }
 
-static void HashMapFreeEntrySingle(HashMapItem *entry, bool deep)
+static void hashMapFreeEntrySingle(HashMapItem *entry, bool deep)
 {
     if (entry == NULL)
     {
@@ -335,7 +335,7 @@ static void HashMapFreeEntrySingle(HashMapItem *entry, bool deep)
     HashMapItemFree(entry, deep);
 }
 
-static void HashMapFreeEntries(HashMapItem **entries, u_int32_t size, bool deep,
+static void hashMapFreeEntries(HashMapItem **entries, u_int32_t size, bool deep,
                                bool entry_values)
 {
     if (entries != NULL)
@@ -346,7 +346,7 @@ static void HashMapFreeEntries(HashMapItem **entries, u_int32_t size, bool deep,
             {
                 if (entries[i] != NULL)
                 {
-                    HashMapFreeEntryList(entries[i], entry_values);
+                    hashMapFreeEntryList(entries[i], entry_values);
                     entries[i] = NULL;
                 }
             }
@@ -361,7 +361,7 @@ extern void HashMapFree(void *map)
     {
         if (((HashMap *)map)->entries != NULL)
         {
-            HashMapFreeEntries(((HashMap *)map)->entries,
+            hashMapFreeEntries(((HashMap *)map)->entries,
                                ((HashMap *)map)->capacity, true, true);
             ((HashMap *)map)->entries = NULL;
         }
@@ -384,7 +384,7 @@ extern void HashMapRemove(HashMap *map, char *key)
     }
     if (entry->next == NULL)
     {
-        HashMapFreeEntrySingle(entry, true);
+        hashMapFreeEntrySingle(entry, true);
         map->entries[index] = NULL;
         map->size--;
         return;
@@ -395,7 +395,7 @@ extern void HashMapRemove(HashMap *map, char *key)
         HashMapItem *temp = entry;
         map->entries[index] = entry->next;
         entry->next = NULL;
-        HashMapFreeEntrySingle(temp, true);
+        hashMapFreeEntrySingle(temp, true);
         map->collision_count--;
         return;
     }
@@ -408,7 +408,7 @@ extern void HashMapRemove(HashMap *map, char *key)
         {
             iterator_prev->next = iterator->next;
             map->entries[index] = iterator_prev;
-            HashMapFreeEntrySingle(iterator, true);
+            hashMapFreeEntrySingle(iterator, true);
             map->collision_count--;
             break;
         }
@@ -431,7 +431,7 @@ extern void HashMapPrint(void *map)
         HashMapItem *entry = ((HashMap *)map)->entries[i];
         if (entry != NULL)
         {
-            HashMapPrintEntry(entry);
+            hashMapPrintEntry(entry);
             if (entry_count < ((HashMap *)map)->size - 1)
             {
                 printf(", ");
@@ -442,7 +442,7 @@ extern void HashMapPrint(void *map)
     printf("}");
 }
 
-static void HashMapPrintEntry(HashMapItem *entry)
+static void hashMapPrintEntry(HashMapItem *entry)
 {
     if (entry == NULL || entry->item == NULL || entry->key == NULL)
     {
@@ -512,31 +512,13 @@ static void hashMapResize(HashMap *map)
             HashMapItemFree(temp, false);
         }
     }
-    HashMapFreeEntries(map->entries, map->capacity, false, false);
+    hashMapFreeEntries(map->entries, map->capacity, false, false);
 
     map->size = new_size;
     map->collision_count = new_collision_count;
     map->capacity = new_capacity;
     map->entries = new_entries;
 }
-
-// // FIXME: not complete
-// extern HashMap *HashMapReplicate(HashMap *map)
-// {
-//     if (map == NULL)
-//     {
-//         errno = EINVAL;
-//         return NULL;
-//     }
-//     HashMap *deep_clone = HashMapInit(map->capacity, map->hashFunction,
-//     map->force_lowercase); deep_clone->collision_count =
-//     map->collision_count; deep_clone->size = map->collision_count; for
-//     (u_int32_t i = 0; i < map->capacity; i++)
-//     {
-//         deep_clone->entries[i] = HashMapItemReplicate(map->entries[i]);
-//     }
-//     return deep_clone;
-// }
 
 extern char *HashMapToString(void *map)
 {
@@ -618,5 +600,25 @@ extern void *HashMapDuplicate(void *map)
     {
         return NULL;
     }
-    return NULL;
+
+    HashMap *map_ptr = ((HashMap *)map);
+
+    HashMap *dupe =
+        HashMapInit(map_ptr->capacity, map_ptr->resize_multiple,
+                    map_ptr->hashFunction, map_ptr->force_lowercase);
+    for (u_int64_t i = 0; i < map_ptr->capacity; i++)
+    {
+        HashMapItem *map_entry = map_ptr->entries[i];
+
+        while (map_entry != NULL)
+        {
+            char *entry_key = map_entry->key;
+            char *duplicated_key = PutQuotesAroundString(entry_key, false);
+
+            char *entry_value = ItemToString(map_entry->item);
+
+            map_entry = map_entry->next;
+        }
+    }
+    return dupe;
 }
