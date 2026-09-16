@@ -1,3 +1,4 @@
+#include <_string.h>
 #include <assert.h>
 #include <errno.h>
 #include <stdbool.h>
@@ -220,7 +221,7 @@ static bool hashMapEntriesInsert(HashMapItem **entries, u_int32_t index,
             {
                 entry->next = collision->next;
                 collision->next = NULL;
-                HashMapFreeEntrySingle(collision, true);
+                hashMapFreeEntrySingle(collision, true);
                 entries[index] = entry;
                 return true;
             }
@@ -241,7 +242,7 @@ static bool hashMapEntriesInsert(HashMapItem **entries, u_int32_t index,
                     iterator_prev->next = entry;
                     entry->next = iterator->next;
                     iterator->next = NULL;
-                    HashMapFreeEntrySingle(iterator, true);
+                    hashMapFreeEntrySingle(iterator, true);
                     return true;
                 }
             }
@@ -594,6 +595,32 @@ extern char *HashMapToString(void *map)
     return obj_as_string;
 }
 
+extern HashMapItem *HashMapItemDuplicate(HashMapItem *hashmap_item)
+{
+    if (hashmap_item == NULL)
+    {
+        return NULL;
+    }
+
+    // create the head first
+    HashMapItem *dupe = HashMapItemInit(strdup(hashmap_item->key),
+                                        ItemDuplicate(hashmap_item->item));
+
+    HashMapItem *dupe_itr = dupe;
+
+    HashMapItem *item_itr = hashmap_item->next;
+    while (item_itr != NULL)
+    {
+        HashMapItem *dupe = HashMapItemInit(strdup(item_itr->key),
+                                            ItemDuplicate(item_itr->item));
+        dupe_itr->next = dupe;
+
+        dupe_itr = dupe_itr->next;
+        item_itr = item_itr->next;
+    }
+    return dupe;
+}
+
 extern void *HashMapDuplicate(void *map)
 {
     if (map == NULL)
@@ -606,19 +633,13 @@ extern void *HashMapDuplicate(void *map)
     HashMap *dupe =
         HashMapInit(map_ptr->capacity, map_ptr->resize_multiple,
                     map_ptr->hashFunction, map_ptr->force_lowercase);
+
+    dupe->size = map_ptr->size;
+    dupe->collision_count = map_ptr->collision_count;
+
     for (u_int64_t i = 0; i < map_ptr->capacity; i++)
     {
-        HashMapItem *map_entry = map_ptr->entries[i];
-
-        while (map_entry != NULL)
-        {
-            char *entry_key = map_entry->key;
-            char *duplicated_key = PutQuotesAroundString(entry_key, false);
-
-            char *entry_value = ItemToString(map_entry->item);
-
-            map_entry = map_entry->next;
-        }
+        dupe->entries[i] = HashMapItemDuplicate(map_ptr->entries[i]);
     }
     return dupe;
 }

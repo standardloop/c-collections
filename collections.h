@@ -269,12 +269,6 @@ extern void TestList();
  */
 typedef u_int32_t(HashFunction)(char *, u_int32_t);
 
-// typedef enum
-// {
-//     HASHMAP_COLLISION_OPTION_LINKEDLIST = 0,
-//     HASHMAP_COLLISION_OPTION_LIST = 1
-// } HashMapCollisionOptions;
-
 /**
  * @brief The HashMap Item struct. Contains the key, the value, and a next field
  * for collisions
@@ -296,6 +290,8 @@ typedef struct hashMapItem
  * @return The Initialized HashMapItem.
  */
 extern HashMapItem *HashMapItemInit(char *key, Item *item);
+
+extern HashMapItem *HashMapItemDuplicate(HashMapItem *hashmap_item);
 
 /**
  * @brief Frees a HashMapItem, can optional deep free by freeing the Item as
@@ -337,7 +333,6 @@ typedef struct
      * both hashed to the same value.
      */
     bool force_lowercase;
-    // HashMapCollisionOptions collision_strategy;
 } HashMap;
 
 /**

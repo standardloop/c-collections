@@ -589,6 +589,14 @@ The Initialized [HashMapItem](#hashmapitem).
 
 ---
 
+### HashMapItemDuplicate
+
+```cpp
+HashMapItem * HashMapItemDuplicate(HashMapItem * hashmap_item)
+```
+
+---
+
 ### HashMapItemFree
 
 ```cpp
