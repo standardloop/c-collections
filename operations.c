@@ -58,6 +58,21 @@ extern char *IntToString(void *num)
     return str;
 }
 
+#define FLOAT_CHAR_MAX 10
+extern char *DoubleToString(void *num)
+{
+    char *double_as_string =
+        malloc((sizeof(char) * FLOAT_CHAR_MAX) + sizeof(char));
+    if (double_as_string == NULL)
+    {
+        errno = ENOMEM;
+        return NULL;
+    }
+    (void)gcvt(*(double *)num, FLOAT_CHAR_MAX, double_as_string);
+    double_as_string[FLOAT_CHAR_MAX] = NULL_CHAR;
+    return double_as_string;
+}
+
 extern void DefaultPrint(void *v)
 {
     (void)v;
