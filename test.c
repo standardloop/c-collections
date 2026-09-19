@@ -1,4 +1,5 @@
 #include <assert.h>
+#include <standardloop/testing.h>
 #include <standardloop/util.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,18 +18,21 @@ static void testToString()
     ListAddFirst(list, ItemInit(map, &ItemValueHashMapOperations));
 
     char *test_string = ListToString(list);
-    assert(strcmp(test_string, "[{\"key\":\"value\"}]") == 0);
+    TestCaseVerify(true, "check a complex structure to string",
+                   strcmp(test_string, "[{\"key\":\"value\"}]") == 0);
     ListFree(list);
     free(test_string);
 }
 
-int main()
+int main(void)
 {
+    TestingInit();
     testToString();
     TestItem();
     TestList();
     TestHashMap();
     TestLinkedList();
+    TestingTearDown();
     sleep(1);
     return EXIT_SUCCESS;
 }

@@ -41,7 +41,7 @@ tasks:
 
   dependencies:
     deps:
-      - c:dependencies:util
+      - c:dependencies:util:latest
 
   test:
     deps:
@@ -54,12 +54,14 @@ tasks:
   test:build-sanitize:
     deps:
       - dependencies
+      - c:dependencies:testing
     cmds:
       - task: c:test:build-sanitize
 
   test:build:
     deps:
       - dependencies
+      - c:dependencies:testing
     cmds:
       - task: c:test:build
 

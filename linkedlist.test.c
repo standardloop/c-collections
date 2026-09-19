@@ -1,36 +1,47 @@
 #include "./collections.h"
-#include <assert.h>
+#include <standardloop/testing.h>
 #include <standardloop/util.h>
 
 static void basicTest()
 {
     LinkedList *list = LinkedListInit();
-    assert(list != NULL);
-    assert(IsLinkedListEmpty(list));
+    TestCaseVerify(true, "ensure LinkedListInit doesn't return NULL",
+                   list != NULL);
+    TestCaseVerify(true, "ensure linked list is empty after creation",
+                   IsLinkedListEmpty(list));
 
     LinkedListAddToFront(list, ItemInit(QuickAllocatedString("teststring1"),
                                         &ItemValueStringOperations));
 
-    assert(list->size == 1);
+    TestCaseVerify(true, "After adding one item, ensure size is 1",
+                   list->size == 1);
 
-    assert(strcmp(list->head->item->value, "teststring1") == 0);
+    TestCaseVerify(true, "ensure the item we added has the correct value",
+                   strcmp(list->head->item->value, "teststring1") == 0);
 
     LinkedListAddToFront(list, ItemInit(QuickAllocatedString("teststring2"),
                                         &ItemValueStringOperations));
 
-    assert(strcmp(list->head->item->value, "teststring2") == 0);
+    TestCaseVerify(true, "ensure another item added has the correct value",
+                   strcmp(list->head->item->value, "teststring2") == 0);
 
     LinkedListAddToBack(list, ItemInit(QuickAllocatedString("teststring3"),
                                        &ItemValueStringOperations));
 
     // LinkedListPrint((LinkedList *)list);
     // head shouldn't change
-    assert(strcmp(list->head->item->value, "teststring2") == 0);
-    assert(strcmp(list->head->next->item->value, "teststring1") == 0);
-    assert(strcmp(list->head->next->next->item->value, "teststring3") == 0);
+    TestCaseVerify(true, "ensure the head didn't change when we add to back",
+                   strcmp(list->head->item->value, "teststring2") == 0);
+    TestCaseVerify(true, "ensure head->next was unchanged",
+                   strcmp(list->head->next->item->value, "teststring1") == 0);
+    TestCaseVerify(
+        true, "ensure the item added to the end has the correct value",
+        strcmp(list->head->next->next->item->value, "teststring3") == 0);
 
     LinkedListDeleteBack(list);
-    assert(list->head->next->next == NULL);
+    TestCaseVerify(
+        true, "after deleting the last item, ensure the previous->next is NULL",
+        list->head->next->next == NULL);
 
     LinkedListFree(list);
 }
@@ -46,7 +57,8 @@ static void toStringTest()
                                         &ItemValueStringOperations));
 
     char *as_string = LinkedListToString((LinkedList *)list);
-    assert(as_string != NULL);
+    TestCaseVerify(true, "ensure LinkedListToString doesn't return NULL",
+                   as_string != NULL);
 
     // printf("%s\n", as_string);
 
