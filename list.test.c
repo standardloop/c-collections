@@ -1,4 +1,4 @@
-#include <assert.h>
+#include <standardloop/testing.h>
 #include <standardloop/util.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,9 +10,9 @@ static void testListInList()
 {
 
     List *list_inner = ListInitDefault();
-    assert(list_inner != NULL);
+    TestCaseVerify(true, "", list_inner != NULL);
     List *list_outer = ListInitDefault();
-    assert(list_outer != NULL);
+    TestCaseVerify(true, "", list_outer != NULL);
     ListAddFirst(list_outer, ItemInit(list_inner, &ItemValueListOperations));
     ListFree(list_outer);
 }
@@ -20,23 +20,24 @@ static void testListInList()
 static void testListPop()
 {
     List *list = ListInitDefault();
-    assert(list != NULL);
+    TestCaseVerify(true, "", list != NULL);
 
     char *test_string_1 = QuickAllocatedString("teststring1");
-    assert(test_string_1 != NULL);
+    TestCaseVerify(true, "", test_string_1 != NULL);
     Item *list_item_1 = ItemInit(test_string_1, &ItemValueStringOperations);
-    assert(list_item_1 != NULL);
+    TestCaseVerify(true, "", list_item_1 != NULL);
 
     ListAddFirst(list, list_item_1);
     char *assert_value_str_1 = list->items[0]->value;
-    assert(strcmp(assert_value_str_1, "teststring1") == 0);
-    assert(list->size == 1);
+    TestCaseVerify(true, "", strcmp(assert_value_str_1, "teststring1") == 0);
+    TestCaseVerify(true, "", list->size == 1);
 
     Item *list_item_1_diff_ref = ListPopFirst(list);
-    assert(list_item_1_diff_ref != NULL);
-    assert(list->size == 0);
+    TestCaseVerify(true, "", list_item_1_diff_ref != NULL);
+    TestCaseVerify(true, "", list->size == 0);
 
-    assert(strcmp(list_item_1_diff_ref->value, "teststring1") == 0);
+    TestCaseVerify(true, "",
+                   strcmp(list_item_1_diff_ref->value, "teststring1") == 0);
 
     ItemFree(list_item_1_diff_ref);
     // ListPrint(list);
@@ -47,18 +48,18 @@ static void testListPop()
 static void testListToStringListWithinListSimple()
 {
     List *list_inner = ListInitDefault();
-    assert(list_inner != NULL);
+    TestCaseVerify(true, "", list_inner != NULL);
     List *list_outer = ListInitDefault();
-    assert(list_outer != NULL);
+    TestCaseVerify(true, "", list_outer != NULL);
     ListAddFirst(list_outer, ItemInit(list_inner, &ItemValueListOperations));
-    assert(list_outer->size == 1);
+    TestCaseVerify(true, "", list_outer->size == 1);
     // ListPrint(list_holder);
     char *list_outer_as_string = ListToString(list_outer);
     // printf("%s\n", list_outer_as_string);
 
-    assert(list_outer->size == 1);
-    assert(list_inner->size == 0);
-    assert(strcmp(list_outer_as_string, "[[]]") == 0);
+    TestCaseVerify(true, "", list_outer->size == 1);
+    TestCaseVerify(true, "", list_inner->size == 0);
+    TestCaseVerify(true, "", strcmp(list_outer_as_string, "[[]]") == 0);
 
     ListFree(list_outer);
     free(list_outer_as_string);
@@ -67,7 +68,7 @@ static void testListToStringListWithinListSimple()
 static void testListToStringListWithinList()
 {
     List *list_1 = ListInitDefault();
-    assert(list_1 != NULL);
+    TestCaseVerify(true, "", list_1 != NULL);
     ListAddFirst(list_1, ItemInit(QuickAllocatedString("teststring1"),
                                   &ItemValueStringOperations));
     ListAddFirst(list_1, ItemInit(QuickAllocatedString("teststring2"),
@@ -75,7 +76,7 @@ static void testListToStringListWithinList()
     ListAddFirst(list_1, ItemInit(QuickAllocatedString("teststring3"),
                                   &ItemValueStringOperations));
     List *list_holder = ListInitDefault();
-    assert(list_holder != NULL);
+    TestCaseVerify(true, "", list_holder != NULL);
     ListAddFirst(list_holder, ItemInit(list_1, &ItemValueListOperations));
 
     char *nested = ListToString(list_holder);
@@ -87,7 +88,7 @@ static void testListToStringListWithinList()
 static void testListToString()
 {
     List *list_1 = ListInitDefault();
-    assert(list_1 != NULL);
+    TestCaseVerify(true, "", list_1 != NULL);
 
     ListAddFirst(list_1, ItemInit(QuickAllocatedString("teststring1"),
                                   &ItemValueStringOperations));
@@ -107,7 +108,7 @@ static void testListToString()
 static void testListDuplicate()
 {
     List *list_1 = ListInitDefault();
-    assert(list_1 != NULL);
+    TestCaseVerify(true, "", list_1 != NULL);
 
     ListAddFirst(list_1, ItemInit(QuickAllocatedString("teststring1"),
                                   &ItemValueStringOperations));
@@ -117,10 +118,12 @@ static void testListDuplicate()
                                   &ItemValueStringOperations));
 
     List *dupe = ListDuplicate(list_1);
-    assert(dupe != NULL);
-    assert(dupe->size == list_1->size);
+    TestCaseVerify(true, "", dupe != NULL);
+    TestCaseVerify(true, "", dupe->size == list_1->size);
 
-    assert(strcmp(ListGetFirst(list_1)->value, ListGetFirst(dupe)->value) == 0);
+    TestCaseVerify(
+        true, "",
+        strcmp(ListGetFirst(list_1)->value, ListGetFirst(dupe)->value) == 0);
 
     ListFree(list_1);
     ListFree(dupe);
