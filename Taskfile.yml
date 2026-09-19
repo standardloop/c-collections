@@ -87,7 +87,7 @@ tasks:
 
   docs:
     deps:
-      - c:docs:moxygen
+      - c:docs
 
   test:leaks:
     aliases:

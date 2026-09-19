@@ -8,6 +8,33 @@
 
 This repo contains my reusable datastructures all written in C released as a `dylib`
 
+## Testing
+
+This repo uses https://github.com/standardloop/c-testing to aid in testing.
+
+## Available Tasks
+
+<!-- TASKS_START -->
+
+```sh
+task: Available tasks for this project:
+* default
+* release
+* dependencies
+* test
+* sanitize
+* test:build-sanitize
+* test:build
+* test:run
+* test:run-sanitize
+* clean
+* fmt
+* docs
+* test:leaks            Run macOS leaks on the test program.
+```
+
+<!-- TASKS_END -->
+
 ## Docs
 
 Docs are generated a first generated with `doxygen` as `xml` and then `moxygen` reads the xml to output markdown in the `docs/` folder.
