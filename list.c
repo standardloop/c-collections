@@ -328,3 +328,45 @@ extern void *ListDuplicate(void *list)
     }
     return dupe;
 }
+
+extern bool ListEquivalence(void *list1, void *list2)
+{
+    if (list1 == NULL && list2 == NULL)
+    {
+        return true;
+    }
+
+    if (list1 == NULL || list2 == NULL)
+    {
+        return false;
+    }
+
+    List *list1_ptr = (List *)list1;
+    List *list2_ptr = (List *)list2;
+    if ((list1_ptr->size != list2_ptr->size) ||
+        (list1_ptr->capacity != list2_ptr->capacity))
+    {
+        return false;
+    }
+    // do we want to check anything else here?
+
+    for (u_int32_t i = 0; i < list1_ptr->capacity; i++)
+    {
+        if (list1_ptr->items[i] == NULL && list2_ptr->items[i] == NULL)
+        {
+            continue;
+        }
+        else if (list1_ptr->items[i] == NULL || list2_ptr->items[i] == NULL)
+        {
+            return false;
+        }
+        else
+        {
+            if (!ItemEquivalence(list1_ptr->items[i], list2_ptr->items[i]))
+            {
+                return false;
+            }
+        }
+    }
+    return true;
+}

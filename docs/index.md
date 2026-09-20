@@ -78,6 +78,14 @@ using ItemValueHashFunction = u_int32_t
 
 ---
 
+### ItemValueEquivalenceFunction
+
+```cpp
+using ItemValueEquivalenceFunction = bool
+```
+
+---
+
 ### HashFunction
 
 ```cpp
@@ -276,6 +284,22 @@ void * LinkedListDuplicate(void * list)
 
 ---
 
+### StringEquivalence
+
+```cpp
+bool StringEquivalence(void * s1, void * s2)
+```
+
+---
+
+### ListEquivalence
+
+```cpp
+bool ListEquivalence(void * list1, void * list2)
+```
+
+---
+
 ### ItemInit
 
 ```cpp
@@ -369,6 +393,14 @@ Item * ItemDuplicate(Item * item)
 
 ```cpp
 u_int32_t ItemHash(Item * item)
+```
+
+---
+
+### ItemEquivalence
+
+```cpp
+bool ItemEquivalence(Item * item1, Item * item2)
 ```
 
 ---
@@ -889,6 +921,14 @@ ItemValueOperations ItemValueHashMapOperations
 
 ---
 
+### ItemValueLinkedListOperations
+
+```cpp
+ItemValueOperations ItemValueLinkedListOperations
+```
+
+---
+
 ### TYPE_LIST
 
 ```cpp
@@ -917,6 +957,14 @@ const char TYPE_LINKED_LIST
 
 ```cpp
 const char TYPE_STRING
+```
+
+---
+
+### TYPE_INT
+
+```cpp
+const char TYPE_INT
 ```
 
 ## test
@@ -1284,13 +1332,14 @@ struct ItemValueOperations
 
 ### Public Attributes
 
-| Return                                                      | Name                                      | Description                                   |
-| ----------------------------------------------------------- | ----------------------------------------- | --------------------------------------------- |
-| [`ItemValueFreeFunction`](#itemvaluefreefunction) *         | [`freeFunction`](#freefunction)           | A function to free the value.                 |
-| [`ItemValuePrintFunction`](#itemvalueprintfunction) *       | [`printFunction`](#printfunction)         | A function to print the value.                |
-| [`ItemValueToStringFunction`](#itemvaluetostringfunction) * | [`toStringFunction`](#tostringfunction)   | A function to turn the value.                 |
-| `ItemValueReplicateFunction *`                              | [`duplicateFunction`](#duplicatefunction) | A function deep replicate a value of an item. |
-| `ItemValueHashFunction *`                                   | [`hashFunction`](#hashfunction-2)         | A function to hash the structure              |
+| Return                                                      | Name                                          | Description                                   |
+| ----------------------------------------------------------- | --------------------------------------------- | --------------------------------------------- |
+| [`ItemValueFreeFunction`](#itemvaluefreefunction) *         | [`freeFunction`](#freefunction)               | A function to free the value.                 |
+| [`ItemValuePrintFunction`](#itemvalueprintfunction) *       | [`printFunction`](#printfunction)             | A function to print the value.                |
+| [`ItemValueToStringFunction`](#itemvaluetostringfunction) * | [`toStringFunction`](#tostringfunction)       | A function to turn the value.                 |
+| `ItemValueReplicateFunction *`                              | [`duplicateFunction`](#duplicatefunction)     | A function deep replicate a value of an item. |
+| `ItemValueHashFunction *`                                   | [`hashFunction`](#hashfunction-2)             | A function to hash the structure              |
+| `ItemValueEquivalenceFunction *`                            | [`equivalenceFunction`](#equivalencefunction) | A function to check for equivalency           |
 
 ---
 
@@ -1347,3 +1396,13 @@ ItemValueHashFunction * hashFunction
 ```
 
 A function to hash the structure
+
+---
+
+#### equivalenceFunction
+
+```cpp
+ItemValueEquivalenceFunction * equivalenceFunction
+```
+
+A function to check for equivalency

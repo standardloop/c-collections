@@ -71,6 +71,10 @@ extern void *LinkedListDuplicate(void *list);
 
 typedef u_int32_t(ItemValueHashFunction)(void *);
 
+typedef bool(ItemValueEquivalenceFunction)(void *, void *);
+extern bool StringEquivalence(void *s1, void *s2);
+extern bool ListEquivalence(void *list1, void *list2);
+
 typedef struct
 {
     /** A function to free the value. */
@@ -83,17 +87,21 @@ typedef struct
     ItemValueReplicateFunction *duplicateFunction;
     /** A function to hash the structure */
     ItemValueHashFunction *hashFunction;
+    /** A function to check for  equivalency*/
+    ItemValueEquivalenceFunction *equivalenceFunction;
 } ItemValueOperations;
 
 extern ItemValueOperations ItemValueStringOperations;
 extern ItemValueOperations ItemValueIntOperations;
 extern ItemValueOperations ItemValueListOperations;
 extern ItemValueOperations ItemValueHashMapOperations;
+extern ItemValueOperations ItemValueLinkedListOperations;
 
 extern const char TYPE_LIST;
 extern const char TYPE_HASHMAP;
 extern const char TYPE_LINKED_LIST;
 extern const char TYPE_STRING;
+extern const char TYPE_INT;
 
 /**
  * @brief The Item struct, contains a value of any kind, and a function to free
@@ -145,6 +153,8 @@ extern char *ItemToString(Item *item);
 extern Item *ItemDuplicate(Item *item);
 
 extern u_int32_t ItemHash(Item *item);
+
+extern bool ItemEquivalence(Item *item1, Item *item2);
 
 /// @cond INTERNAL
 extern void TestItem();

@@ -42,6 +42,19 @@ extern void PrintString(void *value)
     }
 }
 
+extern bool StringEquivalence(void *s1, void *s2)
+{
+    if (s1 == NULL && s2 == NULL)
+    {
+        return true;
+    }
+    if (s1 == NULL || s2 == NULL)
+    {
+        return false;
+    }
+    return strcmp(s1, s2) == 0;
+}
+
 extern void PrintInt(void *value)
 {
     if (value != NULL)
@@ -117,20 +130,13 @@ extern u_int32_t ListHash(void *list)
     return sum;
 }
 
-// extern bool ListsAreEqual(void *list1, void *list2)
-// {
-//     if (list1 == NULL || list2 == NULL)
-//     {
-//         return false;
-//     }
-//     return false;
-// }
-
 ItemValueOperations ItemValueStringOperations = {
     .toStringFunction = StringToString,
     .freeFunction = free,
     .printFunction = PrintString,
-    .duplicateFunction = DuplicateString};
+    .duplicateFunction = DuplicateString,
+    .hashFunction = NULL,
+    .equivalenceFunction = NULL};
 
 ItemValueOperations ItemValueIntOperations = {.toStringFunction = IntToString,
                                               .freeFunction = free,
@@ -143,7 +149,8 @@ ItemValueOperations ItemValueListOperations = {.toStringFunction = ListToString,
                                                .printFunction = ListPrint,
                                                .duplicateFunction =
                                                    ListDuplicate,
-                                               .hashFunction = ListHash};
+                                               .hashFunction = ListHash,
+                                               .equivalenceFunction = ListEq};
 
 ItemValueOperations ItemValueHashMapOperations = {
     .toStringFunction = HashMapToString,

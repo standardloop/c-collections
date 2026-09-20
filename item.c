@@ -101,3 +101,23 @@ extern u_int32_t ItemHash(Item *item)
     }
     return -1;
 }
+
+extern bool ItemEquivalence(Item *item1, Item *item2)
+{
+    if (item1 == NULL || item2 == NULL)
+    {
+        return false;
+    }
+    if (!ITEM_TYPES_MATCH(item1, item2))
+    {
+        return false;
+    }
+    if (item1->value_ops->equivalenceFunction !=
+        item2->value_ops->equivalenceFunction)
+    {
+        return false;
+    }
+    // do we want to check if all the value_ops are the same?
+
+    return item1->value_ops->equivalenceFunction(item1->value, item2->value);
+}
