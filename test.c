@@ -1,3 +1,4 @@
+#include <_string.h>
 #include <assert.h>
 #include <standardloop/testing.h>
 #include <standardloop/util.h>

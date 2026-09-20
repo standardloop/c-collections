@@ -9,6 +9,11 @@
 
 #include "./collections.h"
 
+const char TYPE_LIST = 0;
+const char TYPE_HASHMAP = 0;
+const char TYPE_LINKED_LIST = 0;
+const char TYPE_STRING = 0;
+
 extern void *DuplicateInt(void *original)
 {
     if (original == NULL)
@@ -93,6 +98,34 @@ extern char *DefaultToString(void *v)
     return null_str;
 }
 
+extern u_int32_t ListHash(void *list)
+{
+    List *list_ptr = (List *)list;
+    if (list_ptr->size == 0)
+    {
+        return 0;
+    }
+    u_int32_t sum = 0;
+
+    for (u_int32_t i = 0; i < list_ptr->size; i++)
+    {
+        if (list_ptr->items[i] != NULL)
+        {
+            sum += ItemHash(list_ptr->items[i]);
+        }
+    }
+    return sum;
+}
+
+// extern bool ListsAreEqual(void *list1, void *list2)
+// {
+//     if (list1 == NULL || list2 == NULL)
+//     {
+//         return false;
+//     }
+//     return false;
+// }
+
 ItemValueOperations ItemValueStringOperations = {
     .toStringFunction = StringToString,
     .freeFunction = free,
@@ -109,7 +142,8 @@ ItemValueOperations ItemValueListOperations = {.toStringFunction = ListToString,
                                                .freeFunction = ListFree,
                                                .printFunction = ListPrint,
                                                .duplicateFunction =
-                                                   ListDuplicate};
+                                                   ListDuplicate,
+                                               .hashFunction = ListHash};
 
 ItemValueOperations ItemValueHashMapOperations = {
     .toStringFunction = HashMapToString,

@@ -1,5 +1,11 @@
 # API Reference
 
+## Namespaces
+
+| Name            | Description |
+| --------------- | ----------- |
+| [`test`](#test) |             |
+
 ## Classes
 
 | Name                                          | Description                                                                                                                                             |
@@ -11,6 +17,16 @@
 | [`HashMapItem`](#hashmapitem)                 | The [HashMap](#hashmap)[Item](#item) struct. Contains the key, the value, and a next field for collisions.                                              |
 | [`LinkedListNode`](#linkedlistnode)           |                                                                                                                                                         |
 | [`ItemValueOperations`](#itemvalueoperations) |                                                                                                                                                         |
+
+## Macros
+
+---
+
+### ITEM_TYPES_MATCH
+
+```cpp
+#define ITEM_TYPES_MATCH(item1, item2) ((item1)->type_id == (item2)->type_id)
+```
 
 ## Typedefs
 
@@ -50,6 +66,14 @@ A function that will be a part of the [Item](#item) struct, it determines how th
 
 ```cpp
 using ItemValueReplicateFunction = void *
+```
+
+---
+
+### ItemValueHashFunction
+
+```cpp
+using ItemValueHashFunction = u_int32_t
 ```
 
 ---
@@ -273,6 +297,14 @@ The initialized [Item](#item)
 
 ---
 
+### ItemInitTesting
+
+```cpp
+Item * ItemInitTesting(void * value, ItemValueOperations * value_ops, const void * type_id)
+```
+
+---
+
 ### ItemFree
 
 ```cpp
@@ -329,6 +361,14 @@ a string representation of the item.
 
 ```cpp
 Item * ItemDuplicate(Item * item)
+```
+
+---
+
+### ItemHash
+
+```cpp
+u_int32_t ItemHash(Item * item)
 ```
 
 ---
@@ -847,6 +887,72 @@ ItemValueOperations ItemValueListOperations
 ItemValueOperations ItemValueHashMapOperations
 ```
 
+---
+
+### TYPE_LIST
+
+```cpp
+const char TYPE_LIST
+```
+
+---
+
+### TYPE_HASHMAP
+
+```cpp
+const char TYPE_HASHMAP
+```
+
+---
+
+### TYPE_LINKED_LIST
+
+```cpp
+const char TYPE_LINKED_LIST
+```
+
+---
+
+### TYPE_STRING
+
+```cpp
+const char TYPE_STRING
+```
+
+## test
+
+### Variables
+
+| Return  | Name                          | Description |
+| ------- | ----------------------------- | ----------- |
+| `str`   | [`apple`](#apple)             |             |
+| `list`  | [`fruits_list`](#fruits_list) |             |
+| `tuple` | [`fruits`](#fruits)           |             |
+
+---
+
+#### apple
+
+```cpp
+str apple =  "apple"
+```
+
+---
+
+#### fruits_list
+
+```cpp
+list fruits_list =  [apple, "banana", "cherry"]
+```
+
+---
+
+#### fruits
+
+```cpp
+tuple fruits =  (fruits_list, "banana", "cherry")
+```
+
 ## Item
 
 ```cpp
@@ -861,10 +967,11 @@ The [Item](#item) struct, contains a value of any kind, and a function to free t
 
 ### Public Attributes
 
-| Return                  | Name                      | Description       |
-| ----------------------- | ------------------------- | ----------------- |
-| `void *`                | [`value`](#value)         | The value itself. |
-| `ItemValueOperations *` | [`value_ops`](#value_ops) |                   |
+| Return                  | Name                      | Description                                                   |
+| ----------------------- | ------------------------- | ------------------------------------------------------------- |
+| `void *`                | [`value`](#value)         | The value itself.                                             |
+| `const void *`          | [`type_id`](#type_id)     | What type is the value, by using const char memory addresses. |
+| `ItemValueOperations *` | [`value_ops`](#value_ops) | Common Operations to be performed on the value.               |
 
 ---
 
@@ -878,11 +985,23 @@ The value itself.
 
 ---
 
+#### type_id
+
+```cpp
+const void * type_id
+```
+
+What type is the value, by using const char memory addresses.
+
+---
+
 #### value_ops
 
 ```cpp
 ItemValueOperations * value_ops
 ```
+
+Common Operations to be performed on the value.
 
 ## List
 
@@ -1171,6 +1290,7 @@ struct ItemValueOperations
 | [`ItemValuePrintFunction`](#itemvalueprintfunction) *       | [`printFunction`](#printfunction)         | A function to print the value.                |
 | [`ItemValueToStringFunction`](#itemvaluetostringfunction) * | [`toStringFunction`](#tostringfunction)   | A function to turn the value.                 |
 | `ItemValueReplicateFunction *`                              | [`duplicateFunction`](#duplicatefunction) | A function deep replicate a value of an item. |
+| `ItemValueHashFunction *`                                   | [`hashFunction`](#hashfunction-2)         | A function to hash the structure              |
 
 ---
 
@@ -1217,3 +1337,13 @@ ItemValueReplicateFunction * duplicateFunction
 ```
 
 A function deep replicate a value of an item.
+
+---
+
+#### hashFunction
+
+```cpp
+ItemValueHashFunction * hashFunction
+```
+
+A function to hash the structure

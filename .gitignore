@@ -60,3 +60,6 @@ test
 test-sanitize
 doxygen/
 dependencies
+test.py
+notes.txt
+hold.c

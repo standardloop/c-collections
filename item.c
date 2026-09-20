@@ -6,6 +6,7 @@
 #include <string.h>
 
 #include <standardloop/util.h>
+#include <sys/_types/_u_int32_t.h>
 
 #include "./collections.h"
 
@@ -39,6 +40,14 @@ extern Item *ItemInit(void *value, ItemValueOperations *value_ops)
 
     this->value_ops = value_ops;
     return this;
+}
+
+extern Item *ItemInitTesting(void *value, ItemValueOperations *value_ops,
+                             const void *type_id)
+{
+    Item *self = ItemInit(value, value_ops);
+    self->type_id = type_id;
+    return self;
 }
 
 extern void ItemFree(Item *item)
@@ -80,4 +89,15 @@ extern Item *ItemDuplicate(Item *item)
     }
     return ItemInit(item->value_ops->duplicateFunction(item->value),
                     item->value_ops);
+}
+
+// TODO, returning -1 for error is not good
+extern u_int32_t ItemHash(Item *item)
+{
+    if (item != NULL && item->value != NULL &&
+        item->value_ops->hashFunction != NULL)
+    {
+        return item->value_ops->hashFunction(item->value);
+    }
+    return -1;
 }

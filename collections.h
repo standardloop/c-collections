@@ -69,6 +69,8 @@ extern void *ListDuplicate(void *list);
 extern void *HashMapDuplicate(void *map);
 extern void *LinkedListDuplicate(void *list);
 
+typedef u_int32_t(ItemValueHashFunction)(void *);
+
 typedef struct
 {
     /** A function to free the value. */
@@ -79,13 +81,19 @@ typedef struct
     ItemValueToStringFunction *toStringFunction;
     /** A function deep replicate a value of an item. */
     ItemValueReplicateFunction *duplicateFunction;
+    /** A function to hash the structure */
+    ItemValueHashFunction *hashFunction;
 } ItemValueOperations;
 
 extern ItemValueOperations ItemValueStringOperations;
-
 extern ItemValueOperations ItemValueIntOperations;
 extern ItemValueOperations ItemValueListOperations;
 extern ItemValueOperations ItemValueHashMapOperations;
+
+extern const char TYPE_LIST;
+extern const char TYPE_HASHMAP;
+extern const char TYPE_LINKED_LIST;
+extern const char TYPE_STRING;
 
 /**
  * @brief The Item struct, contains a value of any kind, and a function to free
@@ -95,6 +103,9 @@ typedef struct
 {
     /** The value itself. */
     void *value;
+    /** What type is the value, by using const char memory addresses. */
+    const void *type_id;
+    /** Common Operations to be performed on the value. */
     ItemValueOperations *value_ops;
 } Item;
 
@@ -106,6 +117,11 @@ typedef struct
  * @return The initialized Item
  */
 extern Item *ItemInit(void *value, ItemValueOperations *value_ops);
+
+extern Item *ItemInitTesting(void *value, ItemValueOperations *value_ops,
+                             const void *type_id);
+
+#define ITEM_TYPES_MATCH(item1, item2) ((item1)->type_id == (item2)->type_id)
 
 /**
  * @brief Frees an Item
@@ -128,7 +144,7 @@ extern char *ItemToString(Item *item);
 
 extern Item *ItemDuplicate(Item *item);
 
-// extern void *ItemValueDuplicate(Item *item);
+extern u_int32_t ItemHash(Item *item);
 
 /// @cond INTERNAL
 extern void TestItem();
