@@ -4,8 +4,7 @@ version: "3"
 # silent: true
 
 includes:
-  c: https://raw.githubusercontent.com/standardloop/taskfiles/refs/heads/main/c.yml # can pin in future
-  # c: ../taskfiles/c.yml
+  c: '{{ if eq .CI "true" }}https://raw.githubusercontent.com/standardloop/taskfiles/refs/heads/main/c.yml{{ else }}../taskfiles/c.yml{{ end }}'
 
 vars:
   SOURCE_FILES:
@@ -16,6 +15,7 @@ vars:
     - stack.c
     - queue.c
     - linkedlist.c
+    - complexhashmap.c
   TEST_SOURCE_FILES:
     - item.test.c
     - list.test.c
@@ -23,6 +23,7 @@ vars:
     - stack.test.c
     - queue.test.c
     - linkedlist.test.c
+    - complexhashmap.test.c
   DYLIB_NAME: libstandardloop-collections.dylib
   DYLIB_HEADER: collections.h
   DYN_LIBS_USED: "-lstandardloop-util"

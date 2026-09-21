@@ -144,13 +144,13 @@ ItemValueOperations ItemValueIntOperations = {.toStringFunction = IntToString,
                                               .duplicateFunction =
                                                   DuplicateInt};
 
-ItemValueOperations ItemValueListOperations = {.toStringFunction = ListToString,
-                                               .freeFunction = ListFree,
-                                               .printFunction = ListPrint,
-                                               .duplicateFunction =
-                                                   ListDuplicate,
-                                               .hashFunction = ListHash,
-                                               .equivalenceFunction = ListEq};
+ItemValueOperations ItemValueListOperations = {
+    .toStringFunction = ListToString,
+    .freeFunction = ListFree,
+    .printFunction = ListPrint,
+    .duplicateFunction = ListDuplicate,
+    .hashFunction = ListHash,
+    .equivalenceFunction = ListEquivalence};
 
 ItemValueOperations ItemValueHashMapOperations = {
     .toStringFunction = HashMapToString,

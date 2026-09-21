@@ -389,8 +389,6 @@ extern HashMap *HashMapInit(u_int32_t initial_capacity,
  */
 extern HashMap *HashMapInitDefault(void);
 
-// extern HashMap *HashMapReplicate(HashMap *);
-
 /**
  * @brief Insert a HashMapItem into a HashMap
  * @param map The HashMap that should be inserted into.
@@ -454,5 +452,43 @@ extern void LinkedListDeleteFront(LinkedList *list);
 extern void TestLinkedList();
 /// @endcond
 // ————————— LINKEDLIST END —————————
+
+// ————————— COMPLEX HASHMAP START —————————
+typedef struct complexHashMapItem ComplexHashMapItem;
+
+typedef struct
+{
+    /** The current size (number of entries) of the HashMap. */
+    u_int32_t size;
+    /** How large the HashMap can get before it needs to be resized. */
+    u_int32_t capacity;
+    /** If the HashMap needs to be resized, what should the resizing multiple be
+     */
+    u_int8_t resize_multiple;
+    /** How many collisions have occured.
+     */
+    u_int32_t collision_count;
+    /** The List entries in the HashMap.
+     */
+    ComplexHashMapItem **entries;
+} ComplexHashMap;
+
+extern ComplexHashMap *ComplexHashMapInit(u_int32_t initial_capacity,
+                                          u_int8_t resize_multiple);
+
+extern ComplexHashMap *ComplexHashMapDefault(void);
+
+extern Item *ComplexHashMapGet(ComplexHashMap *map, Item *key);
+
+extern void ComplexHashMapInsert(ComplexHashMap *map, Item *key, Item *value);
+
+extern void ComplexHashMapRemove(ComplexHashMap *map, Item *key);
+
+extern char *ComplexHashMapToString(void *map);
+
+/// @cond INTERNAL
+extern void TestComplexHashMap();
+/// @endcond
+// ————————— COMPLEX HASHMAP END —————————
 
 #endif

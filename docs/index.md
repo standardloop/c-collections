@@ -15,6 +15,7 @@
 | [`HashMap`](#hashmap)                         | The [HashMap](#hashmap) struct, contains a header for size, capacity, and resizing multiple. Has a list of entries and a pointer to a hashing function. |
 | [`LinkedList`](#linkedlist)                   |                                                                                                                                                         |
 | [`HashMapItem`](#hashmapitem)                 | The [HashMap](#hashmap)[Item](#item) struct. Contains the key, the value, and a next field for collisions.                                              |
+| [`ComplexHashMap`](#complexhashmap)           |                                                                                                                                                         |
 | [`LinkedListNode`](#linkedlistnode)           |                                                                                                                                                         |
 | [`ItemValueOperations`](#itemvalueoperations) |                                                                                                                                                         |
 
@@ -93,6 +94,14 @@ using HashFunction = u_int32_t
 ```
 
 A Function that takes key and a capacity and hashes the key to return an index.
+
+---
+
+### ComplexHashMapItem
+
+```cpp
+using ComplexHashMapItem = struct complexHashMapItem
+```
 
 ## Functions
 
@@ -885,6 +894,54 @@ void LinkedListDeleteBack(LinkedList * list)
 void LinkedListDeleteFront(LinkedList * list)
 ```
 
+---
+
+### ComplexHashMapInit
+
+```cpp
+ComplexHashMap * ComplexHashMapInit(u_int32_t initial_capacity, u_int8_t resize_multiple)
+```
+
+---
+
+### ComplexHashMapDefault
+
+```cpp
+ComplexHashMap * ComplexHashMapDefault(void)
+```
+
+---
+
+### ComplexHashMapGet
+
+```cpp
+Item * ComplexHashMapGet(ComplexHashMap * map, Item * key)
+```
+
+---
+
+### ComplexHashMapInsert
+
+```cpp
+void ComplexHashMapInsert(ComplexHashMap * map, Item * key, Item * value)
+```
+
+---
+
+### ComplexHashMapRemove
+
+```cpp
+void ComplexHashMapRemove(ComplexHashMap * map, Item * key)
+```
+
+---
+
+### ComplexHashMapToString
+
+```cpp
+char * ComplexHashMapToString(void * map)
+```
+
 ## Variables
 
 ---
@@ -1292,6 +1349,72 @@ struct hashMapItem * next
 ```
 
 If a collision occurs, the next field - linked list for collisions.
+
+## ComplexHashMap
+
+```cpp
+struct ComplexHashMap
+```
+
+### Public Attributes
+
+| Return                  | Name                                    | Description                                                                          |
+| ----------------------- | --------------------------------------- | ------------------------------------------------------------------------------------ |
+| `u_int32_t`             | [`size`](#size-3)                       | The current size (number of entries) of the [HashMap](#hashmap).                     |
+| `u_int32_t`             | [`capacity`](#capacity-2)               | How large the [HashMap](#hashmap) can get before it needs to be resized.             |
+| `u_int8_t`              | [`resize_multiple`](#resize_multiple-2) | If the [HashMap](#hashmap) needs to be resized, what should the resizing multiple be |
+| `u_int32_t`             | [`collision_count`](#collision_count-1) | How many collisions have occured.                                                    |
+| `ComplexHashMapItem **` | [`entries`](#entries-1)                 | The [List](#list) entries in the [HashMap](#hashmap).                                |
+
+---
+
+#### size
+
+```cpp
+u_int32_t size
+```
+
+The current size (number of entries) of the [HashMap](#hashmap).
+
+---
+
+#### capacity
+
+```cpp
+u_int32_t capacity
+```
+
+How large the [HashMap](#hashmap) can get before it needs to be resized.
+
+---
+
+#### resize_multiple
+
+```cpp
+u_int8_t resize_multiple
+```
+
+If the [HashMap](#hashmap) needs to be resized, what should the resizing multiple be
+
+---
+
+#### collision_count
+
+```cpp
+u_int32_t collision_count
+```
+
+How many collisions have occured.
+
+---
+
+#### entries
+
+```cpp
+ComplexHashMapItem ** entries
+```
+
+The [List](#list) entries in the [HashMap](#hashmap).
 
 ## LinkedListNode
 

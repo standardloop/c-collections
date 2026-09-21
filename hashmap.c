@@ -1,4 +1,3 @@
-#include <_string.h>
 #include <assert.h>
 #include <errno.h>
 #include <stdbool.h>
@@ -216,6 +215,8 @@ static bool hashMapEntriesInsert(HashMapItem **entries, u_int32_t index,
     // printf("%s -> %s\n", collision->key, entry->key);
     // If duplicate key, update (in future could maybe make this a feature flag
     // for the init function)
+
+    // why do we have this outside the loop and inside the loop?
     if (collision->key != NULL)
     {
         size_t collision_key_len = strlen(collision->key);
@@ -276,10 +277,17 @@ extern HashMapItem *HashMapGet(HashMap *map, char *key)
     {
         return NULL;
     }
-    HashMapItem *iterator = entry;
+    else if (entry->next ==
+             NULL) // no collisions to check this must be the correct value
+    {
+        return entry;
+    }
+    HashMapItem *iterator = entry->next;
     while (iterator != NULL)
     {
-        if (strcmp(key, iterator->key) == 0)
+        if (strcmp(key, iterator->key) ==
+            0) // since we have collisions, we need to check if it is exactly
+               // the same key
         {
             return iterator;
         }
