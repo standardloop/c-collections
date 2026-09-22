@@ -113,6 +113,10 @@ extern char *DefaultToString(void *v)
 
 extern u_int32_t ListHash(void *list)
 {
+    if (list == NULL)
+    {
+        return 0;
+    }
     List *list_ptr = (List *)list;
     if (list_ptr->size == 0)
     {
@@ -130,19 +134,66 @@ extern u_int32_t ListHash(void *list)
     return sum;
 }
 
+// Jenkins's one_at_a_time
+extern u_int32_t StringHash(void *str)
+{
+    if (str == NULL)
+    {
+        return 0;
+    }
+    char *key = (char *)str;
+    u_int32_t len = strlen(key);
+    u_int32_t hash = 0;
+
+    for (u_int32_t i = 0; i < len; ++i)
+    {
+        hash += key[i];
+        hash += (hash << 10);
+        hash ^= (hash >> 6);
+    }
+    hash += (hash << 3);
+    hash ^= (hash >> 11);
+    hash += (hash << 15);
+    return hash;
+}
+
+extern u_int32_t IntHash(void *integer)
+{
+    if (integer == NULL)
+    {
+        return 0;
+    }
+    return (u_int32_t) * (int *)integer;
+}
+
+extern bool IntEquivalence(void *int1, void *int2)
+{
+    if (int1 == NULL && int2 == NULL)
+    {
+        return true;
+    }
+    else if (int1 == NULL || int2 == NULL)
+    {
+        return false;
+    }
+    return *(int *)int1 == *(int *)int2;
+}
+
 ItemValueOperations ItemValueStringOperations = {
     .toStringFunction = StringToString,
     .freeFunction = free,
     .printFunction = PrintString,
     .duplicateFunction = DuplicateString,
-    .hashFunction = NULL,
-    .equivalenceFunction = NULL};
+    .hashFunction = StringHash,
+    .equivalenceFunction = StringEquivalence};
 
 ItemValueOperations ItemValueIntOperations = {.toStringFunction = IntToString,
                                               .freeFunction = free,
                                               .printFunction = PrintInt,
-                                              .duplicateFunction =
-                                                  DuplicateInt};
+                                              .duplicateFunction = DuplicateInt,
+                                              .hashFunction = IntHash,
+                                              .equivalenceFunction =
+                                                  IntEquivalence};
 
 ItemValueOperations ItemValueListOperations = {
     .toStringFunction = ListToString,
@@ -163,3 +214,9 @@ ItemValueOperations ItemValueLinkedListOperations = {
     .freeFunction = LinkedListFree,
     .printFunction = LinkedListPrint,
     .duplicateFunction = LinkedListDuplicate};
+
+ItemValueOperations ItemValueComplexHashMapOperations = {
+    .toStringFunction = ComplexHashMapToString,
+    .freeFunction = ComplexHashMapFree,
+    .printFunction = ComplexHashMapPrint,
+    .duplicateFunction = ComplexHashMapDuplicate};

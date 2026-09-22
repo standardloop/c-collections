@@ -560,3 +560,18 @@ extern char *ComplexHashMapToString(void *map)
     obj_as_string[obj_as_string_size - 1] = NULL_CHAR;
     return obj_as_string;
 }
+
+extern void ComplexHashMapFree(void *map)
+{
+    if (map != NULL)
+    {
+        if (((ComplexHashMap *)map)->entries != NULL)
+        {
+            complexHashMapFreeEntries(((ComplexHashMap *)map)->entries,
+                                      ((ComplexHashMap *)map)->capacity, true,
+                                      true);
+            ((ComplexHashMap *)map)->entries = NULL;
+        }
+        free(map);
+    }
+}

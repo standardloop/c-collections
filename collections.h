@@ -35,19 +35,12 @@ extern void HashMapFree(void *map);
  */
 typedef void(ItemValuePrintFunction)(void *);
 extern void DefaultPrint(void *v);
-/**
- * @brief Prints a string value.
- * @param item The item value to print.
- */
 extern void PrintString(void *value);
 extern void PrintInt(void *value);
-/**
- * @brief Print the List.
- * @param list The List to print.
- */
 extern void ListPrint(void *list); // void * to fit ItemPrintFunction definition
 extern void HashMapPrint(void *map);
 extern void LinkedListPrint(void *list);
+extern void ComplexHashMapPrint(void *map);
 
 /**
  * @brief A function that will be a part of the Item struct, it determines how
@@ -60,6 +53,7 @@ extern char *IntToString(void *num);
 extern char *ListToString(void *list);
 extern char *HashMapToString(void *map);
 extern char *LinkedListToString(void *list);
+extern char *ComplexHashMapToString(void *map);
 
 typedef void *(ItemValueReplicateFunction)(void *);
 extern void *DefaultDuplicate(void *v);
@@ -70,10 +64,14 @@ extern void *HashMapDuplicate(void *map);
 extern void *LinkedListDuplicate(void *list);
 
 typedef u_int32_t(ItemValueHashFunction)(void *);
+extern u_int32_t StringHash(void *str);
+extern u_int32_t ListHash(void *list);
+extern u_int32_t IntHash(void *integer);
 
 typedef bool(ItemValueEquivalenceFunction)(void *, void *);
 extern bool StringEquivalence(void *s1, void *s2);
 extern bool ListEquivalence(void *list1, void *list2);
+extern bool IntEquivalence(void *int1, void *int2);
 
 typedef struct
 {
@@ -95,6 +93,7 @@ extern ItemValueOperations ItemValueStringOperations;
 extern ItemValueOperations ItemValueIntOperations;
 extern ItemValueOperations ItemValueListOperations;
 extern ItemValueOperations ItemValueHashMapOperations;
+extern ItemValueOperations ItemValueComplexHashMapOperations;
 extern ItemValueOperations ItemValueLinkedListOperations;
 
 extern const char TYPE_LIST;
@@ -476,7 +475,9 @@ typedef struct
 extern ComplexHashMap *ComplexHashMapInit(u_int32_t initial_capacity,
                                           u_int8_t resize_multiple);
 
-extern ComplexHashMap *ComplexHashMapDefault(void);
+extern ComplexHashMap *ComplexHashMapInitDefault(void);
+
+extern void ComplexHashMapFree(void *map);
 
 extern Item *ComplexHashMapGet(ComplexHashMap *map, Item *key);
 
@@ -484,7 +485,7 @@ extern void ComplexHashMapInsert(ComplexHashMap *map, Item *key, Item *value);
 
 extern void ComplexHashMapRemove(ComplexHashMap *map, Item *key);
 
-extern char *ComplexHashMapToString(void *map);
+extern void *ComplexHashMapDuplicate(void *map);
 
 /// @cond INTERNAL
 extern void TestComplexHashMap();

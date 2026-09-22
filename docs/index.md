@@ -153,8 +153,6 @@ void DefaultPrint(void * v)
 void PrintString(void * value)
 ```
 
-Prints a string value.
-
 ---
 
 ### PrintInt
@@ -171,14 +169,6 @@ void PrintInt(void * value)
 void ListPrint(void * list)
 ```
 
-Print the [List](#list).
-
-#### Parameters
-
-| Parameter | Type     | Description                 |
-| --------- | -------- | --------------------------- |
-| `list`    | `void *` | The [List](#list) to print. |
-
 ---
 
 ### HashMapPrint
@@ -193,6 +183,14 @@ void HashMapPrint(void * map)
 
 ```cpp
 void LinkedListPrint(void * list)
+```
+
+---
+
+### ComplexHashMapPrint
+
+```cpp
+void ComplexHashMapPrint(void * map)
 ```
 
 ---
@@ -245,6 +243,14 @@ char * LinkedListToString(void * list)
 
 ---
 
+### ComplexHashMapToString
+
+```cpp
+char * ComplexHashMapToString(void * map)
+```
+
+---
+
 ### DefaultDuplicate
 
 ```cpp
@@ -293,6 +299,30 @@ void * LinkedListDuplicate(void * list)
 
 ---
 
+### StringHash
+
+```cpp
+u_int32_t StringHash(void * str)
+```
+
+---
+
+### ListHash
+
+```cpp
+u_int32_t ListHash(void * list)
+```
+
+---
+
+### IntHash
+
+```cpp
+u_int32_t IntHash(void * integer)
+```
+
+---
+
 ### StringEquivalence
 
 ```cpp
@@ -305,6 +335,14 @@ bool StringEquivalence(void * s1, void * s2)
 
 ```cpp
 bool ListEquivalence(void * list1, void * list2)
+```
+
+---
+
+### IntEquivalence
+
+```cpp
+bool IntEquivalence(void * int1, void * int2)
 ```
 
 ---
@@ -904,10 +942,18 @@ ComplexHashMap * ComplexHashMapInit(u_int32_t initial_capacity, u_int8_t resize_
 
 ---
 
-### ComplexHashMapDefault
+### ComplexHashMapInitDefault
 
 ```cpp
-ComplexHashMap * ComplexHashMapDefault(void)
+ComplexHashMap * ComplexHashMapInitDefault(void)
+```
+
+---
+
+### ComplexHashMapFree
+
+```cpp
+void ComplexHashMapFree(void * map)
 ```
 
 ---
@@ -936,10 +982,10 @@ void ComplexHashMapRemove(ComplexHashMap * map, Item * key)
 
 ---
 
-### ComplexHashMapToString
+### ComplexHashMapDuplicate
 
 ```cpp
-char * ComplexHashMapToString(void * map)
+void * ComplexHashMapDuplicate(void * map)
 ```
 
 ## Variables
@@ -974,6 +1020,14 @@ ItemValueOperations ItemValueListOperations
 
 ```cpp
 ItemValueOperations ItemValueHashMapOperations
+```
+
+---
+
+### ItemValueComplexHashMapOperations
+
+```cpp
+ItemValueOperations ItemValueComplexHashMapOperations
 ```
 
 ---

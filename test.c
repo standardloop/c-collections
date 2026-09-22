@@ -32,6 +32,7 @@ int main(void)
     TestItem();
     TestList();
     TestHashMap();
+    TestComplexHashMap();
     TestLinkedList();
     TestingTearDown();
     sleep(1);
