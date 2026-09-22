@@ -42,7 +42,7 @@ tasks:
 
   dependencies:
     deps:
-      - c:dependencies:util:latest
+      - c:dependencies:util
 
   test:
     deps:
