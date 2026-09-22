@@ -269,9 +269,10 @@ extern HashMapItem *HashMapGet(HashMap *map, char *key)
         errno = EINVAL;
         return NULL;
     }
-    // printf("%s %d\n", key, (int)map->capacity);
+
     u_int32_t index = map->hashFunction(key, map->capacity);
-    // printf("%d\n", (int)index);
+    printf("%s %d\n", key, (int)index);
+
     HashMapItem *entry = map->entries[index];
     if (entry == NULL)
     {
@@ -282,7 +283,9 @@ extern HashMapItem *HashMapGet(HashMap *map, char *key)
     {
         return entry;
     }
-    HashMapItem *iterator = entry->next;
+
+    HashMapItem *iterator = entry; // I don't fully understand why this crashes
+                                   // when I do entry->next;
     while (iterator != NULL)
     {
         if (strcmp(key, iterator->key) ==

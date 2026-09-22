@@ -406,7 +406,8 @@ complexHashMapGetComplexHashMapItem(ComplexHashMap *map, Item *key)
     {
         return entry;
     }
-    ComplexHashMapItem *iterator = entry->next;
+    ComplexHashMapItem *iterator =
+        entry; // todo, learn why I cant do entry->next here
     while (iterator != NULL)
     {
         if (ItemEquivalence(iterator->key,

@@ -28,12 +28,14 @@ static void testToString()
 int main(void)
 {
     TestingInit();
-    testToString();
+
     TestItem();
     TestList();
     TestHashMap();
     TestComplexHashMap();
     TestLinkedList();
+    testToString();
+
     TestingTearDown();
     sleep(1);
     return EXIT_SUCCESS;

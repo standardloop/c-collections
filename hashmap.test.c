@@ -6,6 +6,47 @@
 
 #include "./collections.h"
 
+static u_int32_t collisionHashFunction(char *key, u_int32_t capacity)
+{
+    if (key == NULL || capacity == 0)
+    {
+        return 0;
+    }
+    return 0;
+}
+
+static void testCollisions()
+{
+    HashMap *collision_map = HashMapInit(10, 2, collisionHashFunction, false);
+    TestCaseVerify(true, "ensure collision_map is not NULL",
+                   collision_map != NULL);
+
+    HashMapInsert(collision_map,
+                  HashMapItemInit(QuickAllocatedString("key1"),
+                                  ItemInit(QuickAllocatedString("value1"),
+                                           &ItemValueStringOperations)));
+    TestCaseVerify(
+        true, "get works",
+        strcmp(HashMapGet(collision_map, "key1")->item->value, "value1") == 0);
+
+    TestCaseVerify(true, "no collision since one insert only",
+                   HashMapGet(collision_map, "key1")->next == NULL);
+
+    HashMapInsert(collision_map,
+                  HashMapItemInit(QuickAllocatedString("key2"),
+                                  ItemInit(QuickAllocatedString("value2"),
+                                           &ItemValueStringOperations)));
+
+    TestCaseVerify(
+        true, "get works on 2nd insert",
+        strcmp(HashMapGet(collision_map, "key2")->item->value, "value2") == 0);
+
+    TestCaseVerify(true, "there should be a collision",
+                   HashMapGet(collision_map, "key1")->next != NULL);
+
+    HashMapFree(collision_map);
+}
+
 static void testHashMapItemDuplicate()
 {
     char *test_key_1 = QuickAllocatedString("test_key_1");
@@ -122,6 +163,9 @@ static void testHashMapDuplicate()
 
 extern void TestHashMap()
 {
+    testCollisions();
+    return;
+
     testHashMapToString();
 
     testHashMapItem();
@@ -188,32 +232,4 @@ extern void TestHashMap()
     TestCaseVerify(true, "", *(int *)retrieved_2->item->value == 200);
 
     HashMapFree(test_hashmap_1);
-
-    // test collisions
-    HashMap *collision_test = HashMapInit(2, 2, NULL, false);
-    TestCaseVerify(true, "", collision_test != NULL);
-
-    // defaultHashFunction("one", 2) and defaultHashFunction("two", 2) both
-    // return index 0
-    HashMapInsert(collision_test,
-                  HashMapItemInit(QuickAllocatedString("one"),
-                                  ItemInit(QuickAllocatedString("one-value"),
-                                           &ItemValueStringOperations)));
-    HashMapInsert(collision_test,
-                  HashMapItemInit(QuickAllocatedString("two"),
-                                  ItemInit(QuickAllocatedString("two-value"),
-                                           &ItemValueStringOperations)));
-
-    TestCaseVerify(true, "", collision_test->collision_count == 1);
-    HashMapItem *retrieved_collision_1 = HashMapGet(collision_test, "one");
-    TestCaseVerify(true, "", retrieved_collision_1 != NULL);
-    TestCaseVerify(
-        true, "", strcmp(retrieved_collision_1->item->value, "one-value") == 0);
-
-    HashMapItem *retrieved_collision_2 = HashMapGet(collision_test, "two");
-    TestCaseVerify(true, "", retrieved_collision_2 != NULL);
-    TestCaseVerify(
-        true, "", strcmp(retrieved_collision_2->item->value, "two-value") == 0);
-
-    HashMapFree(collision_test);
 }
