@@ -290,11 +290,6 @@ static void complexHashMapFreeEntryList(ComplexHashMapItem *entry, bool deep)
     {
         temp = entry;
         entry = entry->next;
-        if (temp != NULL && temp->key != NULL)
-        {
-            free(temp->key);
-            temp->key = NULL;
-        }
         if (temp != NULL)
         {
             complexHashMapItemFree(temp, deep);
@@ -566,13 +561,109 @@ extern void ComplexHashMapFree(void *map)
 {
     if (map != NULL)
     {
-        if (((ComplexHashMap *)map)->entries != NULL)
+        ComplexHashMap *map_ptr = (ComplexHashMap *)map;
+        if (map_ptr->entries != NULL)
         {
-            complexHashMapFreeEntries(((ComplexHashMap *)map)->entries,
-                                      ((ComplexHashMap *)map)->capacity, true,
+            complexHashMapFreeEntries(map_ptr->entries, map_ptr->capacity, true,
                                       true);
-            ((ComplexHashMap *)map)->entries = NULL;
+            map_ptr->entries = NULL;
         }
         free(map);
     }
+}
+
+static bool complexHashMapItemEquivalence(ComplexHashMapItem *hmi1,
+                                          ComplexHashMapItem *hmi2);
+
+static bool complexHashMapItemEquivalence(ComplexHashMapItem *hmi1,
+                                          ComplexHashMapItem *hmi2)
+{
+    // XNOR pointers
+    if (hmi1 == NULL && hmi2 == NULL)
+    {
+        return true;
+    }
+    else if (hmi1 == NULL || hmi2 == NULL)
+    {
+        return false;
+    }
+
+    ComplexHashMapItem *hmi1_itr = hmi1;
+    ComplexHashMapItem *hmi2_itr = hmi2;
+    while (hmi1_itr != NULL && hmi2_itr != NULL)
+    {
+        if (!ItemEquivalence(hmi1_itr->key, hmi2_itr->key) ||
+            !ItemEquivalence(hmi1_itr->value, hmi2_itr->value))
+        {
+            return false;
+        }
+        // XNOR pointers->next
+        if (hmi1_itr->next == NULL && hmi2_itr->next == NULL)
+        {
+            return true;
+        }
+        else if (hmi1_itr->next == NULL || hmi2_itr->next == NULL)
+        {
+            return false;
+        }
+        // XNOR end
+        hmi1_itr = hmi1_itr->next;
+        hmi2_itr = hmi2_itr->next;
+    }
+    return true;
+}
+
+extern bool ComplexHashMapEquivalence(void *map1, void *map2)
+{
+    // XNOR pointers
+    if (map1 == NULL && map2 == NULL)
+    {
+        return true;
+    }
+    else if (map1 == NULL || map2 == NULL)
+    {
+        return false;
+    }
+    // XNOR end
+
+    ComplexHashMap *map1_ptr = (ComplexHashMap *)(map1);
+    ComplexHashMap *map2_ptr = (ComplexHashMap *)(map2);
+
+    if (map1_ptr->capacity != map2_ptr->capacity ||
+        map1_ptr->collision_count != map2_ptr->collision_count ||
+        map1_ptr->resize_multiple != map2_ptr->resize_multiple ||
+        map1_ptr->size != map2_ptr->size)
+    {
+        return false;
+    }
+    // XNOR entries
+    if (map1_ptr->entries == NULL && map2_ptr->entries == NULL)
+    {
+        return true;
+    }
+    else if (map1_ptr->entries == NULL || map2_ptr->entries == NULL)
+    {
+        return false;
+    }
+    // XNOR end
+
+    // map1_ptr->capacity and map2_ptr->capacity are same
+    for (u_int32_t i = 0; i < map1_ptr->capacity; i++)
+    {
+        if (!complexHashMapItemEquivalence(map1_ptr->entries[i],
+                                           map2_ptr->entries[i]))
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+extern u_int32_t ComplexHashMapHash(void *map)
+{
+    if (map == NULL)
+    {
+        return 0;
+    }
+    return 1;
 }

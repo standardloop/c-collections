@@ -9,10 +9,13 @@
 
 #include "./collections.h"
 
-const char TYPE_LIST = 0;
-const char TYPE_HASHMAP = 0;
-const char TYPE_LINKED_LIST = 0;
-const char TYPE_STRING = 0;
+const char SL_COLLECTIONS_TYPE_STRING = 0;
+const char SL_COLLECTIONS_TYPE_INT = 0;
+const char SL_COLLECTIONS_TYPE_LIST = 0;
+const char SL_COLLECTIONS_TYPE_HASHMAP = 0;
+const char SL_COLLECTIONS_TYPE_COMPLEX_HASHMAP = 0;
+
+const char SL_COLLECTIONS_TYPE_LINKED_LIST = 0;
 
 extern void *DuplicateInt(void *original)
 {
@@ -184,39 +187,43 @@ ItemValueOperations ItemValueStringOperations = {
     .freeFunction = free,
     .printFunction = PrintString,
     .duplicateFunction = DuplicateString,
-    .hashFunction = StringHash,
-    .equivalenceFunction = StringEquivalence};
+    .equivalenceFunction = StringEquivalence,
+    .hashFunction = StringHash};
 
 ItemValueOperations ItemValueIntOperations = {.toStringFunction = IntToString,
                                               .freeFunction = free,
                                               .printFunction = PrintInt,
                                               .duplicateFunction = DuplicateInt,
-                                              .hashFunction = IntHash,
                                               .equivalenceFunction =
-                                                  IntEquivalence};
+                                                  IntEquivalence,
+                                              .hashFunction = IntHash};
 
 ItemValueOperations ItemValueListOperations = {
     .toStringFunction = ListToString,
     .freeFunction = ListFree,
     .printFunction = ListPrint,
     .duplicateFunction = ListDuplicate,
-    .hashFunction = ListHash,
-    .equivalenceFunction = ListEquivalence};
+    .equivalenceFunction = ListEquivalence,
+    .hashFunction = ListHash};
 
 ItemValueOperations ItemValueHashMapOperations = {
     .toStringFunction = HashMapToString,
     .freeFunction = HashMapFree,
     .printFunction = HashMapPrint,
-    .duplicateFunction = HashMapDuplicate};
+    .duplicateFunction = HashMapDuplicate,
+    .equivalenceFunction = HashMapEquivalence,
+    .hashFunction = HashMapHash};
+
+ItemValueOperations ItemValueComplexHashMapOperations = {
+    .toStringFunction = ComplexHashMapToString,
+    .freeFunction = ComplexHashMapFree,
+    .printFunction = ComplexHashMapPrint,
+    .duplicateFunction = ComplexHashMapDuplicate,
+    .equivalenceFunction = ComplexHashMapEquivalence,
+    .hashFunction = ComplexHashMapHash};
 
 ItemValueOperations ItemValueLinkedListOperations = {
     .toStringFunction = LinkedListToString,
     .freeFunction = LinkedListFree,
     .printFunction = LinkedListPrint,
     .duplicateFunction = LinkedListDuplicate};
-
-ItemValueOperations ItemValueComplexHashMapOperations = {
-    .toStringFunction = ComplexHashMapToString,
-    .freeFunction = ComplexHashMapFree,
-    .printFunction = ComplexHashMapPrint,
-    .duplicateFunction = ComplexHashMapDuplicate};

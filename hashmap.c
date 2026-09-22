@@ -12,6 +12,7 @@
 
 #include "./collections.h"
 
+static bool hashMapItemEquivalence(HashMapItem *hmi1, HashMapItem *hmi2);
 static void hashMapFreeEntrySingle(HashMapItem *, bool);
 static void hashMapFreeEntryList(HashMapItem *, bool);
 static void hashMapFreeEntries(HashMapItem **, u_int32_t, bool, bool);
@@ -271,7 +272,7 @@ extern HashMapItem *HashMapGet(HashMap *map, char *key)
     }
 
     u_int32_t index = map->hashFunction(key, map->capacity);
-    printf("%s %d\n", key, (int)index);
+    // printf("%s %d\n", key, (int)index);
 
     HashMapItem *entry = map->entries[index];
     if (entry == NULL)
@@ -659,4 +660,41 @@ extern void *HashMapDuplicate(void *map)
         dupe->entries[i] = HashMapItemDuplicate(map_ptr->entries[i]);
     }
     return dupe;
+}
+
+static bool hashMapItemEquivalence(HashMapItem *hmi1, HashMapItem *hmi2)
+{
+    if (hmi1 == NULL && hmi2 == NULL)
+    {
+        return true;
+    }
+    else if (hmi1 == NULL || hmi2 == NULL)
+    {
+        return false;
+    }
+    return true;
+}
+
+extern bool HashMapEquivalence(void *map1, void *map2)
+{
+    if (map1 == NULL && map2 == NULL)
+    {
+        return true;
+    }
+    else if (map1 == NULL || map2 == NULL)
+    {
+        return false;
+    }
+    // temp
+    return hashMapItemEquivalence(NULL, NULL);
+    // return true;
+}
+
+extern u_int32_t HashMapHash(void *map)
+{
+    if (map == NULL)
+    {
+        return 0;
+    }
+    return 1;
 }

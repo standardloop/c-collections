@@ -42,8 +42,8 @@ extern Item *ItemInit(void *value, ItemValueOperations *value_ops)
     return this;
 }
 
-extern Item *ItemInitTesting(void *value, ItemValueOperations *value_ops,
-                             const void *type_id)
+extern Item *ItemInitV2(void *value, ItemValueOperations *value_ops,
+                        const void *type_id)
 {
     Item *self = ItemInit(value, value_ops);
     self->type_id = type_id;

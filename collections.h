@@ -63,15 +63,19 @@ extern void *ListDuplicate(void *list);
 extern void *HashMapDuplicate(void *map);
 extern void *LinkedListDuplicate(void *list);
 
-typedef u_int32_t(ItemValueHashFunction)(void *);
-extern u_int32_t StringHash(void *str);
-extern u_int32_t ListHash(void *list);
-extern u_int32_t IntHash(void *integer);
-
 typedef bool(ItemValueEquivalenceFunction)(void *, void *);
 extern bool StringEquivalence(void *s1, void *s2);
-extern bool ListEquivalence(void *list1, void *list2);
 extern bool IntEquivalence(void *int1, void *int2);
+extern bool ListEquivalence(void *list1, void *list2);
+extern bool HashMapEquivalence(void *map1, void *map2);
+extern bool ComplexHashMapEquivalence(void *map1, void *map2);
+
+typedef u_int32_t(ItemValueHashFunction)(void *);
+extern u_int32_t StringHash(void *str);
+extern u_int32_t IntHash(void *integer);
+extern u_int32_t ListHash(void *list);
+extern u_int32_t HashMapHash(void *map);
+extern u_int32_t ComplexHashMapHash(void *map);
 
 typedef struct
 {
@@ -96,11 +100,12 @@ extern ItemValueOperations ItemValueHashMapOperations;
 extern ItemValueOperations ItemValueComplexHashMapOperations;
 extern ItemValueOperations ItemValueLinkedListOperations;
 
-extern const char TYPE_LIST;
-extern const char TYPE_HASHMAP;
-extern const char TYPE_LINKED_LIST;
-extern const char TYPE_STRING;
-extern const char TYPE_INT;
+extern const char SL_COLLECTIONS_TYPE_STRING;
+extern const char SL_COLLECTIONS_TYPE_INT;
+extern const char SL_COLLECTIONS_TYPE_LIST;
+extern const char SL_COLLECTIONS_TYPE_HASHMAP;
+extern const char SL_COLLECTIONS_TYPE_COMPLEX_HASHMAP;
+extern const char SL_COLLECTIONS_TYPE_LINKED_LIST;
 
 /**
  * @brief The Item struct, contains a value of any kind, and a function to free
@@ -125,8 +130,8 @@ typedef struct
  */
 extern Item *ItemInit(void *value, ItemValueOperations *value_ops);
 
-extern Item *ItemInitTesting(void *value, ItemValueOperations *value_ops,
-                             const void *type_id);
+extern Item *ItemInitV2(void *value, ItemValueOperations *value_ops,
+                        const void *type_id);
 
 #define ITEM_TYPES_MATCH(item1, item2) ((item1)->type_id == (item2)->type_id)
 

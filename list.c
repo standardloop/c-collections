@@ -161,7 +161,7 @@ extern void ListPrint(void *list)
                 printf(", ");
             }
         }
-        printf("]\n");
+        printf("]");
     }
 }
 

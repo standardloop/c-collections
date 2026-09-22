@@ -71,18 +71,18 @@ using ItemValueReplicateFunction = void *
 
 ---
 
-### ItemValueHashFunction
-
-```cpp
-using ItemValueHashFunction = u_int32_t
-```
-
----
-
 ### ItemValueEquivalenceFunction
 
 ```cpp
 using ItemValueEquivalenceFunction = bool
+```
+
+---
+
+### ItemValueHashFunction
+
+```cpp
+using ItemValueHashFunction = u_int32_t
 ```
 
 ---
@@ -299,34 +299,18 @@ void * LinkedListDuplicate(void * list)
 
 ---
 
-### StringHash
-
-```cpp
-u_int32_t StringHash(void * str)
-```
-
----
-
-### ListHash
-
-```cpp
-u_int32_t ListHash(void * list)
-```
-
----
-
-### IntHash
-
-```cpp
-u_int32_t IntHash(void * integer)
-```
-
----
-
 ### StringEquivalence
 
 ```cpp
 bool StringEquivalence(void * s1, void * s2)
+```
+
+---
+
+### IntEquivalence
+
+```cpp
+bool IntEquivalence(void * int1, void * int2)
 ```
 
 ---
@@ -339,10 +323,58 @@ bool ListEquivalence(void * list1, void * list2)
 
 ---
 
-### IntEquivalence
+### HashMapEquivalence
 
 ```cpp
-bool IntEquivalence(void * int1, void * int2)
+bool HashMapEquivalence(void * map1, void * map2)
+```
+
+---
+
+### ComplexHashMapEquivalence
+
+```cpp
+bool ComplexHashMapEquivalence(void * map1, void * map2)
+```
+
+---
+
+### StringHash
+
+```cpp
+u_int32_t StringHash(void * str)
+```
+
+---
+
+### IntHash
+
+```cpp
+u_int32_t IntHash(void * integer)
+```
+
+---
+
+### ListHash
+
+```cpp
+u_int32_t ListHash(void * list)
+```
+
+---
+
+### HashMapHash
+
+```cpp
+u_int32_t HashMapHash(void * map)
+```
+
+---
+
+### ComplexHashMapHash
+
+```cpp
+u_int32_t ComplexHashMapHash(void * map)
 ```
 
 ---
@@ -368,10 +400,10 @@ The initialized [Item](#item)
 
 ---
 
-### ItemInitTesting
+### ItemInitV2
 
 ```cpp
-Item * ItemInitTesting(void * value, ItemValueOperations * value_ops, const void * type_id)
+Item * ItemInitV2(void * value, ItemValueOperations * value_ops, const void * type_id)
 ```
 
 ---
@@ -1040,42 +1072,50 @@ ItemValueOperations ItemValueLinkedListOperations
 
 ---
 
-### TYPE_LIST
+### SL_COLLECTIONS_TYPE_STRING
 
 ```cpp
-const char TYPE_LIST
+const char SL_COLLECTIONS_TYPE_STRING
 ```
 
 ---
 
-### TYPE_HASHMAP
+### SL_COLLECTIONS_TYPE_INT
 
 ```cpp
-const char TYPE_HASHMAP
+const char SL_COLLECTIONS_TYPE_INT
 ```
 
 ---
 
-### TYPE_LINKED_LIST
+### SL_COLLECTIONS_TYPE_LIST
 
 ```cpp
-const char TYPE_LINKED_LIST
+const char SL_COLLECTIONS_TYPE_LIST
 ```
 
 ---
 
-### TYPE_STRING
+### SL_COLLECTIONS_TYPE_HASHMAP
 
 ```cpp
-const char TYPE_STRING
+const char SL_COLLECTIONS_TYPE_HASHMAP
 ```
 
 ---
 
-### TYPE_INT
+### SL_COLLECTIONS_TYPE_COMPLEX_HASHMAP
 
 ```cpp
-const char TYPE_INT
+const char SL_COLLECTIONS_TYPE_COMPLEX_HASHMAP
+```
+
+---
+
+### SL_COLLECTIONS_TYPE_LINKED_LIST
+
+```cpp
+const char SL_COLLECTIONS_TYPE_LINKED_LIST
 ```
 
 ## test
