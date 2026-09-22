@@ -403,7 +403,7 @@ The initialized [Item](#item)
 ### ItemInitV2
 
 ```cpp
-Item * ItemInitV2(void * value, ItemValueOperations * value_ops, const void * type_id)
+Item * ItemInitV2(void * value, const void * type_id, ItemValueOperations * value_ops)
 ```
 
 ---

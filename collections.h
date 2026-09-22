@@ -130,8 +130,8 @@ typedef struct
  */
 extern Item *ItemInit(void *value, ItemValueOperations *value_ops);
 
-extern Item *ItemInitV2(void *value, ItemValueOperations *value_ops,
-                        const void *type_id);
+extern Item *ItemInitV2(void *value, const void *type_id,
+                        ItemValueOperations *value_ops);
 
 #define ITEM_TYPES_MATCH(item1, item2) ((item1)->type_id == (item2)->type_id)
 
