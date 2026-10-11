@@ -8,7 +8,7 @@
 
 static void testStackSimple()
 {
-    Stack *s = StackInit();
+    Stack *s = StackInitDefault();
     TestCaseVerify(true, "ensure StackInit returns a non NULL ptr", s != NULL);
     TestCaseVerify(true, "ensure the stacks underlying list is not NULL",
                    s->list != NULL);

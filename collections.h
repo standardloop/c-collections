@@ -433,13 +433,13 @@ typedef struct
     int64_t top;
 } Stack;
 
-Stack *StackInit();
-void StackFree(void *s);
-
-void StackPush(Stack *s, Item *i);
-Item *StackPop(Stack *s);
-Item *StackPeek(Stack *s);
-u_int32_t StackSize(Stack *s);
+extern Stack *StackInit(u_int32_t initial_capacity, u_int8_t resize_multiple);
+extern Stack *StackInitDefault(void);
+extern void StackFree(void *s);
+extern void StackPush(Stack *s, Item *i);
+extern Item *StackPop(Stack *s);
+extern Item *StackPeek(Stack *s);
+extern u_int32_t StackSize(Stack *s);
 
 /// @cond INTERNAL
 extern void TestStack();

@@ -898,7 +898,15 @@ The direct void * value.
 ### StackInit
 
 ```cpp
-Stack * StackInit()
+Stack * StackInit(u_int32_t initial_capacity, u_int8_t resize_multiple)
+```
+
+---
+
+### StackInitDefault
+
+```cpp
+Stack * StackInitDefault(void)
 ```
 
 ---

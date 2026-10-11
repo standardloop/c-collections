@@ -9,22 +9,29 @@
 
 #include "./collections.h"
 
+#define DEFAULT_STACK_SIZE 16
+#define DEFAULT_STACK_RESIZE_MULTIPLE 2
+
 #define IS_VALID_STACK(s) ((s) != NULL && (s)->list != NULL)
 
-Stack *StackInit()
+extern Stack *StackInit(u_int32_t initial_capacity, u_int8_t resize_multiple)
 {
-
     Stack *s = malloc(sizeof(Stack));
     if (s == NULL)
     {
         return NULL;
     }
-    s->list = ListInitDefault();
+    s->list = ListInit(initial_capacity, resize_multiple);
     s->top = -1;
     return s;
 }
 
-void StackPush(Stack *s, Item *i)
+extern Stack *StackInitDefault(void)
+{
+    return StackInit(DEFAULT_STACK_SIZE, DEFAULT_STACK_RESIZE_MULTIPLE);
+}
+
+extern void StackPush(Stack *s, Item *i)
 {
     if (!IS_VALID_STACK(s))
     {
@@ -33,7 +40,7 @@ void StackPush(Stack *s, Item *i)
     ListAddAtIndex(s->list, i, ++s->top);
 }
 
-Item *StackPop(Stack *s)
+extern Item *StackPop(Stack *s)
 {
     if (!IS_VALID_STACK(s) || s->top < 0)
     {
@@ -45,7 +52,7 @@ Item *StackPop(Stack *s)
     return ret;
 }
 
-Item *StackPeek(Stack *s)
+extern Item *StackPeek(Stack *s)
 {
     if (!IS_VALID_STACK(s))
     {
@@ -54,7 +61,7 @@ Item *StackPeek(Stack *s)
     return s->list->items[s->top];
 }
 
-u_int32_t StackSize(Stack *s)
+extern u_int32_t StackSize(Stack *s)
 {
     if (!IS_VALID_STACK(s))
     {
@@ -64,7 +71,7 @@ u_int32_t StackSize(Stack *s)
     return s->top + 1;
 }
 
-void StackFree(void *s)
+extern void StackFree(void *s)
 {
     if (s != NULL)
     {
