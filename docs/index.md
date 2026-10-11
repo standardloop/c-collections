@@ -12,6 +12,7 @@
 | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [`Item`](#item)                               | The [Item](#item) struct, contains a value of any kind, and a function to free the value and print the value.                                           |
 | [`List`](#list)                               | The [List](#list) struct, contains a header for size, capacity, and resizing multiple and then a [List](#list) of Items.                                |
+| [`Stack`](#stack)                             |                                                                                                                                                         |
 | [`HashMap`](#hashmap)                         | The [HashMap](#hashmap) struct, contains a header for size, capacity, and resizing multiple. Has a list of entries and a pointer to a hashing function. |
 | [`LinkedList`](#linkedlist)                   |                                                                                                                                                         |
 | [`HashMapItem`](#hashmapitem)                 | The [HashMap](#hashmap)[Item](#item) struct. Contains the key, the value, and a next field for collisions.                                              |
@@ -894,6 +895,54 @@ The direct void * value.
 
 ---
 
+### StackInit
+
+```cpp
+Stack * StackInit()
+```
+
+---
+
+### StackFree
+
+```cpp
+void StackFree(void * s)
+```
+
+---
+
+### StackPush
+
+```cpp
+void StackPush(Stack * s, Item * i)
+```
+
+---
+
+### StackPop
+
+```cpp
+Item * StackPop(Stack * s)
+```
+
+---
+
+### StackPeek
+
+```cpp
+Item * StackPeek(Stack * s)
+```
+
+---
+
+### StackSize
+
+```cpp
+u_int32_t StackSize(Stack * s)
+```
+
+---
+
 ### LinkedListInit
 
 ```cpp
@@ -1264,6 +1313,37 @@ Item ** items
 Type: [`Item`](#item) **
 
 The list of Items.
+
+## Stack
+
+```cpp
+struct Stack
+```
+
+### Public Attributes
+
+| Return            | Name              | Description |
+| ----------------- | ----------------- | ----------- |
+| [`List`](#list) * | [`list`](#list-1) |             |
+| `int64_t`         | [`top`](#top)     |             |
+
+---
+
+#### list
+
+```cpp
+List * list
+```
+
+Type: [`List`](#list) *
+
+---
+
+#### top
+
+```cpp
+int64_t top
+```
 
 ## HashMap
 

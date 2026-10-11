@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/_types/_u_int32_t.h>
 
 // ————————— ITEM START —————————
 /**
@@ -426,6 +427,23 @@ extern void DEBUGTestDefaultHashFunction();
 // ————————— QUEUE END —————————
 
 // ————————— STACK START —————————
+typedef struct
+{
+    List *list;
+    int64_t top;
+} Stack;
+
+Stack *StackInit();
+void StackFree(void *s);
+
+void StackPush(Stack *s, Item *i);
+Item *StackPop(Stack *s);
+Item *StackPeek(Stack *s);
+u_int32_t StackSize(Stack *s);
+
+/// @cond INTERNAL
+extern void TestStack();
+/// @endcond
 // ————————— STACK END —————————
 
 // ————————— LINKEDLIST START —————————

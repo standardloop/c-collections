@@ -5,7 +5,6 @@
 #include <string.h>
 
 #include <standardloop/util.h>
-#include <sys/_types/_u_int8_t.h>
 
 #include "./collections.h"
 

@@ -34,6 +34,7 @@ int main(void)
     TestHashMap();
     TestComplexHashMap();
     TestLinkedList();
+    TestStack();
     testToString();
 
     TestingTearDown();
