@@ -71,6 +71,20 @@ extern u_int32_t StackSize(Stack *s)
     return s->top + 1;
 }
 
+extern void StackPrint(void *s)
+{
+    if (s != NULL)
+    {
+        Stack *stack_ptr = (Stack *)s;
+        if (stack_ptr->list != NULL)
+        {
+            printf("stack(");
+            ListPrint(stack_ptr->list);
+            printf(")");
+        }
+    }
+}
+
 extern void StackFree(void *s)
 {
     if (s != NULL)

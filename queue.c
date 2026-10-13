@@ -25,6 +25,29 @@ extern Queue *QueueInit()
     return q;
 }
 
+extern void QueuePrint(void *q)
+{
+    if (q != NULL)
+    {
+        printf("queue([");
+        Queue *q_ptr = (Queue *)q;
+        LinkedListNode *iter = q_ptr->head;
+        LinkedListNode *iter_next = NULL;
+        while (iter != NULL)
+        {
+            iter_next = iter->next;
+            ItemPrint(iter->item);
+            if (iter_next != NULL)
+            {
+                printf(", ");
+            }
+
+            iter = iter_next;
+        }
+        printf("])");
+    }
+}
+
 extern void QueueFree(void *q)
 {
     if (q != NULL)
@@ -34,6 +57,7 @@ extern void QueueFree(void *q)
         {
             LinkedListNode *tmp = q_ptr->head;
             q_ptr->head = q_ptr->head->next;
+            ItemFree(tmp->item);
             free(tmp);
         }
 

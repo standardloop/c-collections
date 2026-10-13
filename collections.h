@@ -436,6 +436,7 @@ extern void StackPush(Stack *s, Item *i);
 extern Item *StackPop(Stack *s);
 extern Item *StackPeek(Stack *s);
 extern u_int32_t StackSize(Stack *s);
+extern void StackPrint(void *s);
 
 /// @cond INTERNAL
 extern void TestStack();
@@ -520,10 +521,15 @@ typedef struct
 } Queue;
 
 extern Queue *QueueInit(void);
-extern void QueueFree(void *q);
 extern void QueueEnqueue(Queue *q, Item *i);
 extern Item *QueueDequeue(Queue *q);
 extern u_int64_t QueueSize(Queue *q);
+extern void QueueFree(void *q);
+extern void QueuePrint(void *q);
+
+/// @cond INTERNAL
+extern void TestQueue();
+/// @endcond
 // ————————— QUEUE END —————————
 
 #endif

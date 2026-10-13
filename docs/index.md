@@ -952,6 +952,14 @@ u_int32_t StackSize(Stack * s)
 
 ---
 
+### StackPrint
+
+```cpp
+void StackPrint(void * s)
+```
+
+---
+
 ### LinkedListInit
 
 ```cpp
@@ -1088,14 +1096,6 @@ Queue * QueueInit(void)
 
 ---
 
-### QueueFree
-
-```cpp
-void QueueFree(void * q)
-```
-
----
-
 ### QueueEnqueue
 
 ```cpp
@@ -1116,6 +1116,22 @@ Item * QueueDequeue(Queue * q)
 
 ```cpp
 u_int64_t QueueSize(Queue * q)
+```
+
+---
+
+### QueueFree
+
+```cpp
+void QueueFree(void * q)
+```
+
+---
+
+### QueuePrint
+
+```cpp
+void QueuePrint(void * q)
 ```
 
 ## Variables
