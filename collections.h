@@ -11,7 +11,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/_types/_u_int32_t.h>
 
 // ————————— ITEM START —————————
 /**
@@ -423,9 +422,6 @@ extern void DEBUGTestDefaultHashFunction();
 /// @endcond
 // ————————— HASHMAP END —————————
 
-// ————————— QUEUE START —————————
-// ————————— QUEUE END —————————
-
 // ————————— STACK START —————————
 typedef struct
 {
@@ -514,5 +510,20 @@ extern void *ComplexHashMapDuplicate(void *map);
 extern void TestComplexHashMap();
 /// @endcond
 // ————————— COMPLEX HASHMAP END —————————
+
+// ————————— QUEUE START —————————
+typedef struct
+{
+    u_int64_t size;
+    LinkedListNode *head;
+    LinkedListNode *tail;
+} Queue;
+
+extern Queue *QueueInit(void);
+extern void QueueFree(void *q);
+extern void QueueEnqueue(Queue *q, Item *i);
+extern Item *QueueDequeue(Queue *q);
+extern u_int64_t QueueSize(Queue *q);
+// ————————— QUEUE END —————————
 
 #endif

@@ -12,6 +12,7 @@
 | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [`Item`](#item)                               | The [Item](#item) struct, contains a value of any kind, and a function to free the value and print the value.                                           |
 | [`List`](#list)                               | The [List](#list) struct, contains a header for size, capacity, and resizing multiple and then a [List](#list) of Items.                                |
+| [`Queue`](#queue)                             |                                                                                                                                                         |
 | [`Stack`](#stack)                             |                                                                                                                                                         |
 | [`HashMap`](#hashmap)                         | The [HashMap](#hashmap) struct, contains a header for size, capacity, and resizing multiple. Has a list of entries and a pointer to a hashing function. |
 | [`LinkedList`](#linkedlist)                   |                                                                                                                                                         |
@@ -1077,6 +1078,46 @@ void ComplexHashMapRemove(ComplexHashMap * map, Item * key)
 void * ComplexHashMapDuplicate(void * map)
 ```
 
+---
+
+### QueueInit
+
+```cpp
+Queue * QueueInit(void)
+```
+
+---
+
+### QueueFree
+
+```cpp
+void QueueFree(void * q)
+```
+
+---
+
+### QueueEnqueue
+
+```cpp
+void QueueEnqueue(Queue * q, Item * i)
+```
+
+---
+
+### QueueDequeue
+
+```cpp
+Item * QueueDequeue(Queue * q)
+```
+
+---
+
+### QueueSize
+
+```cpp
+u_int64_t QueueSize(Queue * q)
+```
+
 ## Variables
 
 ---
@@ -1322,6 +1363,44 @@ Type: [`Item`](#item) **
 
 The list of Items.
 
+## Queue
+
+```cpp
+struct Queue
+```
+
+### Public Attributes
+
+| Return             | Name              | Description |
+| ------------------ | ----------------- | ----------- |
+| `u_int64_t`        | [`size`](#size-1) |             |
+| `LinkedListNode *` | [`head`](#head)   |             |
+| `LinkedListNode *` | [`tail`](#tail)   |             |
+
+---
+
+#### size
+
+```cpp
+u_int64_t size
+```
+
+---
+
+#### head
+
+```cpp
+LinkedListNode * head
+```
+
+---
+
+#### tail
+
+```cpp
+LinkedListNode * tail
+```
+
 ## Stack
 
 ```cpp
@@ -1369,7 +1448,7 @@ The [HashMap](#hashmap) struct, contains a header for size, capacity, and resizi
 
 | Return                            | Name                                    | Description                                                                                           |
 | --------------------------------- | --------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| `u_int32_t`                       | [`size`](#size-1)                       | The current size (number of entries) of the [HashMap](#hashmap).                                      |
+| `u_int32_t`                       | [`size`](#size-2)                       | The current size (number of entries) of the [HashMap](#hashmap).                                      |
 | `u_int32_t`                       | [`capacity`](#capacity-1)               | How large the [HashMap](#hashmap) can get before it needs to be resized.                              |
 | `u_int8_t`                        | [`resize_multiple`](#resize_multiple-1) | If the [HashMap](#hashmap) needs to be resized, what should the resizing multiple be                  |
 | `u_int32_t`                       | [`collision_count`](#collision_count)   | How many collisions have occured.                                                                     |
@@ -1461,8 +1540,8 @@ struct LinkedList
 
 | Return             | Name              | Description |
 | ------------------ | ----------------- | ----------- |
-| `LinkedListNode *` | [`head`](#head)   |             |
-| `u_int32_t`        | [`size`](#size-2) |             |
+| `LinkedListNode *` | [`head`](#head-1) |             |
+| `u_int32_t`        | [`size`](#size-3) |             |
 
 ---
 
@@ -1542,7 +1621,7 @@ struct ComplexHashMap
 
 | Return                  | Name                                    | Description                                                                          |
 | ----------------------- | --------------------------------------- | ------------------------------------------------------------------------------------ |
-| `u_int32_t`             | [`size`](#size-3)                       | The current size (number of entries) of the [HashMap](#hashmap).                     |
+| `u_int32_t`             | [`size`](#size-4)                       | The current size (number of entries) of the [HashMap](#hashmap).                     |
 | `u_int32_t`             | [`capacity`](#capacity-2)               | How large the [HashMap](#hashmap) can get before it needs to be resized.             |
 | `u_int8_t`              | [`resize_multiple`](#resize_multiple-2) | If the [HashMap](#hashmap) needs to be resized, what should the resizing multiple be |
 | `u_int32_t`             | [`collision_count`](#collision_count-1) | How many collisions have occured.                                                    |
