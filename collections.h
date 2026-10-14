@@ -450,6 +450,10 @@ typedef struct linkedListNode
     Item *item;
 } LinkedListNode;
 
+extern LinkedListNode *LinkedListNodeInit(Item *item);
+extern void AllLinkedListNodesFree(LinkedListNode *head);
+extern void LinkedListNodeFree(LinkedListNode *node);
+
 typedef struct
 {
     LinkedListNode *head;

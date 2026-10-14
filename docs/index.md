@@ -960,6 +960,30 @@ void StackPrint(void * s)
 
 ---
 
+### LinkedListNodeInit
+
+```cpp
+LinkedListNode * LinkedListNodeInit(Item * item)
+```
+
+---
+
+### AllLinkedListNodesFree
+
+```cpp
+void AllLinkedListNodesFree(LinkedListNode * head)
+```
+
+---
+
+### LinkedListNodeFree
+
+```cpp
+void LinkedListNodeFree(LinkedListNode * node)
+```
+
+---
+
 ### LinkedListInit
 
 ```cpp

@@ -53,33 +53,14 @@ extern void QueueFree(void *q)
     if (q != NULL)
     {
         Queue *q_ptr = (Queue *)q;
-        while (q_ptr->head != NULL)
-        {
-            LinkedListNode *tmp = q_ptr->head;
-            q_ptr->head = q_ptr->head->next;
-            ItemFree(tmp->item);
-            free(tmp);
-        }
-
-        if (q_ptr->tail != NULL)
-        {
-            free(q_ptr->tail);
-        }
+        AllLinkedListNodesFree(q_ptr->head);
         free(q_ptr);
     }
 }
 
 extern void QueueEnqueue(Queue *q, Item *i)
 {
-    LinkedListNode *node = malloc(sizeof(LinkedListNode));
-
-    if (node == NULL)
-    {
-        return;
-    }
-
-    node->item = i;
-    node->next = NULL;
+    LinkedListNode *node = LinkedListNodeInit(i);
 
     if (q->head == NULL)
     {
@@ -116,7 +97,7 @@ extern Item *QueueDequeue(Queue *q)
     q->head = q->head->next;
     q->size -= 1;
 
-    free(tmp);
+    free(tmp); // only free the linklistnode memory, not the item inside
 
     return i;
 }

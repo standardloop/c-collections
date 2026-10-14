@@ -5,10 +5,6 @@
 
 #include "./collections.h"
 
-static LinkedListNode *linkedListNodeInit(Item *item);
-static void allLinkedListNodesFree(LinkedListNode *);
-static void linkedListNodeFree(LinkedListNode *);
-
 extern LinkedList *LinkedListInit()
 {
     LinkedList *list = malloc(sizeof(LinkedList));
@@ -19,19 +15,6 @@ extern LinkedList *LinkedListInit()
     list->size = 0;
     list->head = NULL;
     return list;
-}
-
-static LinkedListNode *linkedListNodeInit(Item *item)
-{
-    LinkedListNode *list_node = malloc(sizeof(LinkedListNode));
-    if (list_node == NULL)
-    {
-        return NULL;
-    }
-    list_node->next = NULL;
-    list_node->item = item;
-
-    return list_node;
 }
 
 extern bool IsLinkedListEmpty(LinkedList *list)
@@ -68,7 +51,7 @@ extern void LinkedListAddToFront(LinkedList *list, Item *item)
     {
         return;
     }
-    LinkedListNode *list_node = linkedListNodeInit(item);
+    LinkedListNode *list_node = LinkedListNodeInit(item);
     if (list_node == NULL)
     {
         return;
@@ -94,7 +77,7 @@ extern void LinkedListAddToBack(LinkedList *list, Item *item)
         return;
     }
 
-    LinkedListNode *list_node = linkedListNodeInit(item);
+    LinkedListNode *list_node = LinkedListNodeInit(item);
     if (list_node == NULL)
     {
         return;
@@ -127,29 +110,9 @@ extern void LinkedListFree(void *list)
     {
         if (((LinkedList *)list)->head != NULL)
         {
-            allLinkedListNodesFree(((LinkedList *)list)->head);
+            AllLinkedListNodesFree(((LinkedList *)list)->head);
         }
         free(list);
-    }
-}
-
-static void allLinkedListNodesFree(LinkedListNode *head)
-{
-    LinkedListNode *temp = NULL;
-    while (head != NULL)
-    {
-        temp = head;
-        head = head->next;
-        linkedListNodeFree(temp);
-    }
-}
-
-static void linkedListNodeFree(LinkedListNode *list_node)
-{
-    if (list_node != NULL)
-    {
-        ItemFree(list_node->item);
-        free(list_node);
     }
 }
 
@@ -173,7 +136,7 @@ extern void LinkedListDeleteAtIndex(LinkedList *list, u_int64_t index)
     {
         LinkedListNode *temp = list->head;
         list->head = list->head->next;
-        linkedListNodeFree(temp);
+        LinkedListNodeFree(temp);
         list->size--;
         return;
     }
@@ -190,7 +153,7 @@ extern void LinkedListDeleteAtIndex(LinkedList *list, u_int64_t index)
         index_node = index_node->next;
     }
     index_node_prev->next = index_node->next;
-    linkedListNodeFree(index_node);
+    LinkedListNodeFree(index_node);
     list->size--;
     return;
 }
@@ -218,7 +181,7 @@ extern void LinkedListAddAtIndex(LinkedList *list, Item *item, u_int64_t index)
     // {
     //     index_node = index_node->next;
     // }
-    LinkedListNode *new = linkedListNodeInit(item);
+    LinkedListNode *new = LinkedListNodeInit(item);
     if (new != NULL)
     {
         new->next = index_node_prev->next;
