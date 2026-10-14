@@ -28,6 +28,7 @@ extern void AllLinkedListNodesFree(LinkedListNode *head)
         LinkedListNodeFree(temp);
     }
 }
+
 extern void LinkedListNodeFree(LinkedListNode *node)
 {
     if (node != NULL)

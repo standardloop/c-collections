@@ -32,8 +32,11 @@ static void testStackSimple()
 }
 
 static void testStackToString() {}
+
 static void testStackPop() {}
+
 static void testStackPeek() {}
+
 static void testStackDuplicate() {}
 
 extern void TestStack()

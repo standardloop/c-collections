@@ -35,8 +35,11 @@ static void testQueueSimple()
 }
 
 static void testQueueToString() {}
+
 static void testQueuePop() {}
+
 static void testQueuePeek() {}
+
 static void testQueueDuplicate() {}
 
 extern void TestQueue()

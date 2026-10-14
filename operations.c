@@ -80,6 +80,7 @@ extern char *IntToString(void *num)
 }
 
 #define FLOAT_CHAR_MAX 10
+
 extern char *DoubleToString(void *num)
 {
     char *double_as_string =
