@@ -437,6 +437,7 @@ extern Item *StackPop(Stack *s);
 extern Item *StackPeek(Stack *s);
 extern u_int32_t StackSize(Stack *s);
 extern void StackPrint(void *s);
+extern char *StackToString(void *s);
 
 /// @cond INTERNAL
 extern void TestStack();
@@ -530,6 +531,7 @@ extern Item *QueueDequeue(Queue *q);
 extern u_int64_t QueueSize(Queue *q);
 extern void QueueFree(void *q);
 extern void QueuePrint(void *q);
+extern char *QueueToString(void *q);
 
 /// @cond INTERNAL
 extern void TestQueue();

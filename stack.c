@@ -97,3 +97,13 @@ extern void StackFree(void *s)
         free(stack_ptr);
     }
 }
+
+extern char *StackToString(void *s)
+{
+    if (s == NULL)
+    {
+        return NULL;
+    }
+    // Stack *s_ptr = (Stack *)s;
+    return NULL;
+}

@@ -106,3 +106,13 @@ extern u_int64_t QueueSize(Queue *q)
 {
     return q->size;
 }
+
+extern char *QueueToString(void *q)
+{
+    if (q == NULL)
+    {
+        return NULL;
+    }
+    // Queue *s_ptr = (Queue *)q;
+    return NULL;
+}

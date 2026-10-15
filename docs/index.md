@@ -960,6 +960,14 @@ void StackPrint(void * s)
 
 ---
 
+### StackToString
+
+```cpp
+char * StackToString(void * s)
+```
+
+---
+
 ### LinkedListNodeInit
 
 ```cpp
@@ -1156,6 +1164,14 @@ void QueueFree(void * q)
 
 ```cpp
 void QueuePrint(void * q)
+```
+
+---
+
+### QueueToString
+
+```cpp
+char * QueueToString(void * q)
 ```
 
 ## Variables

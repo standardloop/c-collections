@@ -184,47 +184,65 @@ extern bool IntEquivalence(void *int1, void *int2)
 }
 
 ItemValueOperations ItemValueStringOperations = {
-    .toStringFunction = StringToString,
     .freeFunction = free,
     .printFunction = PrintString,
+    .toStringFunction = StringToString,
     .duplicateFunction = DuplicateString,
     .equivalenceFunction = StringEquivalence,
     .hashFunction = StringHash};
 
-ItemValueOperations ItemValueIntOperations = {.toStringFunction = IntToString,
-                                              .freeFunction = free,
+ItemValueOperations ItemValueIntOperations = {.freeFunction = free,
                                               .printFunction = PrintInt,
+                                              .toStringFunction = IntToString,
                                               .duplicateFunction = DuplicateInt,
                                               .equivalenceFunction =
                                                   IntEquivalence,
                                               .hashFunction = IntHash};
 
 ItemValueOperations ItemValueListOperations = {
-    .toStringFunction = ListToString,
     .freeFunction = ListFree,
     .printFunction = ListPrint,
+    .toStringFunction = ListToString,
     .duplicateFunction = ListDuplicate,
     .equivalenceFunction = ListEquivalence,
     .hashFunction = ListHash};
 
 ItemValueOperations ItemValueHashMapOperations = {
-    .toStringFunction = HashMapToString,
     .freeFunction = HashMapFree,
     .printFunction = HashMapPrint,
+    .toStringFunction = HashMapToString,
     .duplicateFunction = HashMapDuplicate,
     .equivalenceFunction = HashMapEquivalence,
     .hashFunction = HashMapHash};
 
 ItemValueOperations ItemValueComplexHashMapOperations = {
-    .toStringFunction = ComplexHashMapToString,
     .freeFunction = ComplexHashMapFree,
     .printFunction = ComplexHashMapPrint,
+    .toStringFunction = ComplexHashMapToString,
     .duplicateFunction = ComplexHashMapDuplicate,
     .equivalenceFunction = ComplexHashMapEquivalence,
     .hashFunction = ComplexHashMapHash};
 
 ItemValueOperations ItemValueLinkedListOperations = {
-    .toStringFunction = LinkedListToString,
     .freeFunction = LinkedListFree,
     .printFunction = LinkedListPrint,
-    .duplicateFunction = LinkedListDuplicate};
+    .toStringFunction = LinkedListToString,
+    .duplicateFunction = LinkedListDuplicate,
+    .equivalenceFunction = NULL,
+    .hashFunction = NULL};
+
+ItemValueOperations ItemValueStackOperations = {.freeFunction = StackFree,
+                                                .printFunction = StackPrint,
+                                                .toStringFunction =
+                                                    StackToString,
+                                                .duplicateFunction = NULL,
+                                                .equivalenceFunction = NULL,
+                                                .hashFunction = NULL};
+
+ItemValueOperations ItemValueQueueOperations = {.freeFunction = QueueFree,
+                                                .printFunction = QueuePrint,
+                                                .toStringFunction =
+                                                    QueueToString,
+                                                .duplicateFunction = NULL,
+                                                .equivalenceFunction = NULL,
+                                                .hashFunction = NULL};
