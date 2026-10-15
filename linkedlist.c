@@ -238,8 +238,21 @@ extern char *LinkedListToString(void *list)
 
 extern void *LinkedListDuplicate(void *list)
 {
-    (void)list;
-    return NULL;
+    if (list == NULL)
+    {
+        return NULL;
+    }
+    LinkedList *list_ptr = (LinkedList *)list;
+    LinkedList *dupe = LinkedListInit();
+
+    LinkedListNode *list_ptr_itr = list_ptr->head;
+    while (list_ptr_itr != NULL)
+    {
+        // I think this is O(n^2), fix this
+        LinkedListAddToBack(dupe, ItemDuplicate(list_ptr_itr->item));
+        list_ptr_itr = list_ptr_itr->next;
+    }
+    return dupe;
 }
 
 extern u_int32_t LinkedListHash(void *list)
