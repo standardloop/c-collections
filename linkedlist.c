@@ -262,3 +262,34 @@ extern u_int32_t LinkedListHash(void *list)
     }
     return sum;
 }
+
+extern bool LinkedListEquivalence(void *list1, void *list2)
+{
+    if (list1 == NULL && list2 == NULL)
+    {
+        return true;
+    }
+
+    if (list1 == NULL || list2 == NULL)
+    {
+        return false;
+    }
+    LinkedList *list1_ptr = (LinkedList *)list1;
+    LinkedList *list2_ptr = (LinkedList *)list2;
+    if (list1_ptr->size != list2_ptr->size)
+    {
+        return false;
+    }
+    LinkedListNode *iterator1 = list1_ptr->head;
+    LinkedListNode *iterator2 = list1_ptr->head;
+    while (iterator1 != NULL && iterator2 != NULL)
+    {
+        if (!ItemEquivalence(iterator1->item, iterator2->item))
+        {
+            return false;
+        }
+        iterator1 = iterator1->next;
+        iterator2 = iterator2->next;
+    }
+    return true;
+}

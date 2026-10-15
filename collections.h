@@ -481,6 +481,7 @@ extern void LinkedListFree(void *list);
 extern void LinkedListDeleteAtIndex(LinkedList *list, u_int64_t index);
 extern void LinkedListDeleteBack(LinkedList *list);
 extern void LinkedListDeleteFront(LinkedList *list);
+extern bool LinkedListEquivalence(void *list1, void *list2);
 
 extern ItemValueOperations ItemValueLinkedListOperations;
 extern const char SL_COLLECTIONS_TYPE_LINKED_LIST;

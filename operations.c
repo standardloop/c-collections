@@ -206,7 +206,7 @@ ItemValueOperations ItemValueLinkedListOperations = {
     .printFunction = LinkedListPrint,
     .toStringFunction = LinkedListToString,
     .duplicateFunction = LinkedListDuplicate,
-    .equivalenceFunction = NULL,
+    .equivalenceFunction = LinkedListEquivalence,
     .hashFunction = LinkedListHash};
 
 ItemValueOperations ItemValueStackOperations = {

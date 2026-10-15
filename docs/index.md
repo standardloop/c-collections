@@ -1056,6 +1056,14 @@ void LinkedListDeleteFront(LinkedList * list)
 
 ---
 
+### LinkedListEquivalence
+
+```cpp
+bool LinkedListEquivalence(void * list1, void * list2)
+```
+
+---
+
 ### ComplexHashMapInit
 
 ```cpp
