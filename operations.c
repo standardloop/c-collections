@@ -116,29 +116,6 @@ extern char *DefaultToString(void *v)
     return null_str;
 }
 
-extern u_int32_t ListHash(void *list)
-{
-    if (list == NULL)
-    {
-        return 0;
-    }
-    List *list_ptr = (List *)list;
-    if (list_ptr->size == 0)
-    {
-        return 0;
-    }
-    u_int32_t sum = 0;
-
-    for (u_int32_t i = 0; i < list_ptr->size; i++)
-    {
-        if (list_ptr->items[i] != NULL)
-        {
-            sum += ItemHash(list_ptr->items[i]);
-        }
-    }
-    return sum;
-}
-
 // Jenkins's one_at_a_time
 extern u_int32_t StringHash(void *str)
 {

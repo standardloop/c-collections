@@ -241,3 +241,5 @@ extern void *LinkedListDuplicate(void *list)
     (void)list;
     return NULL;
 }
+
+// extern u_int32_t
