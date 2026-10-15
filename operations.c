@@ -207,15 +207,15 @@ ItemValueOperations ItemValueLinkedListOperations = {
     .toStringFunction = LinkedListToString,
     .duplicateFunction = LinkedListDuplicate,
     .equivalenceFunction = NULL,
-    .hashFunction = NULL};
+    .hashFunction = LinkedListHash};
 
-ItemValueOperations ItemValueStackOperations = {.freeFunction = StackFree,
-                                                .printFunction = StackPrint,
-                                                .toStringFunction =
-                                                    StackToString,
-                                                .duplicateFunction = NULL,
-                                                .equivalenceFunction = NULL,
-                                                .hashFunction = NULL};
+ItemValueOperations ItemValueStackOperations = {
+    .freeFunction = StackFree,
+    .printFunction = StackPrint,
+    .toStringFunction = StackToString,
+    .duplicateFunction = NULL,
+    .equivalenceFunction = StackEquivalence,
+    .hashFunction = StackHash};
 
 ItemValueOperations ItemValueQueueOperations = {.freeFunction = QueueFree,
                                                 .printFunction = QueuePrint,

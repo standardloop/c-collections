@@ -107,3 +107,39 @@ extern char *StackToString(void *s)
     // Stack *s_ptr = (Stack *)s;
     return NULL;
 }
+
+u_int32_t StackHash(void *s)
+{
+    if (s == NULL)
+    {
+        return 0;
+    }
+
+    Stack *s_ptr = (Stack *)s;
+    if (s_ptr <= 0)
+    {
+        return 0;
+    }
+    return ListHash(s_ptr->list) + s_ptr->top;
+}
+
+bool StackEquivalence(void *s1, void *s2)
+{
+    if (s1 == NULL && s2 == NULL)
+    {
+        return true;
+    }
+
+    if (s1 == NULL || s2 == NULL)
+    {
+        return false;
+    }
+
+    Stack *s1_ptr = (Stack *)s1;
+    Stack *s2_ptr = (Stack *)s2;
+    if (s1_ptr->top != s2_ptr->top)
+    {
+        return false;
+    }
+    return ListEquivalence(s1_ptr->list, s2_ptr->list);
+}

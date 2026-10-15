@@ -912,6 +912,22 @@ char * StackToString(void * s)
 
 ---
 
+### StackHash
+
+```cpp
+u_int32_t StackHash(void * s)
+```
+
+---
+
+### StackEquivalence
+
+```cpp
+bool StackEquivalence(void * s1, void * s2)
+```
+
+---
+
 ### LinkedListNodeInit
 
 ```cpp
@@ -972,6 +988,14 @@ void * LinkedListDuplicate(void * list)
 
 ```cpp
 bool IsLinkedListEmpty(LinkedList * list)
+```
+
+---
+
+### LinkedListHash
+
+```cpp
+u_int32_t LinkedListHash(void * list)
 ```
 
 ---

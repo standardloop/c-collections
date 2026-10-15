@@ -439,6 +439,8 @@ extern Item *StackPeek(Stack *s);
 extern u_int32_t StackSize(Stack *s);
 extern void StackPrint(void *s);
 extern char *StackToString(void *s);
+u_int32_t StackHash(void *s);
+bool StackEquivalence(void *s1, void *s2);
 
 extern ItemValueOperations ItemValueStackOperations;
 extern const char SL_COLLECTIONS_TYPE_STACK;
@@ -471,6 +473,7 @@ extern char *LinkedListToString(void *list);
 extern void *LinkedListDuplicate(void *list);
 extern bool IsLinkedListEmpty(LinkedList *list);
 extern void LinkedListPrint(void *list);
+extern u_int32_t LinkedListHash(void *list);
 extern void LinkedListAddToFront(LinkedList *list, Item *item);
 extern void LinkedListAddToBack(LinkedList *list, Item *item);
 extern void LinkedListAddAtIndex(LinkedList *list, Item *item, u_int64_t index);

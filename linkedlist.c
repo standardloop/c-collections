@@ -242,4 +242,23 @@ extern void *LinkedListDuplicate(void *list)
     return NULL;
 }
 
-// extern u_int32_t
+extern u_int32_t LinkedListHash(void *list)
+{
+    if (list == NULL)
+    {
+        return 0;
+    }
+    LinkedList *list_ptr = (LinkedList *)list;
+    if (list_ptr->size == 0)
+    {
+        return 0;
+    }
+    u_int32_t sum = 0;
+    LinkedListNode *iterator = list_ptr->head;
+    while (iterator != NULL)
+    {
+        sum += ItemHash(iterator->item);
+        iterator = iterator->next;
+    }
+    return sum;
+}
