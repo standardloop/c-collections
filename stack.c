@@ -143,3 +143,21 @@ bool StackEquivalence(void *s1, void *s2)
     }
     return ListEquivalence(s1_ptr->list, s2_ptr->list);
 }
+
+extern void *StackDuplicate(void *s)
+{
+    if (s == NULL)
+    {
+        return NULL;
+    }
+    Stack *s_ptr = (Stack *)s;
+    if (!IS_VALID_STACK(s_ptr))
+    {
+        return NULL;
+    }
+    Stack *dupe = malloc(sizeof(Stack));
+    dupe->top = s_ptr->top;
+    dupe->list = ListDuplicate(s_ptr->list);
+
+    return dupe;
+}

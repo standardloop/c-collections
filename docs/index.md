@@ -920,6 +920,14 @@ bool StackEquivalence(void * s1, void * s2)
 
 ---
 
+### StackDuplicate
+
+```cpp
+void * StackDuplicate(void * s)
+```
+
+---
+
 ### LinkedListNodeInit
 
 ```cpp

@@ -439,6 +439,7 @@ extern void StackPrint(void *s);
 extern char *StackToString(void *s);
 u_int32_t StackHash(void *s);
 bool StackEquivalence(void *s1, void *s2);
+extern void *StackDuplicate(void *s);
 
 extern ItemValueOperations ItemValueStackOperations;
 extern const char SL_COLLECTIONS_TYPE_STACK;

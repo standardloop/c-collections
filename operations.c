@@ -213,7 +213,7 @@ ItemValueOperations ItemValueStackOperations = {
     .freeFunction = StackFree,
     .printFunction = StackPrint,
     .toStringFunction = StackToString,
-    .duplicateFunction = NULL,
+    .duplicateFunction = StackDuplicate,
     .equivalenceFunction = StackEquivalence,
     .hashFunction = StackHash};
 
