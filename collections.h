@@ -557,6 +557,10 @@ extern void QueueFree(void *q);
 extern void QueuePrint(void *q);
 extern char *QueueToString(void *q);
 
+u_int32_t QueueHash(void *q);
+bool QueueEquivalence(void *q1, void *q2);
+extern void *QueueDuplicate(void *q);
+
 extern ItemValueOperations ItemValueQueueOperations;
 extern const char SL_COLLECTIONS_TYPE_QUEUE;
 

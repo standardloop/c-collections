@@ -217,10 +217,10 @@ ItemValueOperations ItemValueStackOperations = {
     .equivalenceFunction = StackEquivalence,
     .hashFunction = StackHash};
 
-ItemValueOperations ItemValueQueueOperations = {.freeFunction = QueueFree,
-                                                .printFunction = QueuePrint,
-                                                .toStringFunction =
-                                                    QueueToString,
-                                                .duplicateFunction = NULL,
-                                                .equivalenceFunction = NULL,
-                                                .hashFunction = NULL};
+ItemValueOperations ItemValueQueueOperations = {
+    .freeFunction = QueueFree,
+    .printFunction = QueuePrint,
+    .toStringFunction = QueueToString,
+    .duplicateFunction = QueueDuplicate,
+    .equivalenceFunction = QueueEquivalence,
+    .hashFunction = QueueHash};

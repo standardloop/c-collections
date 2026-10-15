@@ -116,7 +116,7 @@ u_int32_t StackHash(void *s)
     }
 
     Stack *s_ptr = (Stack *)s;
-    if (s_ptr <= 0)
+    if (s_ptr->top <= 0)
     {
         return 0;
     }

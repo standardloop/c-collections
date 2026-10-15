@@ -1206,6 +1206,30 @@ void QueuePrint(void * q)
 char * QueueToString(void * q)
 ```
 
+---
+
+### QueueHash
+
+```cpp
+u_int32_t QueueHash(void * q)
+```
+
+---
+
+### QueueEquivalence
+
+```cpp
+bool QueueEquivalence(void * q1, void * q2)
+```
+
+---
+
+### QueueDuplicate
+
+```cpp
+void * QueueDuplicate(void * q)
+```
+
 ## Variables
 
 ---

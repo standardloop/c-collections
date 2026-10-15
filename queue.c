@@ -116,3 +116,52 @@ extern char *QueueToString(void *q)
     // Queue *s_ptr = (Queue *)q;
     return NULL;
 }
+
+u_int32_t QueueHash(void *q)
+{
+    if (q == NULL)
+    {
+        return 0;
+    }
+    Queue *q_ptr = (Queue *)q;
+    if (q_ptr->size == 0)
+    {
+        return 0;
+    }
+    u_int32_t sum = 0;
+    LinkedListNode *iterator = q_ptr->head;
+    while (iterator != NULL)
+    {
+        sum += ItemHash(iterator->item);
+        iterator = iterator->next;
+    }
+    return sum;
+}
+
+bool QueueEquivalence(void *q1, void *q2)
+{
+    if (q1 == NULL && q2 == NULL)
+    {
+        return true;
+    }
+
+    if (q1 == NULL || q2 == NULL)
+    {
+        return false;
+    }
+
+    // Queue *q1_ptr = (Queue *)q1;
+    // Queue *q2_ptr = (Queue *)q2;
+
+    return NULL;
+}
+
+extern void *QueueDuplicate(void *q)
+{
+    if (q == NULL)
+    {
+        return NULL;
+    }
+
+    return NULL;
+}
