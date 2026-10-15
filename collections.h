@@ -19,17 +19,6 @@
  */
 typedef void(ItemValueFreeFunction)(void *);
 /**
- * @brief Frees the List and all the Items in the List
- * @param list The List to free.
- */
-extern void ListFree(void *list); // void * to fit ItemFreeFunction definition
-/**
- * @brief Frees a HashMap
- * @param map The HashMap that should be freed.
- */
-extern void HashMapFree(void *map);
-
-/**
  * @brief A function that will be a part of the Item struct, it determines how
  * the Item will be printed, mainly for debugging.
  */
@@ -37,11 +26,6 @@ typedef void(ItemValuePrintFunction)(void *);
 extern void DefaultPrint(void *v);
 extern void PrintString(void *value);
 extern void PrintInt(void *value);
-extern void ListPrint(void *list); // void * to fit ItemPrintFunction definition
-extern void HashMapPrint(void *map);
-extern void LinkedListPrint(void *list);
-extern void ComplexHashMapPrint(void *map);
-
 /**
  * @brief A function that will be a part of the Item struct, it determines how
  * the Item can be converted to a string.
@@ -50,32 +34,19 @@ typedef char *(ItemValueToStringFunction)(void *);
 extern char *DefaultToString(void *v);
 extern char *StringToString(void *s);
 extern char *IntToString(void *num);
-extern char *ListToString(void *list);
-extern char *HashMapToString(void *map);
-extern char *LinkedListToString(void *list);
-extern char *ComplexHashMapToString(void *map);
 
 typedef void *(ItemValueReplicateFunction)(void *);
 extern void *DefaultDuplicate(void *v);
 extern void *DuplicateInt(void *original);
 extern void *DuplicateString(void *original);
-extern void *ListDuplicate(void *list);
-extern void *HashMapDuplicate(void *map);
-extern void *LinkedListDuplicate(void *list);
 
 typedef bool(ItemValueEquivalenceFunction)(void *, void *);
 extern bool StringEquivalence(void *s1, void *s2);
 extern bool IntEquivalence(void *int1, void *int2);
-extern bool ListEquivalence(void *list1, void *list2);
-extern bool HashMapEquivalence(void *map1, void *map2);
-extern bool ComplexHashMapEquivalence(void *map1, void *map2);
 
 typedef u_int32_t(ItemValueHashFunction)(void *);
 extern u_int32_t StringHash(void *str);
 extern u_int32_t IntHash(void *integer);
-extern u_int32_t ListHash(void *list);
-extern u_int32_t HashMapHash(void *map);
-extern u_int32_t ComplexHashMapHash(void *map);
 
 typedef struct
 {
@@ -95,17 +66,9 @@ typedef struct
 
 extern ItemValueOperations ItemValueStringOperations;
 extern ItemValueOperations ItemValueIntOperations;
-extern ItemValueOperations ItemValueListOperations;
-extern ItemValueOperations ItemValueHashMapOperations;
-extern ItemValueOperations ItemValueComplexHashMapOperations;
-extern ItemValueOperations ItemValueLinkedListOperations;
 
 extern const char SL_COLLECTIONS_TYPE_STRING;
 extern const char SL_COLLECTIONS_TYPE_INT;
-extern const char SL_COLLECTIONS_TYPE_LIST;
-extern const char SL_COLLECTIONS_TYPE_HASHMAP;
-extern const char SL_COLLECTIONS_TYPE_COMPLEX_HASHMAP;
-extern const char SL_COLLECTIONS_TYPE_LINKED_LIST;
 
 /**
  * @brief The Item struct, contains a value of any kind, and a function to free
@@ -192,6 +155,22 @@ typedef struct
  * @return The initialized List.
  */
 extern List *ListInit(u_int32_t initial_capacity, u_int8_t resize_multiple);
+
+/**
+ * @brief Frees the List and all the Items in the List
+ * @param list The List to free.
+ */
+extern void ListFree(void *list); // void * to fit ItemFreeFunction definition
+
+extern void ListPrint(void *list); // void * to fit ItemPrintFunction definition
+
+extern char *ListToString(void *list);
+
+extern void *ListDuplicate(void *list);
+
+extern bool ListEquivalence(void *list1, void *list2);
+
+extern u_int32_t ListHash(void *list);
 
 /**
  * @brief Initializes a List with sane defaults, see ListInit for more
@@ -286,6 +265,9 @@ extern Item *ListPopFirst(List *list);
  * @param list The List to print info of.
  */
 extern void ListPrintInfo(List *list);
+
+extern ItemValueOperations ItemValueListOperations;
+extern const char SL_COLLECTIONS_TYPE_LIST;
 
 /// @cond INTERNAL
 extern void TestList();
@@ -394,6 +376,22 @@ extern HashMap *HashMapInit(u_int32_t initial_capacity,
 extern HashMap *HashMapInitDefault(void);
 
 /**
+ * @brief Frees a HashMap
+ * @param map The HashMap that should be freed.
+ */
+extern void HashMapFree(void *map);
+
+extern void HashMapPrint(void *map);
+
+extern char *HashMapToString(void *map);
+
+extern void *HashMapDuplicate(void *map);
+
+extern bool HashMapEquivalence(void *map1, void *map2);
+
+extern u_int32_t HashMapHash(void *map);
+
+/**
  * @brief Insert a HashMapItem into a HashMap
  * @param map The HashMap that should be inserted into.
  * @param entry The HashMapItem entry to be inserted into the HashMap.
@@ -415,6 +413,9 @@ extern void HashMapRemove(HashMap *map, char *key);
  * @return The direct void * value.
  */
 extern void *HashMapGetValueDirect(HashMap *map, char *key);
+
+extern ItemValueOperations ItemValueHashMapOperations;
+extern const char SL_COLLECTIONS_TYPE_HASHMAP;
 
 /// @cond INTERNAL
 extern void TestHashMap();
@@ -439,6 +440,9 @@ extern u_int32_t StackSize(Stack *s);
 extern void StackPrint(void *s);
 extern char *StackToString(void *s);
 
+extern ItemValueOperations ItemValueStackOperations;
+extern const char SL_COLLECTIONS_TYPE_STACK;
+
 /// @cond INTERNAL
 extern void TestStack();
 /// @endcond
@@ -462,6 +466,9 @@ typedef struct
 } LinkedList;
 
 extern LinkedList *LinkedListInit();
+extern void LinkedListPrint(void *list);
+extern char *LinkedListToString(void *list);
+extern void *LinkedListDuplicate(void *list);
 extern bool IsLinkedListEmpty(LinkedList *list);
 extern void LinkedListPrint(void *list);
 extern void LinkedListAddToFront(LinkedList *list, Item *item);
@@ -471,6 +478,9 @@ extern void LinkedListFree(void *list);
 extern void LinkedListDeleteAtIndex(LinkedList *list, u_int64_t index);
 extern void LinkedListDeleteBack(LinkedList *list);
 extern void LinkedListDeleteFront(LinkedList *list);
+
+extern ItemValueOperations ItemValueLinkedListOperations;
+extern const char SL_COLLECTIONS_TYPE_LINKED_LIST;
 
 /// @cond INTERNAL
 extern void TestLinkedList();
@@ -504,6 +514,14 @@ extern ComplexHashMap *ComplexHashMapInitDefault(void);
 
 extern void ComplexHashMapFree(void *map);
 
+extern u_int32_t ComplexHashMapHash(void *map);
+
+extern char *ComplexHashMapToString(void *map);
+
+extern void ComplexHashMapPrint(void *map);
+
+extern bool ComplexHashMapEquivalence(void *map1, void *map2);
+
 extern Item *ComplexHashMapGet(ComplexHashMap *map, Item *key);
 
 extern void ComplexHashMapInsert(ComplexHashMap *map, Item *key, Item *value);
@@ -511,6 +529,9 @@ extern void ComplexHashMapInsert(ComplexHashMap *map, Item *key, Item *value);
 extern void ComplexHashMapRemove(ComplexHashMap *map, Item *key);
 
 extern void *ComplexHashMapDuplicate(void *map);
+
+extern ItemValueOperations ItemValueComplexHashMapOperations;
+extern const char SL_COLLECTIONS_TYPE_COMPLEX_HASHMAP;
 
 /// @cond INTERNAL
 extern void TestComplexHashMap();
@@ -532,6 +553,9 @@ extern u_int64_t QueueSize(Queue *q);
 extern void QueueFree(void *q);
 extern void QueuePrint(void *q);
 extern char *QueueToString(void *q);
+
+extern ItemValueOperations ItemValueQueueOperations;
+extern const char SL_COLLECTIONS_TYPE_QUEUE;
 
 /// @cond INTERNAL
 extern void TestQueue();

@@ -109,38 +109,6 @@ using ComplexHashMapItem = struct complexHashMapItem
 
 ---
 
-### ListFree
-
-```cpp
-void ListFree(void * list)
-```
-
-Frees the [List](#list) and all the Items in the [List](#list).
-
-#### Parameters
-
-| Parameter | Type     | Description                |
-| --------- | -------- | -------------------------- |
-| `list`    | `void *` | The [List](#list) to free. |
-
----
-
-### HashMapFree
-
-```cpp
-void HashMapFree(void * map)
-```
-
-Frees a [HashMap](#hashmap).
-
-#### Parameters
-
-| Parameter | Type     | Description                                   |
-| --------- | -------- | --------------------------------------------- |
-| `map`     | `void *` | The [HashMap](#hashmap) that should be freed. |
-
----
-
 ### DefaultPrint
 
 ```cpp
@@ -161,38 +129,6 @@ void PrintString(void * value)
 
 ```cpp
 void PrintInt(void * value)
-```
-
----
-
-### ListPrint
-
-```cpp
-void ListPrint(void * list)
-```
-
----
-
-### HashMapPrint
-
-```cpp
-void HashMapPrint(void * map)
-```
-
----
-
-### LinkedListPrint
-
-```cpp
-void LinkedListPrint(void * list)
-```
-
----
-
-### ComplexHashMapPrint
-
-```cpp
-void ComplexHashMapPrint(void * map)
 ```
 
 ---
@@ -221,38 +157,6 @@ char * IntToString(void * num)
 
 ---
 
-### ListToString
-
-```cpp
-char * ListToString(void * list)
-```
-
----
-
-### HashMapToString
-
-```cpp
-char * HashMapToString(void * map)
-```
-
----
-
-### LinkedListToString
-
-```cpp
-char * LinkedListToString(void * list)
-```
-
----
-
-### ComplexHashMapToString
-
-```cpp
-char * ComplexHashMapToString(void * map)
-```
-
----
-
 ### DefaultDuplicate
 
 ```cpp
@@ -277,30 +181,6 @@ void * DuplicateString(void * original)
 
 ---
 
-### ListDuplicate
-
-```cpp
-void * ListDuplicate(void * list)
-```
-
----
-
-### HashMapDuplicate
-
-```cpp
-void * HashMapDuplicate(void * map)
-```
-
----
-
-### LinkedListDuplicate
-
-```cpp
-void * LinkedListDuplicate(void * list)
-```
-
----
-
 ### StringEquivalence
 
 ```cpp
@@ -317,30 +197,6 @@ bool IntEquivalence(void * int1, void * int2)
 
 ---
 
-### ListEquivalence
-
-```cpp
-bool ListEquivalence(void * list1, void * list2)
-```
-
----
-
-### HashMapEquivalence
-
-```cpp
-bool HashMapEquivalence(void * map1, void * map2)
-```
-
----
-
-### ComplexHashMapEquivalence
-
-```cpp
-bool ComplexHashMapEquivalence(void * map1, void * map2)
-```
-
----
-
 ### StringHash
 
 ```cpp
@@ -353,30 +209,6 @@ u_int32_t StringHash(void * str)
 
 ```cpp
 u_int32_t IntHash(void * integer)
-```
-
----
-
-### ListHash
-
-```cpp
-u_int32_t ListHash(void * list)
-```
-
----
-
-### HashMapHash
-
-```cpp
-u_int32_t HashMapHash(void * map)
-```
-
----
-
-### ComplexHashMapHash
-
-```cpp
-u_int32_t ComplexHashMapHash(void * map)
 ```
 
 ---
@@ -504,6 +336,62 @@ The initialized [List](#list).
 | ------------------ | ----------- | ----------------------------------------------------------- |
 | `initial_capacity` | `u_int32_t` | How large for the [List](#list) to start as.                |
 | `resize_multiple`  | `u_int8_t`  | What multiple to resize the list after it reaches capacity. |
+
+---
+
+### ListFree
+
+```cpp
+void ListFree(void * list)
+```
+
+Frees the [List](#list) and all the Items in the [List](#list).
+
+#### Parameters
+
+| Parameter | Type     | Description                |
+| --------- | -------- | -------------------------- |
+| `list`    | `void *` | The [List](#list) to free. |
+
+---
+
+### ListPrint
+
+```cpp
+void ListPrint(void * list)
+```
+
+---
+
+### ListToString
+
+```cpp
+char * ListToString(void * list)
+```
+
+---
+
+### ListDuplicate
+
+```cpp
+void * ListDuplicate(void * list)
+```
+
+---
+
+### ListEquivalence
+
+```cpp
+bool ListEquivalence(void * list1, void * list2)
+```
+
+---
+
+### ListHash
+
+```cpp
+u_int32_t ListHash(void * list)
+```
 
 ---
 
@@ -841,6 +729,62 @@ The initialized [HashMap](#hashmap).
 
 ---
 
+### HashMapFree
+
+```cpp
+void HashMapFree(void * map)
+```
+
+Frees a [HashMap](#hashmap).
+
+#### Parameters
+
+| Parameter | Type     | Description                                   |
+| --------- | -------- | --------------------------------------------- |
+| `map`     | `void *` | The [HashMap](#hashmap) that should be freed. |
+
+---
+
+### HashMapPrint
+
+```cpp
+void HashMapPrint(void * map)
+```
+
+---
+
+### HashMapToString
+
+```cpp
+char * HashMapToString(void * map)
+```
+
+---
+
+### HashMapDuplicate
+
+```cpp
+void * HashMapDuplicate(void * map)
+```
+
+---
+
+### HashMapEquivalence
+
+```cpp
+bool HashMapEquivalence(void * map1, void * map2)
+```
+
+---
+
+### HashMapHash
+
+```cpp
+u_int32_t HashMapHash(void * map)
+```
+
+---
+
 ### HashMapInsert
 
 ```cpp
@@ -1000,6 +944,30 @@ LinkedList * LinkedListInit()
 
 ---
 
+### LinkedListPrint
+
+```cpp
+void LinkedListPrint(void * list)
+```
+
+---
+
+### LinkedListToString
+
+```cpp
+char * LinkedListToString(void * list)
+```
+
+---
+
+### LinkedListDuplicate
+
+```cpp
+void * LinkedListDuplicate(void * list)
+```
+
+---
+
 ### IsLinkedListEmpty
 
 ```cpp
@@ -1084,6 +1052,38 @@ ComplexHashMap * ComplexHashMapInitDefault(void)
 
 ```cpp
 void ComplexHashMapFree(void * map)
+```
+
+---
+
+### ComplexHashMapHash
+
+```cpp
+u_int32_t ComplexHashMapHash(void * map)
+```
+
+---
+
+### ComplexHashMapToString
+
+```cpp
+char * ComplexHashMapToString(void * map)
+```
+
+---
+
+### ComplexHashMapPrint
+
+```cpp
+void ComplexHashMapPrint(void * map)
+```
+
+---
+
+### ComplexHashMapEquivalence
+
+```cpp
+bool ComplexHashMapEquivalence(void * map1, void * map2)
 ```
 
 ---
@@ -1194,38 +1194,6 @@ ItemValueOperations ItemValueIntOperations
 
 ---
 
-### ItemValueListOperations
-
-```cpp
-ItemValueOperations ItemValueListOperations
-```
-
----
-
-### ItemValueHashMapOperations
-
-```cpp
-ItemValueOperations ItemValueHashMapOperations
-```
-
----
-
-### ItemValueComplexHashMapOperations
-
-```cpp
-ItemValueOperations ItemValueComplexHashMapOperations
-```
-
----
-
-### ItemValueLinkedListOperations
-
-```cpp
-ItemValueOperations ItemValueLinkedListOperations
-```
-
----
-
 ### SL_COLLECTIONS_TYPE_STRING
 
 ```cpp
@@ -1242,10 +1210,26 @@ const char SL_COLLECTIONS_TYPE_INT
 
 ---
 
+### ItemValueListOperations
+
+```cpp
+ItemValueOperations ItemValueListOperations
+```
+
+---
+
 ### SL_COLLECTIONS_TYPE_LIST
 
 ```cpp
 const char SL_COLLECTIONS_TYPE_LIST
+```
+
+---
+
+### ItemValueHashMapOperations
+
+```cpp
+ItemValueOperations ItemValueHashMapOperations
 ```
 
 ---
@@ -1258,10 +1242,26 @@ const char SL_COLLECTIONS_TYPE_HASHMAP
 
 ---
 
-### SL_COLLECTIONS_TYPE_COMPLEX_HASHMAP
+### ItemValueStackOperations
 
 ```cpp
-const char SL_COLLECTIONS_TYPE_COMPLEX_HASHMAP
+ItemValueOperations ItemValueStackOperations
+```
+
+---
+
+### SL_COLLECTIONS_TYPE_STACK
+
+```cpp
+const char SL_COLLECTIONS_TYPE_STACK
+```
+
+---
+
+### ItemValueLinkedListOperations
+
+```cpp
+ItemValueOperations ItemValueLinkedListOperations
 ```
 
 ---
@@ -1270,6 +1270,38 @@ const char SL_COLLECTIONS_TYPE_COMPLEX_HASHMAP
 
 ```cpp
 const char SL_COLLECTIONS_TYPE_LINKED_LIST
+```
+
+---
+
+### ItemValueComplexHashMapOperations
+
+```cpp
+ItemValueOperations ItemValueComplexHashMapOperations
+```
+
+---
+
+### SL_COLLECTIONS_TYPE_COMPLEX_HASHMAP
+
+```cpp
+const char SL_COLLECTIONS_TYPE_COMPLEX_HASHMAP
+```
+
+---
+
+### ItemValueQueueOperations
+
+```cpp
+ItemValueOperations ItemValueQueueOperations
+```
+
+---
+
+### SL_COLLECTIONS_TYPE_QUEUE
+
+```cpp
+const char SL_COLLECTIONS_TYPE_QUEUE
 ```
 
 ## test

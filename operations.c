@@ -14,8 +14,9 @@ const char SL_COLLECTIONS_TYPE_INT = 0;
 const char SL_COLLECTIONS_TYPE_LIST = 0;
 const char SL_COLLECTIONS_TYPE_HASHMAP = 0;
 const char SL_COLLECTIONS_TYPE_COMPLEX_HASHMAP = 0;
-
 const char SL_COLLECTIONS_TYPE_LINKED_LIST = 0;
+const char SL_COLLECTIONS_TYPE_STACK = 0;
+const char SL_COLLECTIONS_TYPE_QUEUE = 0;
 
 extern void *DuplicateInt(void *original)
 {
