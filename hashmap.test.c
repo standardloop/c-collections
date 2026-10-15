@@ -24,6 +24,7 @@ static void testCollisions()
     HashMapInsert(collision_map,
                   HashMapItemInit(QuickAllocatedString("key1"),
                                   ItemInit(QuickAllocatedString("value1"),
+                                           &SL_COLLECTIONS_TYPE_STRING,
                                            &ItemValueStringOperations)));
     TestCaseVerify(
         true, "get works",
@@ -35,6 +36,7 @@ static void testCollisions()
     HashMapInsert(collision_map,
                   HashMapItemInit(QuickAllocatedString("key2"),
                                   ItemInit(QuickAllocatedString("value2"),
+                                           &SL_COLLECTIONS_TYPE_STRING,
                                            &ItemValueStringOperations)));
 
     TestCaseVerify(
@@ -56,7 +58,8 @@ static void testHashMapItemDuplicate()
     TestCaseVerify(true, "", test_int_1 != NULL);
     *test_int_1 = 100;
     TestCaseVerify(true, "", *test_int_1 == 100);
-    Item *test_item_1 = ItemInit(test_int_1, &ItemValueIntOperations);
+    Item *test_item_1 = ItemInit(test_int_1, &SL_COLLECTIONS_TYPE_STRING,
+                                 &ItemValueIntOperations);
     TestCaseVerify(true, "", test_item_1 != NULL);
     TestCaseVerify(true, "", *(int *)test_item_1->value == 100);
 
@@ -96,7 +99,8 @@ static void testHashMapItem()
     TestCaseVerify(true, "", test_int_1 != NULL);
     *test_int_1 = 100;
     TestCaseVerify(true, "", *test_int_1 == 100);
-    Item *test_item_1 = ItemInit(test_int_1, &ItemValueIntOperations);
+    Item *test_item_1 = ItemInit(test_int_1, &SL_COLLECTIONS_TYPE_STRING,
+                                 &ItemValueIntOperations);
     TestCaseVerify(true, "", test_item_1 != NULL);
     TestCaseVerify(true, "", *(int *)test_item_1->value == 100);
 
@@ -116,6 +120,7 @@ static void testHashMapToString()
     HashMap *map = HashMapInitDefault();
     HashMapInsert(map, HashMapItemInit(QuickAllocatedString("key"),
                                        ItemInit(QuickAllocatedString("value"),
+                                                &SL_COLLECTIONS_TYPE_STRING,
                                                 &ItemValueStringOperations)));
 
     char *as_string = HashMapToString(map);
@@ -130,6 +135,7 @@ static void testHashMapDuplicate()
     TestCaseVerify(true, "", map != NULL);
     HashMapInsert(map, HashMapItemInit(QuickAllocatedString("key"),
                                        ItemInit(QuickAllocatedString("value"),
+                                                &SL_COLLECTIONS_TYPE_STRING,
                                                 &ItemValueStringOperations)));
 
     // TestCaseVerify(true, "",strcmp(HashMapGet(map, "key")->item->value,
@@ -181,7 +187,8 @@ extern void TestHashMap()
     TestCaseVerify(true, "", test_int_1 != NULL);
     *test_int_1 = 100;
     TestCaseVerify(true, "", *test_int_1 == 100);
-    Item *test_item_1 = ItemInit(test_int_1, &ItemValueIntOperations);
+    Item *test_item_1 = ItemInit(test_int_1, &SL_COLLECTIONS_TYPE_STRING,
+                                 &ItemValueIntOperations);
     TestCaseVerify(true, "", test_item_1 != NULL);
     TestCaseVerify(true, "", *(int *)test_item_1->value == 100);
 
@@ -214,7 +221,8 @@ extern void TestHashMap()
     TestCaseVerify(true, "", *test_int_2 == 200);
 
     //// item 2
-    Item *test_item_2 = ItemInit(test_int_2, &ItemValueIntOperations);
+    Item *test_item_2 = ItemInit(test_int_2, &SL_COLLECTIONS_TYPE_STRING,
+                                 &ItemValueIntOperations);
     TestCaseVerify(true, "", test_item_2 != NULL);
     TestCaseVerify(true, "", *(int *)test_item_2->value == 200);
 

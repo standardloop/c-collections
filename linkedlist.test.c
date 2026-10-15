@@ -11,6 +11,7 @@ static void basicTest()
                    IsLinkedListEmpty(list));
 
     LinkedListAddToFront(list, ItemInit(QuickAllocatedString("teststring1"),
+                                        &SL_COLLECTIONS_TYPE_STRING,
                                         &ItemValueStringOperations));
 
     TestCaseVerify(true, "After adding one item, ensure size is 1",
@@ -20,12 +21,14 @@ static void basicTest()
                    strcmp(list->head->item->value, "teststring1") == 0);
 
     LinkedListAddToFront(list, ItemInit(QuickAllocatedString("teststring2"),
+                                        &SL_COLLECTIONS_TYPE_STRING,
                                         &ItemValueStringOperations));
 
     TestCaseVerify(true, "ensure another item added has the correct value",
                    strcmp(list->head->item->value, "teststring2") == 0);
 
     LinkedListAddToBack(list, ItemInit(QuickAllocatedString("teststring3"),
+                                       &SL_COLLECTIONS_TYPE_STRING,
                                        &ItemValueStringOperations));
 
     // LinkedListPrint((LinkedList *)list);
@@ -50,10 +53,13 @@ static void toStringTest()
 {
     LinkedList *list = LinkedListInit();
     LinkedListAddToFront(list, ItemInit(QuickAllocatedString("teststring1"),
+                                        &SL_COLLECTIONS_TYPE_STRING,
                                         &ItemValueStringOperations));
     LinkedListAddToFront(list, ItemInit(QuickAllocatedString("teststring2"),
+                                        &SL_COLLECTIONS_TYPE_STRING,
                                         &ItemValueStringOperations));
     LinkedListAddToFront(list, ItemInit(QuickAllocatedString("teststring3"),
+                                        &SL_COLLECTIONS_TYPE_STRING,
                                         &ItemValueStringOperations));
 
     char *as_string = LinkedListToString((LinkedList *)list);

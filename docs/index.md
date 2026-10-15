@@ -216,7 +216,7 @@ u_int32_t IntHash(void * integer)
 ### ItemInit
 
 ```cpp
-Item * ItemInit(void * value, ItemValueOperations * value_ops)
+Item * ItemInit(void * value, const void * type_id, ItemValueOperations * value_ops)
 ```
 
 Initializes the [Item](#item).
@@ -231,14 +231,6 @@ The initialized [Item](#item)
 | ----------- | ----------------------- | --------------------------------------------------------------------------------------- |
 | `value`     | `void *`                | The value to put into the [Item](#item).                                                |
 | `value_ops` | `ItemValueOperations *` | A struct containing operations that can be performed on the value of the [Item](#item). |
-
----
-
-### ItemInitV2
-
-```cpp
-Item * ItemInitV2(void * value, const void * type_id, ItemValueOperations * value_ops)
-```
 
 ---
 

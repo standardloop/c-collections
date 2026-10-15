@@ -11,14 +11,13 @@ static void testQueueSimple()
 {
     Queue *q = QueueInit();
     TestCaseVerify(true, "Ensure queue is not NULL", q != NULL);
-    QueueEnqueue(q, ItemInitV2(strdup("test"), &SL_COLLECTIONS_TYPE_STRING,
-                               &ItemValueStringOperations));
+    QueueEnqueue(q, ItemInit(strdup("test"), &SL_COLLECTIONS_TYPE_STRING,
+                             &ItemValueStringOperations));
     TestCaseVerify(true, "Ensure QueueEnqueue incremented the queue size",
                    QueueSize(q) == 1);
 
-    QueueEnqueue(q,
-                 ItemInitV2(strdup("test-again"), &SL_COLLECTIONS_TYPE_STRING,
-                            &ItemValueStringOperations));
+    QueueEnqueue(q, ItemInit(strdup("test-again"), &SL_COLLECTIONS_TYPE_STRING,
+                             &ItemValueStringOperations));
     TestCaseVerify(true, "Ensure QueueEnqueue incremented the queue size",
                    QueueSize(q) == 2);
     // QueuePrint(q);

@@ -11,12 +11,11 @@ extern void TestComplexHashMap()
     ComplexHashMap *map = ComplexHashMapInitDefault();
     TestCaseVerify(true, "", map != NULL);
 
-    Item *key = ItemInitV2(strdup("key"), &SL_COLLECTIONS_TYPE_STRING,
-                           &ItemValueStringOperations);
+    Item *key = ItemInit(strdup("key"), &SL_COLLECTIONS_TYPE_STRING,
+                         &ItemValueStringOperations);
     ComplexHashMapInsert(map, key,
-                         ItemInitV2(strdup("value"),
-                                    &SL_COLLECTIONS_TYPE_STRING,
-                                    &ItemValueStringOperations));
+                         ItemInit(strdup("value"), &SL_COLLECTIONS_TYPE_STRING,
+                                  &ItemValueStringOperations));
     TestCaseVerify(true, "check if inserted item is there",
                    strcmp(ComplexHashMapGet(map, key)->value, "value") == 0);
 
@@ -24,18 +23,18 @@ extern void TestComplexHashMap()
 
     List *list = ListInitDefault();
     ListAddFirst(list,
-                 ItemInitV2(strdup("listvalue1"), &SL_COLLECTIONS_TYPE_STRING,
-                            &ItemValueStringOperations));
+                 ItemInit(strdup("listvalue1"), &SL_COLLECTIONS_TYPE_STRING,
+                          &ItemValueStringOperations));
     ListAddFirst(list,
-                 ItemInitV2(strdup("listvalue2"), &SL_COLLECTIONS_TYPE_STRING,
-                            &ItemValueStringOperations));
+                 ItemInit(strdup("listvalue2"), &SL_COLLECTIONS_TYPE_STRING,
+                          &ItemValueStringOperations));
 
     Item *list_key =
-        ItemInitV2(list, &SL_COLLECTIONS_TYPE_LIST, &ItemValueListOperations);
+        ItemInit(list, &SL_COLLECTIONS_TYPE_LIST, &ItemValueListOperations);
     ComplexHashMapInsert(map, list_key,
-                         ItemInitV2(strdup("value_where_list_is_key"),
-                                    &SL_COLLECTIONS_TYPE_STRING,
-                                    &ItemValueStringOperations));
+                         ItemInit(strdup("value_where_list_is_key"),
+                                  &SL_COLLECTIONS_TYPE_STRING,
+                                  &ItemValueStringOperations));
 
     TestCaseVerify(true, "check if inserted item is there with list key",
                    strcmp(ComplexHashMapGet(map, list_key)->value,
@@ -45,19 +44,19 @@ extern void TestComplexHashMap()
     ComplexHashMap *map_will_be_key = ComplexHashMapInitDefault();
     ComplexHashMapInsert(
         map_will_be_key,
-        ItemInitV2(strdup("key_here"), &SL_COLLECTIONS_TYPE_STRING,
-                   &ItemValueStringOperations),
-        ItemInitV2(strdup("value_key"), &SL_COLLECTIONS_TYPE_STRING,
-                   &ItemValueStringOperations));
+        ItemInit(strdup("key_here"), &SL_COLLECTIONS_TYPE_STRING,
+                 &ItemValueStringOperations),
+        ItemInit(strdup("value_key"), &SL_COLLECTIONS_TYPE_STRING,
+                 &ItemValueStringOperations));
 
     Item *map_key =
-        ItemInitV2(map_will_be_key, &SL_COLLECTIONS_TYPE_COMPLEX_HASHMAP,
-                   &ItemValueComplexHashMapOperations);
+        ItemInit(map_will_be_key, &SL_COLLECTIONS_TYPE_COMPLEX_HASHMAP,
+                 &ItemValueComplexHashMapOperations);
 
     ComplexHashMapInsert(map, map_key,
-                         ItemInitV2(strdup("value_where_key_is_cmap"),
-                                    &SL_COLLECTIONS_TYPE_STRING,
-                                    &ItemValueStringOperations));
+                         ItemInit(strdup("value_where_key_is_cmap"),
+                                  &SL_COLLECTIONS_TYPE_STRING,
+                                  &ItemValueStringOperations));
 
     ComplexHashMapPrint(map);
     printf("\n");

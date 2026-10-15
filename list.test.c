@@ -13,7 +13,8 @@ static void testListInList()
     TestCaseVerify(true, "", list_inner != NULL);
     List *list_outer = ListInitDefault();
     TestCaseVerify(true, "", list_outer != NULL);
-    ListAddFirst(list_outer, ItemInit(list_inner, &ItemValueListOperations));
+    ListAddFirst(list_outer, ItemInit(list_inner, &SL_COLLECTIONS_TYPE_STRING,
+                                      &ItemValueListOperations));
     ListFree(list_outer);
 }
 
@@ -24,7 +25,8 @@ static void testListPop()
 
     char *test_string_1 = QuickAllocatedString("teststring1");
     TestCaseVerify(true, "", test_string_1 != NULL);
-    Item *list_item_1 = ItemInit(test_string_1, &ItemValueStringOperations);
+    Item *list_item_1 = ItemInit(test_string_1, &SL_COLLECTIONS_TYPE_STRING,
+                                 &ItemValueStringOperations);
     TestCaseVerify(true, "", list_item_1 != NULL);
 
     ListAddFirst(list, list_item_1);
@@ -51,7 +53,8 @@ static void testListToStringListWithinListSimple()
     TestCaseVerify(true, "", list_inner != NULL);
     List *list_outer = ListInitDefault();
     TestCaseVerify(true, "", list_outer != NULL);
-    ListAddFirst(list_outer, ItemInit(list_inner, &ItemValueListOperations));
+    ListAddFirst(list_outer, ItemInit(list_inner, &SL_COLLECTIONS_TYPE_STRING,
+                                      &ItemValueListOperations));
     TestCaseVerify(true, "", list_outer->size == 1);
     // ListPrint(list_holder);
     char *list_outer_as_string = ListToString(list_outer);
@@ -70,14 +73,18 @@ static void testListToStringListWithinList()
     List *list_1 = ListInitDefault();
     TestCaseVerify(true, "", list_1 != NULL);
     ListAddFirst(list_1, ItemInit(QuickAllocatedString("teststring1"),
+                                  &SL_COLLECTIONS_TYPE_STRING,
                                   &ItemValueStringOperations));
     ListAddFirst(list_1, ItemInit(QuickAllocatedString("teststring2"),
+                                  &SL_COLLECTIONS_TYPE_STRING,
                                   &ItemValueStringOperations));
     ListAddFirst(list_1, ItemInit(QuickAllocatedString("teststring3"),
+                                  &SL_COLLECTIONS_TYPE_STRING,
                                   &ItemValueStringOperations));
     List *list_holder = ListInitDefault();
     TestCaseVerify(true, "", list_holder != NULL);
-    ListAddFirst(list_holder, ItemInit(list_1, &ItemValueListOperations));
+    ListAddFirst(list_holder, ItemInit(list_1, &SL_COLLECTIONS_TYPE_STRING,
+                                       &ItemValueListOperations));
 
     char *nested = ListToString(list_holder);
 
@@ -91,10 +98,13 @@ static void testListToString()
     TestCaseVerify(true, "", list_1 != NULL);
 
     ListAddFirst(list_1, ItemInit(QuickAllocatedString("teststring1"),
+                                  &SL_COLLECTIONS_TYPE_STRING,
                                   &ItemValueStringOperations));
     ListAddFirst(list_1, ItemInit(QuickAllocatedString("teststring2"),
+                                  &SL_COLLECTIONS_TYPE_STRING,
                                   &ItemValueStringOperations));
     ListAddFirst(list_1, ItemInit(QuickAllocatedString("teststring3"),
+                                  &SL_COLLECTIONS_TYPE_STRING,
                                   &ItemValueStringOperations));
 
     char *list_as_string = ListToString(list_1);
@@ -111,10 +121,13 @@ static void testListDuplicate()
     TestCaseVerify(true, "", list_1 != NULL);
 
     ListAddFirst(list_1, ItemInit(QuickAllocatedString("teststring1"),
+                                  &SL_COLLECTIONS_TYPE_STRING,
                                   &ItemValueStringOperations));
     ListAddFirst(list_1, ItemInit(QuickAllocatedString("teststring2"),
+                                  &SL_COLLECTIONS_TYPE_STRING,
                                   &ItemValueStringOperations));
     ListAddFirst(list_1, ItemInit(QuickAllocatedString("teststring3"),
+                                  &SL_COLLECTIONS_TYPE_STRING,
                                   &ItemValueStringOperations));
 
     List *dupe = ListDuplicate(list_1);

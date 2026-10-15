@@ -10,7 +10,9 @@
 
 #include "./collections.h"
 
-extern Item *ItemInit(void *value, ItemValueOperations *value_ops)
+extern Item *ItemInit(void *value, const void *type_id,
+                      ItemValueOperations *value_ops)
+
 {
     if (value == NULL)
     {
@@ -39,16 +41,8 @@ extern Item *ItemInit(void *value, ItemValueOperations *value_ops)
     }
 
     this->value_ops = value_ops;
+    this->type_id = type_id;
     return this;
-}
-
-extern Item *ItemInitV2(void *value, const void *type_id,
-                        ItemValueOperations *value_ops)
-
-{
-    Item *self = ItemInit(value, value_ops);
-    self->type_id = type_id;
-    return self;
 }
 
 extern void ItemFree(Item *item)
@@ -89,7 +83,7 @@ extern Item *ItemDuplicate(Item *item)
         return NULL;
     }
     return ItemInit(item->value_ops->duplicateFunction(item->value),
-                    item->value_ops);
+                    item->type_id, item->value_ops);
 }
 
 // TODO, returning -1 for error is not good

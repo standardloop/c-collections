@@ -16,8 +16,8 @@ static void testStackSimple()
                    s->top == -1);
 
     // ---
-    StackPush(s, ItemInitV2(strdup("test"), &SL_COLLECTIONS_TYPE_STRING,
-                            &ItemValueStringOperations));
+    StackPush(s, ItemInit(strdup("test"), &SL_COLLECTIONS_TYPE_STRING,
+                          &ItemValueStringOperations));
     TestCaseVerify(true, "ensure the stack size is correct after pushing",
                    StackSize(s) == 1);
 

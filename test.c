@@ -13,10 +13,12 @@ static void testToString()
     HashMap *map = HashMapInitDefault();
     HashMapInsert(map, HashMapItemInit(QuickAllocatedString("key"),
                                        ItemInit(QuickAllocatedString("value"),
+                                                &SL_COLLECTIONS_TYPE_STRING,
                                                 &ItemValueStringOperations)));
 
     List *list = ListInitDefault();
-    ListAddFirst(list, ItemInit(map, &ItemValueHashMapOperations));
+    ListAddFirst(list, ItemInit(map, &SL_COLLECTIONS_TYPE_HASHMAP,
+                                &ItemValueHashMapOperations));
 
     char *test_string = ListToString(list);
     TestCaseVerify(true, "check a complex structure to string",
