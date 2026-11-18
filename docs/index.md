@@ -19,6 +19,7 @@
 | [`HashMapItem`](#hashmapitem)                 | The [HashMap](#hashmap)[Item](#item) struct. Contains the key, the value, and a next field for collisions.                                              |
 | [`ComplexHashMap`](#complexhashmap)           |                                                                                                                                                         |
 | [`LinkedListNode`](#linkedlistnode)           |                                                                                                                                                         |
+| [`ComplexHashMapItem`](#complexhashmapitem)   |                                                                                                                                                         |
 | [`ItemValueOperations`](#itemvalueoperations) |                                                                                                                                                         |
 
 ## Macros
@@ -96,14 +97,6 @@ using HashFunction = u_int32_t
 ```
 
 A Function that takes key and a capacity and hashes the key to return an index.
-
----
-
-### ComplexHashMapItem
-
-```cpp
-using ComplexHashMapItem = struct complexHashMapItem
-```
 
 ## Functions
 
@@ -1851,6 +1844,54 @@ Item * item
 ```
 
 Type: [`Item`](#item) *
+
+## ComplexHashMapItem
+
+```cpp
+struct ComplexHashMapItem
+```
+
+### Public Attributes
+
+| Return                        | Name                | Description                                                         |
+| ----------------------------- | ------------------- | ------------------------------------------------------------------- |
+| [`Item`](#item) *             | [`key`](#key-1)     | The key for a hashed value.                                         |
+| [`Item`](#item) *             | [`value`](#value-1) | the item hashed to the key.                                         |
+| `struct complexHashMapItem *` | [`next`](#next-2)   | If a collision occurs, the next field - linked list for collisions. |
+
+---
+
+#### key
+
+```cpp
+Item * key
+```
+
+Type: [`Item`](#item) *
+
+The key for a hashed value.
+
+---
+
+#### value
+
+```cpp
+Item * value
+```
+
+Type: [`Item`](#item) *
+
+the item hashed to the key.
+
+---
+
+#### next
+
+```cpp
+struct complexHashMapItem * next
+```
+
+If a collision occurs, the next field - linked list for collisions.
 
 ## ItemValueOperations
 

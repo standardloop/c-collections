@@ -12,16 +12,6 @@
 
 #include "./collections.h"
 
-typedef struct complexHashMapItem
-{
-    /** The key for a hashed value. */
-    Item *key;
-    /** the item hashed to the key. */
-    Item *value;
-    /** If a collision occurs, the next field - linked list for collisions. */
-    struct complexHashMapItem *next;
-} ComplexHashMapItem;
-
 static ComplexHashMapItem *complexHashMapItemInit(Item *key, Item *item);
 static void complexHashMapItemFree(ComplexHashMapItem *hashmap_item, bool deep);
 static ComplexHashMapItem **complexHashMapEntriesInit(u_int32_t capacity);

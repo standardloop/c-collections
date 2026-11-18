@@ -491,7 +491,15 @@ extern void TestLinkedList();
 // ————————— LINKEDLIST END —————————
 
 // ————————— COMPLEX HASHMAP START —————————
-typedef struct complexHashMapItem ComplexHashMapItem;
+typedef struct complexHashMapItem
+{
+    /** The key for a hashed value. */
+    Item *key;
+    /** the item hashed to the key. */
+    Item *value;
+    /** If a collision occurs, the next field - linked list for collisions. */
+    struct complexHashMapItem *next;
+} ComplexHashMapItem;
 
 typedef struct
 {
