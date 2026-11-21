@@ -102,14 +102,6 @@ A Function that takes key and a capacity and hashes the key to return an index.
 
 ---
 
-### DefaultPrint
-
-```cpp
-void DefaultPrint(void * v)
-```
-
----
-
 ### PrintString
 
 ```cpp
@@ -126,14 +118,6 @@ void PrintInt(void * value)
 
 ---
 
-### DefaultToString
-
-```cpp
-char * DefaultToString(void * v)
-```
-
----
-
 ### StringToString
 
 ```cpp
@@ -146,14 +130,6 @@ char * StringToString(void * s)
 
 ```cpp
 char * IntToString(void * num)
-```
-
----
-
-### DefaultDuplicate
-
-```cpp
-void * DefaultDuplicate(void * v)
 ```
 
 ---
@@ -1235,18 +1211,42 @@ ItemValueOperations ItemValueStringOperations
 
 ---
 
-### ItemValueIntOperations
-
-```cpp
-ItemValueOperations ItemValueIntOperations
-```
-
----
-
 ### SL_COLLECTIONS_TYPE_STRING
 
 ```cpp
 const char SL_COLLECTIONS_TYPE_STRING
+```
+
+---
+
+### SL_COLLECTIONS_TYPE_DOUBLE
+
+```cpp
+const char SL_COLLECTIONS_TYPE_DOUBLE
+```
+
+---
+
+### SL_COLLECTIONS_TYPE_BOOL
+
+```cpp
+const char SL_COLLECTIONS_TYPE_BOOL
+```
+
+---
+
+### SL_COLLECTIONS_TYPE_NULL
+
+```cpp
+const char SL_COLLECTIONS_TYPE_NULL
+```
+
+---
+
+### ItemValueIntOperations
+
+```cpp
+ItemValueOperations ItemValueIntOperations
 ```
 
 ---

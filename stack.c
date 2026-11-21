@@ -161,3 +161,13 @@ extern void *StackDuplicate(void *s)
 
     return dupe;
 }
+
+const char SL_COLLECTIONS_TYPE_STACK = 0;
+
+ItemValueOperations ItemValueStackOperations = {
+    .freeFunction = StackFree,
+    .printFunction = StackPrint,
+    .toStringFunction = StackToString,
+    .duplicateFunction = StackDuplicate,
+    .equivalenceFunction = StackEquivalence,
+    .hashFunction = StackHash};

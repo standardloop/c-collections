@@ -1,0 +1,1 @@
+const char SL_COLLECTIONS_TYPE_BOOL = 0;

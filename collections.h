@@ -23,7 +23,6 @@ typedef void(ItemValueFreeFunction)(void *);
  * the Item will be printed, mainly for debugging.
  */
 typedef void(ItemValuePrintFunction)(void *);
-extern void DefaultPrint(void *v);
 extern void PrintString(void *value);
 extern void PrintInt(void *value);
 /**
@@ -31,12 +30,10 @@ extern void PrintInt(void *value);
  * the Item can be converted to a string.
  */
 typedef char *(ItemValueToStringFunction)(void *);
-extern char *DefaultToString(void *v);
 extern char *StringToString(void *s);
 extern char *IntToString(void *num);
 
 typedef void *(ItemValueReplicateFunction)(void *);
-extern void *DefaultDuplicate(void *v);
 extern void *DuplicateInt(void *original);
 extern void *DuplicateString(void *original);
 
@@ -65,10 +62,12 @@ typedef struct
 } ItemValueOperations;
 
 extern ItemValueOperations ItemValueStringOperations;
-extern ItemValueOperations ItemValueIntOperations;
 
 extern const char SL_COLLECTIONS_TYPE_STRING;
-extern const char SL_COLLECTIONS_TYPE_INT;
+
+extern const char SL_COLLECTIONS_TYPE_DOUBLE;
+extern const char SL_COLLECTIONS_TYPE_BOOL;
+extern const char SL_COLLECTIONS_TYPE_NULL;
 
 /**
  * @brief The Item struct, contains a value of any kind, and a function to free
@@ -126,6 +125,18 @@ extern void TestItem();
 /// @endcond
 
 // ————————— ITEM END —————————
+
+// ————————— INT START —————————
+
+extern ItemValueOperations ItemValueIntOperations;
+extern const char SL_COLLECTIONS_TYPE_INT;
+// typedef int SLInt32;
+
+/// @cond INTERNAL
+extern void TestInt();
+/// @endcond
+
+// ————————— INT END —————————
 
 // ————————— LIST START —————————
 /**

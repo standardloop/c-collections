@@ -165,3 +165,13 @@ extern void *QueueDuplicate(void *q)
 
     return NULL;
 }
+
+const char SL_COLLECTIONS_TYPE_QUEUE = 0;
+
+ItemValueOperations ItemValueQueueOperations = {
+    .freeFunction = QueueFree,
+    .printFunction = QueuePrint,
+    .toStringFunction = QueueToString,
+    .duplicateFunction = QueueDuplicate,
+    .equivalenceFunction = QueueEquivalence,
+    .hashFunction = QueueHash};

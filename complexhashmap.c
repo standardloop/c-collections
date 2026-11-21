@@ -657,3 +657,13 @@ extern u_int32_t ComplexHashMapHash(void *map)
     }
     return 1;
 }
+
+const char SL_COLLECTIONS_TYPE_COMPLEX_HASHMAP = 0;
+
+ItemValueOperations ItemValueComplexHashMapOperations = {
+    .freeFunction = ComplexHashMapFree,
+    .printFunction = ComplexHashMapPrint,
+    .toStringFunction = ComplexHashMapToString,
+    .duplicateFunction = ComplexHashMapDuplicate,
+    .equivalenceFunction = ComplexHashMapEquivalence,
+    .hashFunction = ComplexHashMapHash};

@@ -392,3 +392,12 @@ extern u_int32_t ListHash(void *list)
     }
     return sum;
 }
+
+const char SL_COLLECTIONS_TYPE_LIST = 0;
+ItemValueOperations ItemValueListOperations = {
+    .freeFunction = ListFree,
+    .printFunction = ListPrint,
+    .toStringFunction = ListToString,
+    .duplicateFunction = ListDuplicate,
+    .equivalenceFunction = ListEquivalence,
+    .hashFunction = ListHash};

@@ -25,20 +25,19 @@ extern Item *ItemInit(void *value, const void *type_id,
         value_ops->freeFunction = free;
     }
 
-    if (value_ops->printFunction == NULL)
-    {
-        // I guess this isn't mandatory?
-        value_ops->printFunction = DefaultPrint;
-    }
-
-    if (value_ops->toStringFunction == NULL)
-    {
-        value_ops->toStringFunction = DefaultToString;
-    }
-    if (value_ops->duplicateFunction == NULL)
-    {
-        value_ops->duplicateFunction = DefaultDuplicate;
-    }
+    // I guess these are not mandatory?
+    // if (value_ops->printFunction == NULL)
+    // {
+    //     // value_ops->printFunction = DefaultPrint;
+    // }
+    // if (value_ops->toStringFunction == NULL)
+    // {
+    //     // value_ops->toStringFunction = DefaultToString;
+    // }
+    // if (value_ops->duplicateFunction == NULL)
+    // {
+    //     // value_ops->duplicateFunction = DefaultDuplicate;
+    // }
 
     this->value_ops = value_ops;
     this->type_id = type_id;

@@ -306,3 +306,13 @@ extern bool LinkedListEquivalence(void *list1, void *list2)
     }
     return true;
 }
+
+const char SL_COLLECTIONS_TYPE_LINKED_LIST = 0;
+
+ItemValueOperations ItemValueLinkedListOperations = {
+    .freeFunction = LinkedListFree,
+    .printFunction = LinkedListPrint,
+    .toStringFunction = LinkedListToString,
+    .duplicateFunction = LinkedListDuplicate,
+    .equivalenceFunction = LinkedListEquivalence,
+    .hashFunction = LinkedListHash};

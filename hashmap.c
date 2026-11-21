@@ -698,3 +698,13 @@ extern u_int32_t HashMapHash(void *map)
     }
     return 1;
 }
+
+const char SL_COLLECTIONS_TYPE_HASHMAP = 0;
+
+ItemValueOperations ItemValueHashMapOperations = {
+    .freeFunction = HashMapFree,
+    .printFunction = HashMapPrint,
+    .toStringFunction = HashMapToString,
+    .duplicateFunction = HashMapDuplicate,
+    .equivalenceFunction = HashMapEquivalence,
+    .hashFunction = HashMapHash};
