@@ -49,6 +49,7 @@ extern Item *StackPop(Stack *s)
     Item *ret = s->list->items[s->top];
     s->list->items[s->top] = NULL;
     s->top--;
+    s->list->size--;
     return ret;
 }
 
@@ -67,7 +68,7 @@ extern u_int32_t StackSize(Stack *s)
     {
         return 0;
     }
-    assert(s->top == s->list->size - 1);
+    assert((s->top + 1) == s->list->size);
     return s->top + 1;
 }
 

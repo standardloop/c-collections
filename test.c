@@ -8,7 +8,7 @@
 
 #include "./collections.h"
 
-static void testToString()
+[[maybe_unused]] static void testToString()
 {
     HashMap *map = HashMapInitDefault();
     HashMapInsert(map, HashMapItemInit(QuickAllocatedString("key"),

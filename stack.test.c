@@ -2,6 +2,7 @@
 #include <standardloop/util.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/_types/_u_int32_t.h>
 #include <unistd.h>
 
 #include "./collections.h"
@@ -24,8 +25,11 @@ static void testStackSimple()
     TestCaseVerify(true, "ensure peek works",
                    strcmp(StackPeek(s)->value, "test") == 0);
 
+    u_int32_t size_before_pop = StackSize(s);
     Item *top = StackPop(s);
     TestCaseVerify(true, "ensure pop works", strcmp(top->value, "test") == 0);
+    TestCaseVerify(true, "ensure size is correct after pop",
+                   StackSize(s) == (size_before_pop - 1));
 
     ItemFree(top);
     StackFree(s);
